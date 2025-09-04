@@ -1,0 +1,7 @@
+Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe -DESP_PLATFORM=1 -DCCACHE_ENABLE=1 C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain
+-- Minimal build - ON
+-- ccache will be used for faster recompilation
+-- git rev-parse returned 'fatal: not a git repository (or any of the parent directories): .git'
+-- Could not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32c3
+-- Configuring incomplete, errors occurred!

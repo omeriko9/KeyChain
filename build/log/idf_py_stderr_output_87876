@@ -1,0 +1,3 @@
+Command: ninja flash
+ninja: error: remove(esp-idf\main\CMakeFiles\__idf_main.dir\main.cc.obj.d): The process cannot access the file because it is being used by another process.
+

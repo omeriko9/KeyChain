@@ -1,0 +1,11 @@
+Command: cmake -G Ninja -DPYTHON_DEPS_CHECKED=1 -DPYTHON=C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe -DESP_PLATFORM=1 -DCCACHE_ENABLE=1 C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain
+CMake Error at C:/Espressif/frameworks/esp-idf-v5.5/tools/cmake/build.cmake:328 (message):
+  Failed to resolve component 'lvgl' required by component 'main': unknown
+  name.
+Call Stack (most recent call first):
+  C:/Espressif/frameworks/esp-idf-v5.5/tools/cmake/build.cmake:377 (__build_resolve_and_add_req)
+  C:/Espressif/frameworks/esp-idf-v5.5/tools/cmake/build.cmake:685 (__build_expand_requirements)
+  C:/Espressif/frameworks/esp-idf-v5.5/tools/cmake/project.cmake:740 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+

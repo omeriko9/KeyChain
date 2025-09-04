@@ -1,0 +1,39 @@
+Command: ninja flash
+[1/11] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build && C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.5/components/spiffs/spiffsgen.py 0x100000 C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/spiffs C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/storage.bin --page-size=256 --obj-name-len=32 --meta-len=4 --use-magic --use-magic-len"
+[2/11] Performing build step for 'bootloader'
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\esp-idf\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.5/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5240 bytes. 0x2dc0 bytes (36%) free.
+[3/11] No install step for 'bootloader'
+[4/11] Completed 'bootloader'
+[5/11] Building CXX object esp-idf/main/CMakeFiles/__idf_main.dir/main.cc.obj
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc: In function 'void app_main()':
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc:197:5: warning: missing initializer for member 'esp_timer_create_args_t::skip_unhandled_events' [-Wmissing-field-initializers]
+  197 |     };
+      |     ^
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc: At global scope:
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc:308:13: warning: 'void create_demo_ui()' defined but not used [-Wunused-function]
+  308 | static void create_demo_ui() {
+      |             ^~~~~~~~~~~~~~
+[6/11] Linking C static library esp-idf\main\libmain.a
+[7/11] Generating esp-idf/esp_system/ld/sections.ld
+[8/11] Linking CXX executable KeyChain.elf
+[9/11] Generating binary image from built executable
+esptool.py v4.10.dev2
+Creating esp32c3 image...
+Merged 3 ELF sections
+Successfully created esp32c3 image.
+Generated C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/KeyChain.bin
+[10/11] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\esp-idf\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:/Espressif/frameworks/esp-idf-v5.5/components/partition_table/check_sizes.py --offset 0x8000 partition --type app C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/partition_table/partition-table.bin C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/KeyChain.bin"
+KeyChain.bin binary size 0x157770 bytes. Smallest app partition is 0x200000 bytes. 0xa8890 bytes (33%) free.
+[10/11] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.5\components\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.5 -D SERIAL_TOOL=C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;;C:/Espressif/frameworks/esp-idf-v5.5/components/esptool_py/esptool/esptool.py;--chip;esp32c3 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build -P C:/Espressif/frameworks/esp-idf-v5.5/components/esptool_py/run_serial_tool.cmake"
+esptool.py --chip esp32c3 -p COM9 -b 460800 --before=default_reset --after=hard_reset write_flash --flash_mode dio --flash_freq 80m --flash_size 4MB 0x0 bootloader/bootloader.bin 0x10000 KeyChain.bin 0x8000 partition_table/partition-table.bin 0x210000 storage.bin
+esptool.py v4.10.dev2
+Serial port COM9
+Connecting...
+
+A serial exception error occurred: Cannot configure port, something went wrong. Original message: PermissionError(13, 'A device attached to the system is not functioning.', None, 31)
+Note: This error originates from pySerial. It is likely not a problem with esptool, but with the hardware connection or drivers.
+For troubleshooting steps visit: https://docs.espressif.com/projects/esptool/en/latest/troubleshooting.html
+FAILED: CMakeFiles/flash C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/CMakeFiles/flash 
+C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.5\components\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.5 -D SERIAL_TOOL=C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;;C:/Espressif/frameworks/esp-idf-v5.5/components/esptool_py/esptool/esptool.py;--chip;esp32c3 -D SERIAL_TOOL_ARGS=--before=default_reset;--after=hard_reset;write_flash;@flash_args -D WORKING_DIRECTORY=C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build -P C:/Espressif/frameworks/esp-idf-v5.5/components/esptool_py/run_serial_tool.cmake"
+ninja: build stopped: subcommand failed.

@@ -1,0 +1,3 @@
+Command: ninja all
+ninja: error: remove(esp-idf\esp_wifi\CMakeFiles\__idf_esp_wifi.dir\src\lib_printf.c.obj.d): The process cannot access the file because it is being used by another process.
+

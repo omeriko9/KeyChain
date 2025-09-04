@@ -1,0 +1,857 @@
+Command: ninja monitor\
+[1/5] Building CXX object esp-idf/main/CMakeFiles/__idf_main.dir/main.cc.obj
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc: In function 'void app_main()':
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc:205:5: warning: missing initializer for member 'esp_timer_create_args_t::skip_unhandled_events' [-Wmissing-field-initializers]
+  205 |     };
+      |     ^
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc: At global scope:
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc:84:13: warning: 'void wifi_start_softap()' declared 'static' but never defined [-Wunused-function]
+   84 | static void wifi_start_softap();
+      |             ^~~~~~~~~~~~~~~~~
+C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/main/main.cc:386:13: warning: 'void create_demo_ui()' defined but not used [-Wunused-function]
+  386 | static void create_demo_ui() {
+      |             ^~~~~~~~~~~~~~
+[2/5] Linking C static library esp-idf\main\libmain.a
+[3/5] Generating esp-idf/esp_system/ld/sections.ld
+[4/5] Linking CXX executable KeyChain.elf
+[4/5] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.5\components\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.5 -D SERIAL_TOOL=C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;-m;esp_idf_monitor -D SERIAL_TOOL_ARGS=--toolchain-prefix;riscv32-esp-elf-;;--target;esp32c3;;--revision;3;;--decode-panic;backtrace;;C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/KeyChain.elf -D WORKING_DIRECTORY=C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build -P run_serial_tool.cmake"
+I (151) esp_image: segment 1: paddr=0006f05c vaddr=3fc96c00 sizeESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x403858f2
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+I (24) boot: ESP-IDF v5.5 2nd stage bootloader
+I (24) boot: compile time Sep  4 2025 00:51:40
+I (25) boot: chip revision: v0.4
+I (25) boot: efuse block revision: v1.3
+I (28) boot.esp32c3: SPI Speed      : 80MHz
+I (32) boot.esp32c3: SPI Mode       : DIO
+I (35) boot.esp32c3: SPI Flash Size : 4MB
+I (39) boot: Enabling RNG early entropy source...
+I (44) boot: Partition Table:
+I (46) boot: ## Label            Usage          Type ST Offset   Length
+I (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (66) boot:  2 factory          factory app      00 00 00010000 00200000
+I (72) boot:  3 storage          Unknown data     01 82 00210000 00100000
+I (79) boot: End of partition table
+I (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5f034h (389172) map
+I (151) esp_image: segment 1: paddr=0006f05c vaddr=3fc96c00 size=00fbch (  4028) load
+I (153) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eb248h (963144) map
+I (309) esp_image: segment 3: paddr=0015b270 vaddr=3fc97bbc size=01f48h (  8008) load
+I (311) esp_image: segment 4: paddr=0015d1c0 vaddr=40380000 size=169f4h ( 92660) load
+I (329) esp_image: segment 5: paddr=00173bbc vaddr=50000000 size=00020h (    32) load
+I (337) boot: Loaded app from partition at offset 0x10000
+I (337) boot: Disabling RNG early entropy source...
+I (347) cpu_start: Unicore app
+I (356) cpu_start: Pro cpu start user code
+I (356) cpu_start: cpu freq: 160000000 Hz
+I (356) app_init: Application information:
+I (356) app_init: Project name:     KeyChain
+I (360) app_init: App version:      1
+I (363) app_init: Compile time:     Sep  4 2025 01:25:54
+I (368) app_init: ELF file SHA256:  71cb2340a...
+I (373) app_init: ESP-IDF:          v5.5
+I (376) efuse_init: Min chip rev:     v0.3
+I (380) efuse_init: Max chip rev:     v1.99 
+I (384) efuse_init: Chip rev:         v0.4
+I (388) heap_init: Initializing. RAM available for dynamic allocation:
+I (394) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM
+I (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM
+I (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM
+I (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM
+I (417) spi_flash: detected chip: winbond
+I (420) spi_flash: flash io: dio
+W (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+I (436) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (442) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (449) main_task: Started on CPU0
+I (449) main_task: Calling app_main()
+I (719) app: Entering LVGL loop for 5 seconds
+I (759) app: SPIFFS size total=956561 used=32630
+W (779) app: mkdir /spiffs/img failed (maybe exists)
+I (779) app: LVGL FS driver registered for SPIFFS
+I (779) pp: pp rom version: 9387209
+I (779) net80211: net80211 rom version: 9387209
+I (789) wifi:wifi driver task: 3fcbec0c, prio:23, stack:6656, core=0
+I (799) wifi:wifi firmware version: f3dbad7
+I (799) wifi:wifi certification version: v7.0
+I (799) wifi:config NVS flash: enabled
+I (799) wifi:config nano formatting: disabled
+I (799) wifi:Init data frame dynamic rx buffer num: 32
+I (809) wifi:Init static rx mgmt buffer num: 5
+I (809) wifi:Init management short buffer num: 32
+I (819) wifi:Init dynamic tx buffer num: 32
+I (819) wifi:Init static tx FG buffer num: 2
+I (829) wifi:Init static rx buffer size: 1600
+I (829) wifi:Init static rx buffer num: 10
+I (829) wifi:Init dynamic rx buffer num: 32
+I (839) wifi_init: rx ba win: 6
+I (839) wifi_init: accept mbox: 6
+I (839) wifi_init: tcpip mbox: 32
+I (849) wifi_init: udp mbox: 6
+I (849) wifi_init: tcp mbox: 6
+I (849) wifi_init: tcp tx win: 5760
+I (859) wifi_init: tcp rx win: 5760
+I (859) wifi_init: tcp mss: 1440
+I (859) wifi_init: WiFi IRAM OP enabled
+I (859) wifi_init: WiFi RX IRAM OP enabled
+I (869) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21
+I (909) wifi:mode : sta (e4:b0:63:15:f8:4c)
+I (909) wifi:enable tsf
+I (919) app: Connecting to Wi-Fi SSID: Itz
+I (919) app: HTTP server started on :8080
+I (919) main_task: Returned from app_main()
+I (919) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (929) wifi:state: init -> auth (0xb0)
+I (929) wifi:state: auth -> assoc (0x0)
+I (939) wifi:state: assoc -> run (0x10)
+I (939) wifi:state: run -> init (0x3c0)
+I (949) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (949) app: Disconnected from Wi-Fi, retrying...
+W (1239) wifi:tx null, bss is null
+I (3359) app: Disconnected from Wi-Fi, retrying...
+I (3369) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (3369) wifi:state: init -> auth (0xb0)
+I (3379) wifi:state: auth -> assoc (0x0)
+I (3379) wifi:state: assoc -> run (0x10)
+I (3389) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64
+I (3389) wifi:connected with Itz, aid = 14, channel 7, BW20, bssid = 60:32:b1:58:3c:92
+I (3399) wifi:security: WPA2-PSK, phy: bgn, rssi: -68
+I (3399) wifi:pm start, type: 1
+
+I (3399) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3409) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (3429) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4919) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64
+I (5289) wifi:<ba-del>idx:0, tid:5
+I (5289) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64
+I (5729) app: 5 seconds elapsed, starting image slideshow
+I (5729) app: Scanning directory: /spiffs/img
+I (5739) app: Total files found: 0
+I (5739) app: Found 0 images in slideshow
+I (5739) app: No images found, showing black screen
+I (5929) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1
+I (5929) app: Got IP: 192.168.1.202
+I (5929) app: Webserver available at http://192.168.1.202:8080
+I (15859) app: Slideshow cycle complete, restarting in 1 second
+I (16859) app: Scanning directory: /spiffs/img
+I (16859) app: Found file: crop_1756970504774.jpg
+I (16859) app: Found file: crop_1756970512660.jpg
+I (16869) app: Total files found: 2
+I (16869) app: Found 2 images in slideshow
+I (16869) app: Starting slideshow with images
+I (16869) app: Displaying image: crop_1756970504774.jpg
+I (16879) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (16899) app: File size: 2966 bytes
+I (16899) app: Valid JPEG header detected
+I (16899) app: Created image object: 0x3fc9c824
+I (16899) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16909) app: Set image source
+I (16909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16959) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16959) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16979) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16989) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (16989) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (17009) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (17019) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (17019) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (17039) app: Image displayed, waiting 10 seconds
+I (27049) app: Image deleted, next
+I (27049) app: Displaying image: crop_1756970512660.jpg
+I (27049) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (27069) app: File size: 3076 bytes
+I (27069) app: Valid JPEG header detected
+I (27069) app: Created image object: 0x3fc9c824
+I (27069) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27069) app: Set image source
+I (27079) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27079) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27089) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27149) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27149) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27149) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27179) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27179) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27179) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (27209) app: Image displayed, waiting 10 seconds
+I (37219) app: Image deleted, next
+I (37219) app: Slideshow cycle complete, restarting in 1 second
+I (38219) app: Scanning directory: /spiffs/img
+I (38219) app: Found file: crop_1756970504774.jpg
+I (38219) app: Found file: crop_1756970512660.jpg
+I (38219) app: Found file: crop_1756970518683.jpg
+I (38239) app: Total files found: 3
+I (38239) app: Found 3 images in slideshow
+I (38239) app: Starting slideshow with images
+I (38239) app: Displaying image: crop_1756970504774.jpg
+I (38239) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (38269) app: File size: 2966 bytes
+I (38269) app: Valid JPEG header detected
+I (38269) app: Created image object: 0x3fc9c824
+I (38269) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38279) app: Set image source
+I (38279) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38279) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38289) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38319) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38319) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38319) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38349) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38349) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38349) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38379) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38379) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38379) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (38399) app: Image displayed, waiting 10 seconds
+I (48409) app: Image deleted, next
+I (48409) app: Displaying image: crop_1756970512660.jpg
+I (48409) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (48409) app: File size: 3076 bytes
+I (48409) app: Valid JPEG header detected
+I (48419) app: Created image object: 0x3fc9c824
+I (48419) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48429) app: Set image source
+I (48429) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48439) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48439) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48469) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48469) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48479) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48499) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48509) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48509) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48529) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (48559) app: Image displayed, waiting 10 seconds
+I (58569) app: Image deleted, next
+I (58569) app: Displaying image: crop_1756970518683.jpg
+I (58569) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (58569) app: File size: 2602 bytes
+I (58569) app: Valid JPEG header detected
+I (58579) app: Created image object: 0x3fc9c824
+I (58579) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58589) app: Set image source
+I (58589) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58599) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58599) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58629) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58629) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58629) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58659) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58659) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58659) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (58719) app: Image displayed, waiting 10 seconds
+I (68729) app: Image deleted, next
+I (68729) app: Slideshow cycle complete, restarting in 1 second
+I (69729) app: Scanning directory: /spiffs/img
+I (69729) app: Found file: crop_1756970504774.jpg
+I (69729) app: Found file: crop_1756970512660.jpg
+I (69729) app: Found file: crop_1756970518683.jpg
+I (69749) app: Total files found: 3
+I (69749) app: Found 3 images in slideshow
+I (69749) app: Starting slideshow with images
+I (69749) app: Displaying image: crop_1756970504774.jpg
+I (69749) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (69779) app: File size: 2966 bytes
+I (69779) app: Valid JPEG header detected
+I (69779) app: Created image object: 0x3fc9c824
+I (69779) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69779) app: Set image source
+I (69789) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69789) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69799) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69829) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69829) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69829) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69859) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69859) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69859) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (69909) app: Image displayed, waiting 10 seconds
+I (79919) app: Image deleted, next
+I (79919) app: Displaying image: crop_1756970512660.jpg
+I (79919) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (79919) app: File size: 3076 bytes
+I (79919) app: Valid JPEG header detected
+I (79929) app: Created image object: 0x3fc9c824
+I (79929) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79939) app: Set image source
+I (79939) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79949) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79949) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79979) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79979) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (79989) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80009) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80009) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80019) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80039) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (80069) app: Image displayed, waiting 10 seconds
+I (90079) app: Image deleted, next
+I (90079) app: Displaying image: crop_1756970518683.jpg
+I (90079) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (90079) app: File size: 2602 bytes
+I (90079) app: Valid JPEG header detected
+I (90089) app: Created image object: 0x3fc9c824
+I (90089) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90099) app: Set image source
+I (90099) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90109) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90109) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90139) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90139) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90139) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (90219) app: Image displayed, waiting 10 seconds
+I (100229) app: Image deleted, next
+I (100229) app: Slideshow cycle complete, restarting in 1 second
+I (101229) app: Scanning directory: /spiffs/img
+I (101229) app: Found file: crop_1756970504774.jpg
+I (101229) app: Found file: crop_1756970512660.jpg
+I (101229) app: Found file: crop_1756970518683.jpg
+I (101249) app: Total files found: 3
+I (101249) app: Found 3 images in slideshow
+I (101249) app: Starting slideshow with images
+I (101249) app: Displaying image: crop_1756970504774.jpg
+I (101249) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (101279) app: File size: 2966 bytes
+I (101279) app: Valid JPEG header detected
+I (101279) app: Created image object: 0x3fc9c824
+I (101279) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101289) app: Set image source
+I (101289) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101289) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101299) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101329) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101329) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101329) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101359) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101359) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101389) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101389) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (101419) app: Image displayed, waiting 10 seconds
+I (111429) app: Image deleted, next
+I (111429) app: Displaying image: crop_1756970512660.jpg
+I (111429) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (111429) app: File size: 3076 bytes
+I (111429) app: Valid JPEG header detected
+I (111439) app: Created image object: 0x3fc9c824
+I (111439) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111449) app: Set image source
+I (111449) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111459) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111459) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111489) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111489) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111499) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111519) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111519) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111529) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111549) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111549) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111559) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (111579) app: Image displayed, waiting 10 seconds
+I (121589) app: Image deleted, next
+I (121589) app: Displaying image: crop_1756970518683.jpg
+I (121589) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (121589) app: File size: 2602 bytes
+I (121589) app: Valid JPEG header detected
+I (121599) app: Created image object: 0x3fc9c824
+I (121599) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121609) app: Set image source
+I (121609) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121619) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121619) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121649) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121649) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121649) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121679) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121679) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121679) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121709) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121709) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121709) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (121739) app: Image displayed, waiting 10 seconds
+I (131749) app: Image deleted, next
+I (131749) app: Slideshow cycle complete, restarting in 1 second
+I (132749) app: Scanning directory: /spiffs/img
+I (132749) app: Found file: crop_1756970504774.jpg
+I (132749) app: Found file: crop_1756970512660.jpg
+I (132749) app: Found file: crop_1756970518683.jpg
+I (132769) app: Total files found: 3
+I (132769) app: Found 3 images in slideshow
+I (132769) app: Starting slideshow with images
+I (132769) app: Displaying image: crop_1756970504774.jpg
+I (132769) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (132799) app: File size: 2966 bytes
+I (132799) app: Valid JPEG header detected
+I (132799) app: Created image object: 0x3fc9c824
+I (132799) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132809) app: Set image source
+I (132809) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132809) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132819) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132849) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132849) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132849) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132879) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132879) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132879) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (132939) app: Image displayed, waiting 10 seconds
+I (142949) app: Image deleted, next
+I (142949) app: Displaying image: crop_1756970512660.jpg
+I (142949) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (142949) app: File size: 3076 bytes
+I (142949) app: Valid JPEG header detected
+I (142959) app: Created image object: 0x3fc9c824
+I (142959) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (142969) app: Set image source
+I (142969) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (142979) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (142979) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143009) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143009) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143019) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143039) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143039) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143069) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143069) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143079) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (143099) app: Image displayed, waiting 10 seconds
+I (153109) app: Image deleted, next
+I (153109) app: Displaying image: crop_1756970518683.jpg
+I (153109) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (153109) app: File size: 2602 bytes
+I (153109) app: Valid JPEG header detected
+I (153119) app: Created image object: 0x3fc9c824
+I (153119) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153129) app: Set image source
+I (153129) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153139) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153139) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153179) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153209) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153229) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153229) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153239) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (153259) app: Image displayed, waiting 10 seconds
+I (163269) app: Image deleted, next
+I (163269) app: Slideshow cycle complete, restarting in 1 second
+I (164269) app: Scanning directory: /spiffs/img
+I (164269) app: Found file: crop_1756970504774.jpg
+I (164269) app: Found file: crop_1756970512660.jpg
+I (164269) app: Found file: crop_1756970518683.jpg
+I (164289) app: Total files found: 3
+I (164289) app: Found 3 images in slideshow
+I (164289) app: Starting slideshow with images
+I (164289) app: Displaying image: crop_1756970504774.jpg
+I (164289) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (164319) app: File size: 2966 bytes
+I (164319) app: Valid JPEG header detected
+I (164319) app: Created image object: 0x3fc9c824
+I (164319) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164329) app: Set image source
+I (164329) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164329) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164339) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164429) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164429) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164429) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (164459) app: Image displayed, waiting 10 seconds
+I (174469) app: Image deleted, next
+I (174469) app: Displaying image: crop_1756970512660.jpg
+I (174469) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (174469) app: File size: 3076 bytes
+I (174469) app: Valid JPEG header detected
+I (174479) app: Created image object: 0x3fc9c824
+I (174479) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174489) app: Set image source
+I (174489) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174499) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174499) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174529) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174529) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174569) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174569) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174569) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (174619) app: Image displayed, waiting 10 seconds
+I (184629) app: Image deleted, next
+I (184629) app: Displaying image: crop_1756970518683.jpg
+I (184629) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (184629) app: File size: 2602 bytes
+I (184629) app: Valid JPEG header detected
+I (184639) app: Created image object: 0x3fc9c824
+I (184639) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184649) app: Set image source
+I (184649) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184659) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184659) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184699) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184719) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184719) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184729) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184749) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184749) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184759) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (184779) app: Image displayed, waiting 10 seconds
+I (194789) app: Image deleted, next
+I (194789) app: Slideshow cycle complete, restarting in 1 second
+I (195789) app: Scanning directory: /spiffs/img
+I (195789) app: Found file: crop_1756970504774.jpg
+I (195789) app: Found file: crop_1756970512660.jpg
+I (195789) app: Found file: crop_1756970518683.jpg
+I (195809) app: Total files found: 3
+I (195809) app: Found 3 images in slideshow
+I (195809) app: Starting slideshow with images
+I (195809) app: Displaying image: crop_1756970504774.jpg
+I (195809) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (195839) app: File size: 2966 bytes
+I (195839) app: Valid JPEG header detected
+I (195839) app: Created image object: 0x3fc9c824
+I (195839) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195839) app: Set image source
+I (195849) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195849) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195859) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (195979) app: Image displayed, waiting 10 seconds
+I (205989) app: Image deleted, next
+I (205989) app: Displaying image: crop_1756970512660.jpg
+I (205989) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (205989) app: File size: 3076 bytes
+I (205989) app: Valid JPEG header detected
+I (205999) app: Created image object: 0x3fc9c824
+I (205999) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206009) app: Set image source
+I (206009) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206019) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206019) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206059) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206079) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206079) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206089) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (206139) app: Image displayed, waiting 10 seconds
+I (216149) app: Image deleted, next
+I (216149) app: Displaying image: crop_1756970518683.jpg
+I (216149) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (216149) app: File size: 2602 bytes
+I (216149) app: Valid JPEG header detected
+I (216159) app: Created image object: 0x3fc9c824
+I (216159) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216169) app: Set image source
+I (216169) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216179) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216179) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216209) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216209) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216209) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216239) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216239) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216249) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216269) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216269) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216279) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (216299) app: Image displayed, waiting 10 seconds
+I (226309) app: Image deleted, next
+I (226309) app: Slideshow cycle complete, restarting in 1 second
+I (227309) app: Scanning directory: /spiffs/img
+I (227309) app: Found file: crop_1756970504774.jpg
+I (227309) app: Found file: crop_1756970512660.jpg
+I (227309) app: Found file: crop_1756970518683.jpg
+I (227329) app: Total files found: 3
+I (227329) app: Found 3 images in slideshow
+I (227329) app: Starting slideshow with images
+I (227329) app: Displaying image: crop_1756970504774.jpg
+I (227329) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (227359) app: File size: 2966 bytes
+I (227359) app: Valid JPEG header detected
+I (227359) app: Created image object: 0x3fc9c824
+I (227359) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227359) app: Set image source
+I (227369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227369) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227379) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227409) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227409) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227409) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227439) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227439) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227449) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227469) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227469) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227479) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (227499) app: Image displayed, waiting 10 seconds
+I (237509) app: Image deleted, next
+I (237509) app: Displaying image: crop_1756970512660.jpg
+I (237509) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (237509) app: File size: 3076 bytes
+I (237509) app: Valid JPEG header detected
+I (237519) app: Created image object: 0x3fc9c824
+I (237519) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237529) app: Set image source
+I (237529) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237569) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237569) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237579) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237609) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237629) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237639) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237639) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (237659) app: Image displayed, waiting 10 seconds
+I (247669) app: Image deleted, next
+I (247669) app: Displaying image: crop_1756970518683.jpg
+I (247669) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (247669) app: File size: 2602 bytes
+I (247669) app: Valid JPEG header detected
+I (247679) app: Created image object: 0x3fc9c824
+I (247679) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247689) app: Set image source
+I (247689) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247699) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247699) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247729) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247729) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247729) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247759) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247759) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247759) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247789) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247789) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247799) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (247819) app: Image displayed, waiting 10 seconds
+I (257829) app: Image deleted, next
+I (257829) app: Slideshow cycle complete, restarting in 1 second
+I (258829) app: Scanning directory: /spiffs/img
+I (258829) app: Found file: crop_1756970504774.jpg
+I (258829) app: Found file: crop_1756970512660.jpg
+I (258829) app: Found file: crop_1756970518683.jpg
+I (258849) app: Total files found: 3
+I (258849) app: Found 3 images in slideshow
+I (258849) app: Starting slideshow with images
+I (258849) app: Displaying image: crop_1756970504774.jpg
+I (258849) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (258879) app: File size: 2966 bytes
+I (258879) app: Valid JPEG header detected
+I (258879) app: Created image object: 0x3fc9c824
+I (258879) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258879) app: Set image source
+I (258889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258889) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258899) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258929) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258929) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258929) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258959) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258959) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258959) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258989) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258989) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (258989) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (259019) app: Image displayed, waiting 10 seconds
+I (269029) app: Image deleted, next
+I (269029) app: Displaying image: crop_1756970512660.jpg
+I (269029) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (269029) app: File size: 3076 bytes
+I (269029) app: Valid JPEG header detected
+I (269039) app: Created image object: 0x3fc9c824
+I (269039) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269049) app: Set image source
+I (269049) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269059) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269059) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269089) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269099) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269099) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269119) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269129) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269129) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269149) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269159) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269159) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (269179) app: Image displayed, waiting 10 seconds
+I (279189) app: Image deleted, next
+I (279189) app: Displaying image: crop_1756970518683.jpg
+I (279189) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (279189) app: File size: 2602 bytes
+I (279189) app: Valid JPEG header detected
+I (279199) app: Created image object: 0x3fc9c824
+I (279199) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279209) app: Set image source
+I (279209) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279219) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279219) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279249) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279249) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279249) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279279) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279279) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279279) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279309) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279309) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279309) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (279329) app: Image displayed, waiting 10 seconds
+I (289339) app: Image deleted, next
+I (289339) app: Slideshow cycle complete, restarting in 1 second
+I (290339) app: Scanning directory: /spiffs/img
+I (290339) app: Found file: crop_1756970504774.jpg
+I (290339) app: Found file: crop_1756970512660.jpg
+I (290339) app: Found file: crop_1756970518683.jpg
+I (290359) app: Total files found: 3
+I (290359) app: Found 3 images in slideshow
+I (290359) app: Starting slideshow with images
+I (290359) app: Displaying image: crop_1756970504774.jpg
+I (290359) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (290389) app: File size: 2966 bytes
+I (290389) app: Valid JPEG header detected
+I (290389) app: Created image object: 0x3fc9c824
+I (290389) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290389) app: Set image source
+I (290399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290399) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290409) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290439) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290439) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290439) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290469) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290469) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290469) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290499) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290499) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290499) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (290519) app: Image displayed, waiting 10 seconds
+I (300529) app: Image deleted, next
+I (300529) app: Displaying image: crop_1756970512660.jpg
+I (300529) app: Image path: A:/spiffs/img/crop_1756970512660.jpg
+I (300529) app: File size: 3076 bytes
+I (300529) app: Valid JPEG header detected
+I (300539) app: Created image object: 0x3fc9c824
+I (300539) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300549) app: Set image source
+I (300549) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300559) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300559) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300589) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300589) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300599) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300629) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300629) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300629) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300659) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300659) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300659) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg
+I (300679) app: Image displayed, waiting 10 seconds
+I (310689) app: Image deleted, next
+I (310689) app: Displaying image: crop_1756970518683.jpg
+I (310689) app: Image path: A:/spiffs/img/crop_1756970518683.jpg
+I (310689) app: File size: 2602 bytes
+I (310689) app: Valid JPEG header detected
+I (310699) app: Created image object: 0x3fc9c824
+I (310699) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310709) app: Set image source
+I (310709) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310719) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310719) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310749) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310749) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310759) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310779) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310779) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310789) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310809) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310809) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310819) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg
+I (310839) app: Image displayed, waiting 10 seconds
+I (320849) app: Image deleted, next
+I (320849) app: Slideshow cycle complete, restarting in 1 second
+I (321849) app: Scanning directory: /spiffs/img
+I (321849) app: Found file: crop_1756970504774.jpg
+I (321849) app: Found file: crop_1756970512660.jpg
+I (321849) app: Found file: crop_1756970518683.jpg
+I (321869) app: Total files found: 3
+I (321869) app: Found 3 images in slideshow
+I (321869) app: Starting slideshow with images
+I (321869) app: Displaying image: crop_1756970504774.jpg
+I (321869) app: Image path: A:/spiffs/img/crop_1756970504774.jpg
+I (321899) app: File size: 2966 bytes
+I (321899) app: Valid JPEG header detected
+I (321899) app: Created image object: 0x3fc9c824
+I (321899) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321899) app: Set image source
+I (321909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321909) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321919) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321949) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321979) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321979) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (321979) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (322009) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (322009) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (322009) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg
+I (322039) app: Image displayed, waiting 10 seconds

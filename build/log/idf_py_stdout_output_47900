@@ -1,0 +1,131 @@
+Command: ninja monitor\
+[0/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.5\components\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.5 -D SERIAL_TOOL=C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;-m;esp_idf_monitor -D SERIAL_TOOL_ARGS=--toolchain-prefix;riscv32-esp-elf-;;--target;esp32c3;;--revision;3;;--decode-panic;backtrace;;C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/KeyChain.elf -D WORKING_DIRECTORY=C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build -P run_serial_tool.cmake"
+I (156) esp_image: segment 1: paddr=00076a04 vaddr=3fc96c00 sizeESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x403858f2
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+I (24) boot: ESP-IDF v5.5 2nd stage bootloader
+I (24) boot: compile time Sep  4 2025 00:51:40
+I (25) boot: chip revision: v0.4
+I (25) boot: efuse block revision: v1.3
+I (28) boot.esp32c3: SPI Speed      : 80MHz
+I (32) boot.esp32c3: SPI Mode       : DIO
+I (35) boot.esp32c3: SPI Flash Size : 4MB
+I (39) boot: Enabling RNG early entropy source...
+I (44) boot: Partition Table:
+I (46) boot: ## Label            Usage          Type ST Offset   Length
+I (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (66) boot:  2 factory          factory app      00 00 00010000 00200000
+I (72) boot:  3 storage          Unknown data     01 82 00210000 00100000
+I (79) boot: End of partition table
+I (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=669dch (420316) map
+I (156) esp_image: segment 1: paddr=00076a04 vaddr=3fc96c00 size=02f04h ( 12036) load
+I (159) esp_image: segment 2: paddr=00079910 vaddr=40380000 size=06708h ( 26376) load
+I (165) esp_image: segment 3: paddr=00080020 vaddr=42000020 size=ece48h (970312) map
+I (322) esp_image: segment 4: paddr=0016ce70 vaddr=40386708 size=102ech ( 66284) load
+I (335) esp_image: segment 5: paddr=0017d164 vaddr=50000000 size=00020h (    32) load
+I (342) boot: Loaded app from partition at offset 0x10000
+I (342) boot: Disabling RNG early entropy source...
+I (353) cpu_start: Unicore app
+I (361) cpu_start: Pro cpu start user code
+I (361) cpu_start: cpu freq: 160000000 Hz
+I (362) app_init: Application information:
+I (362) app_init: Project name:     KeyChain
+I (365) app_init: App version:      1
+I (369) app_init: Compile time:     Sep  4 2025 01:25:54
+I (374) app_init: ELF file SHA256:  b3d7a4c9f...
+I (378) app_init: ESP-IDF:          v5.5
+I (382) efuse_init: Min chip rev:     v0.3
+I (386) efuse_init: Max chip rev:     v1.99 
+I (390) efuse_init: Chip rev:         v0.4
+I (394) heap_init: Initializing. RAM available for dynamic allocation:
+I (400) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM
+I (405) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM
+I (411) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM
+I (417) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM
+I (423) spi_flash: detected chip: winbond
+I (426) spi_flash: flash io: dio
+W (429) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+I (442) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (447) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (454) main_task: Started on CPU0
+I (454) main_task: Calling app_main()
+I (464) app: image display seconds: 1
+I (724) app: Entering LVGL loop for 5 seconds
+I (764) app: SPIFFS size total=956561 used=74045
+W (784) app: mkdir /spiffs/img failed (maybe exists)
+I (784) app: LVGL FS driver registered for SPIFFS
+I (784) pp: pp rom version: 9387209
+I (784) net80211: net80211 rom version: 9387209
+I (794) wifi:wifi driver task: 3fcbebd0, prio:23, stack:6656, core=0
+I (804) wifi:wifi firmware version: f3dbad7
+I (804) wifi:wifi certification version: v7.0
+I (804) wifi:config NVS flash: enabled
+I (804) wifi:config nano formatting: disabled
+I (804) wifi:Init data frame dynamic rx buffer num: 32
+I (814) wifi:Init static rx mgmt buffer num: 5
+I (814) wifi:Init management short buffer num: 32
+I (824) wifi:Init dynamic tx buffer num: 32
+I (824) wifi:Init static tx FG buffer num: 2
+I (834) wifi:Init static rx buffer size: 1600
+I (834) wifi:Init static rx buffer num: 10
+I (834) wifi:Init dynamic rx buffer num: 32
+I (844) wifi_init: rx ba win: 6
+I (844) wifi_init: accept mbox: 6
+I (844) wifi_init: tcpip mbox: 32
+I (854) wifi_init: udp mbox: 6
+I (854) wifi_init: tcp mbox: 6
+I (854) wifi_init: tcp tx win: 5760
+I (854) wifi_init: tcp rx win: 5760
+I (864) wifi_init: tcp mss: 1440
+I (864) wifi_init: WiFi IRAM OP enabled
+I (864) wifi_init: WiFi RX IRAM OP enabled
+W (874) app: No saved Wi-Fi credentials
+W (874) app: Starting SoftAP portal...
+I (884) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21
+I (924) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)
+I (934) wifi:mode : sta (e4:b0:63:15:f8:4c) + softAP (e4:b0:63:15:f8:4d)
+I (944) wifi:enable tsf
+I (944) wifi:Total power save buffer number: 16
+I (944) wifi:Init max length of beacon: 752/752
+I (944) wifi:Init max length of beacon: 752/752
+I (954) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1
+I (954) wifi:ap channel adjust o:1,1 n:7,2
+I (964) wifi:new:<7,0>, old:<1,1>, ap:<7,2>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (964) wifi:state: init -> auth (0xb0)
+I (974) wifi:state: auth -> assoc (0x0)
+I (974) app: HTTP server started on :8080
+I (974) app: Networking: SoftAP portal active
+I (984) wifi:state: assoc -> run (0x10)
+I (984) wifi:state: run -> init (0x3c0)
+I (994) main_task: Returned from app_main()
+I (1004) wifi:new:<7,0>, old:<7,0>, ap:<7,2>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (1004) app: Disconnected from Wi-Fi, retrying...
+W (1284) wifi:tx null, bss is null
+I (3844) app: Disconnected from Wi-Fi, retrying...
+I (3844) wifi:new:<7,2>, old:<7,0>, ap:<7,2>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (3844) wifi:state: init -> auth (0xb0)
+I (3864) wifi:state: auth -> assoc (0x0)
+I (3884) wifi:state: assoc -> run (0x10)
+I (3884) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64
+I (3894) wifi:connected with Itz, aid = 3, channel 7, BW20, bssid = 60:32:b1:58:3c:92
+I (3894) wifi:security: WPA2-PSK, phy: bgn, rssi: -66
+I (3904) wifi:pm start, type: 1
+
+I (3904) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3914) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (3954) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (5434) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64
+I (5734) app: 5 seconds elapsed
+I (5734) app: SoftAP active, displaying connect info
+I (7674) wifi:<ba-del>idx:0, tid:5
+I (7684) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64
+I (8434) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1
+I (8434) app: Got IP: 192.168.1.202

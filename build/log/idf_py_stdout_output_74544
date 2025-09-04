@@ -1,0 +1,370 @@
+Command: C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5\tools/idf_monitor.py -p COM9 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --revision 3 --decode-panic backtrace C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\KeyChain.elf C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5\tools\idf.py'
+[0;32mI (156) esp_image: segment 1: paddr=00075954 vaddr=3fc96c00 size file SHA256:  ef3ESP-ROM:esp32c3-api1-20210207[0m
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4004c0d4
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (25) boot: chip revision: v0.4[0m
+[0;32mI (25) boot: efuse block revision: v1.3[0m
+[0;32mI (28) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (32) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (44) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (66) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (79) boot: End of partition table[0m
+[0;32mI (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=6592ch (416044) map[0m
+[0;32mI (156) esp_image: segment 1: paddr=00075954 vaddr=3fc96c00 size=02f04h ( 12036) load[0m
+[0;32mI (158) esp_image: segment 2: paddr=00078860 vaddr=40380000 size=077b8h ( 30648) load[0m
+[0;32mI (165) esp_image: segment 3: paddr=00080020 vaddr=42000020 size=eb464h (963684) map[0m
+[0;32mI (321) esp_image: segment 4: paddr=0016b48c vaddr=403877b8 size=0f23ch ( 62012) load[0m
+[0;32mI (332) esp_image: segment 5: paddr=0017a6d0 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (340) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (340) boot: Disabling RNG early entropy source...[0m
+[0;32mI (350) cpu_start: Unicore app[0m
+[0;32mI (359) cpu_start: Pro cpu start user code[0m
+[0;32mI (359) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (359) app_init: Application information:[0m
+[0;32mI (359) app_init: Project name:     KeyChain[0m
+[0;32mI (363) app_init: App version:      1[0m
+[0;32mI (366) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (371) app_init: ELF file SHA256:  ef3d3657c...[0m
+[0;32mI (376) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (379) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (383) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (387) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (391) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (397) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (402) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (408) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (414) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (420) spi_flash: detected chip: winbond[0m
+[0;32mI (423) spi_flash: flash io: dio[0m
+[0;33mW (426) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (439) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (445) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (452) main_task: Started on CPU0[0m
+[0;32mI (452) main_task: Calling app_main()[0m
+[0;32mI (462) app: image display seconds: 10[0m
+[0;32mI (722) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (762) app: SPIFFS size total=956561 used=42419[0m
+[0;33mW (782) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (782) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (782) pp: pp rom version: 9387209[0m
+[0;32mI (782) net80211: net80211 rom version: 9387209[0m
+[0;32mI (792) wifi:wifi driver task: 3fcbec0c, prio:23, stack:6656, core=0[0m
+[0;32mI (802) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (802) wifi:wifi certification version: v7.0[0m
+[0;32mI (802) wifi:config NVS flash: enabled[0m
+[0;32mI (802) wifi:config nano formatting: disabled[0m
+[0;32mI (802) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (812) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (812) wifi:Init management short buffer num: 32[0m
+[0;32mI (822) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (822) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (832) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (832) wifi:Init static rx buffer num: 10[0m
+[0;32mI (832) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (842) wifi_init: rx ba win: 6[0m
+[0;32mI (842) wifi_init: accept mbox: 6[0m
+[0;32mI (842) wifi_init: tcpip mbox: 32[0m
+[0;32mI (852) wifi_init: udp mbox: 6[0m
+[0;32mI (852) wifi_init: tcp mbox: 6[0m
+[0;32mI (852) wifi_init: tcp tx win: 5760[0m
+[0;32mI (862) wifi_init: tcp rx win: 5760[0m
+[0;32mI (862) wifi_init: tcp mss: 1440[0m
+[0;32mI (862) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (872) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (872) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (922) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (922) wifi:enable tsf[0m
+[0;32mI (922) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;33mW (922) httpd_uri: httpd_register_uri_handler: no slots left for registering handler[0m
+[0;33mW (922) httpd_uri: httpd_register_uri_handler: no slots left for registering handler[0m
+[0;32mI (932) app: HTTP server started on :8080[0m
+[0;32mI (932) main_task: Returned from app_main()[0m
+[0;32mI (1002) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (1002) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (1012) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (1012) wifi:state: assoc -> init (0x3c0)[0m
+[0;32mI (1032) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (1032) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3442) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3452) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (3462) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (3472) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (3472) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3482) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (3492) wifi:connected with Itz, aid = 14, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (3492) wifi:security: WPA2-PSK, phy: bgn, rssi: -69[0m
+[0;32mI (3492) wifi:pm start, type: 1[0m
+
+[0;32mI (3492) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3502) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (3522) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64[0m
+[0;32mI (3562) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (3582) wifi:<ba-del>idx:0, tid:5[0m
+[0;32mI (3582) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64[0m
+[0;32mI (4532) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1[0m
+[0;32mI (4532) app: Got IP: 192.168.1.202[0m
+[0;32mI (4532) app: Webserver available at http://192.168.1.202:8080[0m
+[0;32mI (5732) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5732) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5732) app: Found file: crop_1756970504774.jpg[0m
+[0;32mI (5732) app: Found file: crop_1756970512660.jpg[0m
+[0;32mI (5732) app: Found file: crop_1756970518683.jpg[0m
+[0;32mI (5752) app: Total files found: 3[0m
+[0;32mI (5752) app: Found 3 images in slideshow[0m
+[0;32mI (5752) app: Starting slideshow with images[0m
+[0;32mI (5752) app: Displaying image: crop_1756970504774.jpg[0m
+[0;32mI (5762) app: Image path: A:/spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5762) app: File size: 2966 bytes[0m
+[0;32mI (5772) app: Valid JPEG header detected[0m
+[0;32mI (5772) app: Created image object: 0x3fc9c824[0m
+[0;32mI (5772) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5782) app: Set image source[0m
+[0;32mI (5792) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5792) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5792) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5822) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5832) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5832) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5852) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5862) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5862) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5882) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5892) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5892) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (5912) app: Image displayed, waiting 10 seconds[0m
+[0;33mW (6442) httpd_uri: httpd_uri: URI '/api/settings' not found[0m
+[0;33mW (6442) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI[0m
+[0;32mI (15922) app: Image deleted, next[0m
+[0;32mI (15922) app: Displaying image: crop_1756970512660.jpg[0m
+[0;32mI (15922) app: Image path: A:/spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15942) app: File size: 3076 bytes[0m
+[0;32mI (15942) app: Valid JPEG header detected[0m
+[0;32mI (15942) app: Created image object: 0x3fc9c824[0m
+[0;32mI (15942) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15942) app: Set image source[0m
+[0;32mI (15952) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15952) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15962) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15992) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15992) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (15992) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16052) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16052) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16052) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (16082) app: Image displayed, waiting 10 seconds[0m
+[0;33mW (21592) httpd_uri: httpd_uri: URI '/api/settings' not found[0m
+[0;33mW (21592) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI[0m
+[0;32mI (26092) app: Image deleted, next[0m
+[0;32mI (26092) app: Displaying image: crop_1756970518683.jpg[0m
+[0;32mI (26092) app: Image path: A:/spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26092) app: File size: 2602 bytes[0m
+[0;32mI (26092) app: Valid JPEG header detected[0m
+[0;32mI (26102) app: Created image object: 0x3fc9c824[0m
+[0;32mI (26102) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26112) app: Set image source[0m
+[0;32mI (26112) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26122) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26122) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26152) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26152) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26152) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (26242) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (36252) app: Image deleted, next[0m
+[0;32mI (36252) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (37252) app: Scanning directory: /spiffs/img[0m
+[0;32mI (37252) app: Found file: crop_1756970504774.jpg[0m
+[0;32mI (37252) app: Found file: crop_1756970512660.jpg[0m
+[0;32mI (37252) app: Found file: crop_1756970518683.jpg[0m
+[0;32mI (37272) app: Total files found: 3[0m
+[0;32mI (37272) app: Found 3 images in slideshow[0m
+[0;32mI (37272) app: Starting slideshow with images[0m
+[0;32mI (37272) app: Displaying image: crop_1756970504774.jpg[0m
+[0;32mI (37272) app: Image path: A:/spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37302) app: File size: 2966 bytes[0m
+[0;32mI (37302) app: Valid JPEG header detected[0m
+[0;32mI (37302) app: Created image object: 0x3fc9c824[0m
+[0;32mI (37302) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37302) app: Set image source[0m
+[0;32mI (37312) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37312) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37322) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37352) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37352) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37352) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (37432) app: Image displayed, waiting 10 seconds[0m
+[0;33mW (40362) httpd_uri: httpd_uri: URI '/api/settings' not found[0m
+[0;33mW (40362) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI[0m
+[0;33mW (40372) httpd_uri: httpd_uri: URI '/favicon.ico' not found[0m
+[0;33mW (40372) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI[0m
+[0;32mI (47442) app: Image deleted, next[0m
+[0;32mI (47442) app: Displaying image: crop_1756970512660.jpg[0m
+[0;32mI (47442) app: Image path: A:/spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47462) app: File size: 3076 bytes[0m
+[0;32mI (47462) app: Valid JPEG header detected[0m
+[0;32mI (47462) app: Created image object: 0x3fc9c824[0m
+[0;32mI (47462) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47462) app: Set image source[0m
+[0;32mI (47472) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47472) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47482) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47512) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47512) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47512) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47542) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47542) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47542) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47572) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47572) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47572) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (47602) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (57612) app: Image deleted, next[0m
+[0;32mI (57612) app: Displaying image: crop_1756970518683.jpg[0m
+[0;32mI (57612) app: Image path: A:/spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57612) app: File size: 2602 bytes[0m
+[0;32mI (57612) app: Valid JPEG header detected[0m
+[0;32mI (57622) app: Created image object: 0x3fc9c824[0m
+[0;32mI (57622) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57632) app: Set image source[0m
+[0;32mI (57632) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57642) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57642) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57672) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57672) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57672) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57702) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57702) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57702) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57732) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57732) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57732) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (57762) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (67772) app: Image deleted, next[0m
+[0;32mI (67772) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (68772) app: Scanning directory: /spiffs/img[0m
+[0;32mI (68772) app: Found file: crop_1756970504774.jpg[0m
+[0;32mI (68772) app: Found file: crop_1756970512660.jpg[0m
+[0;32mI (68772) app: Found file: crop_1756970518683.jpg[0m
+[0;32mI (68792) app: Total files found: 3[0m
+[0;32mI (68792) app: Found 3 images in slideshow[0m
+[0;32mI (68792) app: Starting slideshow with images[0m
+[0;32mI (68792) app: Displaying image: crop_1756970504774.jpg[0m
+[0;32mI (68792) app: Image path: A:/spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68822) app: File size: 2966 bytes[0m
+[0;32mI (68822) app: Valid JPEG header detected[0m
+[0;32mI (68822) app: Created image object: 0x3fc9c824[0m
+[0;32mI (68822) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68822) app: Set image source[0m
+[0;32mI (68832) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68832) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68842) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68872) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68872) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68872) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68902) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68902) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68902) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68932) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68932) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68932) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (68952) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (78962) app: Image deleted, next[0m
+[0;32mI (78962) app: Displaying image: crop_1756970512660.jpg[0m
+[0;32mI (78962) app: Image path: A:/spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (78962) app: File size: 3076 bytes[0m
+[0;32mI (78962) app: Valid JPEG header detected[0m
+[0;32mI (78972) app: Created image object: 0x3fc9c824[0m
+[0;32mI (78972) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (78982) app: Set image source[0m
+[0;32mI (78982) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (78992) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (78992) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79022) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79052) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79052) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79062) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79082) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79082) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79092) app: LVGL FS open: /spiffs/img/crop_1756970512660.jpg[0m
+[0;32mI (79112) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (89122) app: Image deleted, next[0m
+[0;32mI (89122) app: Displaying image: crop_1756970518683.jpg[0m
+[0;32mI (89122) app: Image path: A:/spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89122) app: File size: 2602 bytes[0m
+[0;32mI (89122) app: Valid JPEG header detected[0m
+[0;32mI (89132) app: Created image object: 0x3fc9c824[0m
+[0;32mI (89132) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89142) app: Set image source[0m
+[0;32mI (89142) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89152) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89152) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89182) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89212) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89242) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89242) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89242) app: LVGL FS open: /spiffs/img/crop_1756970518683.jpg[0m
+[0;32mI (89272) app: Image displayed, waiting 10 seconds[0m
+[0;32mI (99282) app: Image deleted, next[0m
+[0;32mI (99282) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (100282) app: Scanning directory: /spiffs/img[0m
+[0;32mI (100282) app: Found file: crop_1756970504774.jpg[0m
+[0;32mI (100282) app: Found file: crop_1756970512660.jpg[0m
+[0;32mI (100282) app: Found file: crop_1756970518683.jpg[0m
+[0;32mI (100302) app: Total files found: 3[0m
+[0;32mI (100302) app: Found 3 images in slideshow[0m
+[0;32mI (100302) app: Starting slideshow with images[0m
+[0;32mI (100302) app: Displaying image: crop_1756970504774.jpg[0m
+[0;32mI (100302) app: Image path: A:/spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100332) app: File size: 2966 bytes[0m
+[0;32mI (100332) app: Valid JPEG header detected[0m
+[0;32mI (100332) app: Created image object: 0x3fc9c824[0m
+[0;32mI (100332) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100342) app: Set image source[0m
+[0;32mI (100342) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100342) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100352) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100382) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100412) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100442) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100442) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100442) app: LVGL FS open: /spiffs/img/crop_1756970504774.jpg[0m
+[0;32mI (100472) app: Image displayed, waiting 10 seconds[0m

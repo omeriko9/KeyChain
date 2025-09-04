@@ -1,0 +1,78 @@
+Command: C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5\tools/idf_monitor.py -p COM9 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --revision 3 --decode-panic backtrace C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\KeyChain.elf C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5\tools\idf.py'
+[0;32mI (109) esp_image: segment 1: paddr=00037ed0 vaddr=3fc8e800 sizeESP-ROM:esp32c3-api1-20210207[0m
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40383cb8
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  3 2025 16:00:47[0m
+[0;32mI (25) boot: chip revision: v0.4[0m
+[0;32mI (25) boot: efuse block revision: v1.3[0m
+[0;32mI (28) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (32) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 2MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (44) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (66) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (72) boot: End of partition table[0m
+[0;32mI (75) esp_image: segment 0: paddr=00010020 vaddr=3c060020 size=27ea8h (163496) map[0m
+[0;32mI (109) esp_image: segment 1: paddr=00037ed0 vaddr=3fc8e800 size=0133ch (  4924) load[0m
+[0;32mI (110) esp_image: segment 2: paddr=00039214 vaddr=40380000 size=06e04h ( 28164) load[0m
+[0;32mI (118) esp_image: segment 3: paddr=00040020 vaddr=42000020 size=52020h (335904) map[0m
+[0;32mI (174) esp_image: segment 4: paddr=00092048 vaddr=40386e04 size=078ech ( 30956) load[0m
+[0;32mI (180) esp_image: segment 5: paddr=0009993c vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (185) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (185) boot: Disabling RNG early entropy source...[0m
+[0;32mI (199) cpu_start: Unicore app[0m
+[0;32mI (208) cpu_start: Pro cpu start user code[0m
+[0;32mI (208) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (208) app_init: Application information:[0m
+[0;32mI (208) app_init: Project name:     KeyChain[0m
+[0;32mI (212) app_init: App version:      1[0m
+[0;32mI (215) app_init: Compile time:     Sep  3 2025 16:00:29[0m
+[0;32mI (220) app_init: ELF file SHA256:  31b91d8aa...[0m
+[0;32mI (225) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (228) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (232) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (236) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (240) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (246) heap_init: At 3FCA0CC0 len 0001F340 (124 KiB): RAM[0m
+[0;32mI (251) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (257) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (263) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (269) spi_flash: detected chip: winbond[0m
+[0;32mI (272) spi_flash: flash io: dio[0m
+[0;33mW (275) spi_flash: Detected size(16384k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (288) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (294) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (301) main_task: Started on CPU0[0m
+[0;32mI (301) main_task: Calling app_main()[0m
+[1;31mE (5401) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:[0m
+[1;31mE (5401) task_wdt:  - IDLE (CPU 0)[0m
+[1;31mE (5401) task_wdt: Tasks currently running:[0m
+[1;31mE (5401) task_wdt: CPU 0: main[0m
+[1;31mE (5401) task_wdt: Print CPU 0 (current core) backtrace[0m
+Backtrace: 0x42013700:0x3fca31c0 0x4200ba32:0x3fca31c0 0x4200716e:0x3fca31f0 0x420071b2:0x3fca3210 0x4202c742:0x3fca3230 0x4200a0ac:0x3fca3250 0x4202b898:0x3fca3280 0x42021f86:0x3fca3290 0x42006122:0x3fca32a0 0x42051114:0x3fca3350 0x4038607e:0x3fca3370 0xfffffffe:0x3fca3380
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xfffffffe
+
+[1;31mE (10401) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:[0m
+[1;31mE (10401) task_wdt:  - IDLE (CPU 0)[0m
+[1;31mE (10401) task_wdt: Tasks currently running:[0m
+[1;31mE (10401) task_wdt: CPU 0: main[0m
+[1;31mE (10401) task_wdt: Print CPU 0 (current core) backtrace[0m
+Backtrace: 0x42013700:0x3fca31c0 0x4200ba32:0x3fca31c0 0x4200716e:0x3fca31f0 0x420071b2:0x3fca3210 0x4202c742:0x3fca3230 0x4200a0ac:0x3fca3250 0x4202b898:0x3fca3280 0x42021f86:0x3fca3290 0x42006122:0x3fca32a0 0x42051114:0x3fca3350 0x4038607e:0x3fca3370 0xfffffffe:0x3fca3380
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xfffffffe
+
+[1;31mE (15401) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:[0m
+[1;31mE (15401) task_wdt:  - IDLE (CPU 0)[0m
+[1;31mE (15401) task_wdt: Tasks currently running:[0m
+[1;31mE (15401) task_wdt: CPU 0: main[0m
+[1;31mE (15401) task_wdt: Print CPU 0 (current core) backtrace[0m

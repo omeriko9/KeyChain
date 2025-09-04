@@ -1,0 +1,242 @@
+Command: C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5\tools/idf_monitor.py -p COM9 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --revision 3 --decode-panic backtrace C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\KeyChain.elf C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5\tools\idf.py'
+[0;32mI (388) efuseESP-ROM:esp32c3-api1-20210207[0m
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4004c0d4
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (25) boot: chip revision: v0.4[0m
+[0;32mI (25) boot: efuse block revision: v1.3[0m
+[0;32mI (28) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (32) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (44) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (66) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (79) boot: End of partition table[0m
+[0;32mI (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ef38h (388920) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ef60 vaddr=3fc96c00 size=010b8h (  4280) load[0m
+[0;32mI (153) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eae48h (962120) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ae70 vaddr=3fc97cb8 size=01e4ch (  7756) load[0m
+[0;32mI (310) esp_image: segment 4: paddr=0015ccc4 vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=001736c0 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (337) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (337) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (356) cpu_start: Pro cpu start user code[0m
+[0;32mI (356) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (356) app_init: Application information:[0m
+[0;32mI (356) app_init: Project name:     KeyChain[0m
+[0;32mI (360) app_init: App version:      1[0m
+[0;32mI (363) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  6ec66c2cc...[0m
+[0;32mI (373) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (376) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (380) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (384) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (388) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (394) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (436) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (442) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (449) main_task: Started on CPU0[0m
+[0;32mI (449) main_task: Calling app_main()[0m
+[0;32mI (719) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (759) app: SPIFFS size total=956561 used=7028[0m
+[0;33mW (779) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (779) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (779) pp: pp rom version: 9387209[0m
+[0;32mI (779) net80211: net80211 rom version: 9387209[0m
+[0;32mI (789) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (799) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (799) wifi:wifi certification version: v7.0[0m
+[0;32mI (799) wifi:config NVS flash: enabled[0m
+[0;32mI (799) wifi:config nano formatting: disabled[0m
+[0;32mI (799) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (809) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (809) wifi:Init management short buffer num: 32[0m
+[0;32mI (819) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (819) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (819) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (829) wifi:Init static rx buffer num: 10[0m
+[0;32mI (829) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (839) wifi_init: rx ba win: 6[0m
+[0;32mI (839) wifi_init: accept mbox: 6[0m
+[0;32mI (839) wifi_init: tcpip mbox: 32[0m
+[0;32mI (849) wifi_init: udp mbox: 6[0m
+[0;32mI (849) wifi_init: tcp mbox: 6[0m
+[0;32mI (849) wifi_init: tcp tx win: 5760[0m
+[0;32mI (849) wifi_init: tcp rx win: 5760[0m
+[0;32mI (859) wifi_init: tcp mss: 1440[0m
+[0;32mI (859) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (859) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (869) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (909) phy_init: Saving new calibration data due to checksum failure or outdated calibration data, mode(0)[0m
+[0;32mI (919) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (929) wifi:enable tsf[0m
+[0;32mI (929) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (929) app: HTTP server started on :8080[0m
+[0;32mI (929) main_task: Returned from app_main()[0m
+[0;32mI (939) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (939) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (959) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (969) wifi:state: assoc -> init (0x3c0)[0m
+[0;32mI (979) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (979) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3389) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3389) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (3399) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (3419) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (3429) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3459) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (3769) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (3769) wifi:security: WPA2-PSK, phy: bgn, rssi: -68[0m
+[0;32mI (3769) wifi:pm start, type: 1[0m
+
+[0;32mI (3769) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3779) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (3799) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64[0m
+[0;32mI (3919) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (4439) wifi:<ba-del>idx:0, tid:5[0m
+[0;32mI (4439) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64[0m
+[0;32mI (5299) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1[0m
+[0;32mI (5299) app: Got IP: 192.168.1.202[0m
+[0;32mI (5299) app: Webserver available at http://192.168.1.202:8080[0m
+[0;32mI (5729) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5729) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5739) app: Total files found: 0[0m
+[0;32mI (5739) app: Found 0 images in slideshow[0m
+[0;32mI (5739) app: No images found, showing black screen[0m
+[0;32mI (15859) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (16859) app: Scanning directory: /spiffs/img[0m
+[0;32mI (16869) app: Total files found: 0[0m
+[0;32mI (16869) app: Found 0 images in slideshow[0m
+[0;32mI (16869) app: No images found, showing black screen[0m
+[0;32mI (26989) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (27989) app: Scanning directory: /spiffs/img[0m
+[0;32mI (27999) app: Total files found: 0[0m
+[0;32mI (27999) app: Found 0 images in slideshow[0m
+[0;32mI (27999) app: No images found, showing black screen[0m
+[0;32mI (38119) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (39119) app: Scanning directory: /spiffs/img[0m
+[0;32mI (39129) app: Total files found: 0[0m
+[0;32mI (39129) app: Found 0 images in slideshow[0m
+[0;32mI (39129) app: No images found, showing black screen[0m
+[0;32mI (40789) wifi:[ADDBA]RX DELBA, reason:39, delete tid:0, initiator:1(originator)[0m
+[0;32mI (40789) wifi:<ba-del>idx:0, tid:0[0m
+[0;32mI (40789) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:23, winSize:64[0m
+[0;32mI (314) esp_image: segment 3: paddr=0015ae70 vaddr=3fc97cb8 sizeI (4529) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1[0m
+[0;32mI (4529) app: Got IP: 192.168.1.202[0m
+[0;32mI (4529) app: Webserver available at http://192.168.1.202:8080[0m
+[0;32mI (5759) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5759) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5759) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (5769) app: Total files found: 1[0m
+[0;32mI (5769) app: Found 1 images in slideshow[0m
+[0;32mI (5769) app: Starting slideshow with images[0m
+[0;32mI (5769) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (5779) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (5779) app: File size: 3176 bytes[0m
+[0;32mI (5789) app: Valid JPEG header detected[0m
+[0;33mW (5789) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (5799) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (6799) app: Scanning directory: /spiffs/img[0m
+[0;32mI (6799) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (6809) app: Total files found: 1[0m
+[0;32mI (6809) app: Found 1 images in slideshow[0m
+[0;32mI (6809) app: Starting slideshow with images[0m
+[0;32mI (6809) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (6819) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (6819) app: File size: 3176 bytes[0m
+[0;32mI (6829) app: Valid JPEG header detected[0m
+[0;33mW (6829) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (6839) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (7839) app: Scanning directory: /spiffs/img[0m
+[0;32mI (7839) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (7849) app: Total files found: 1[0m
+[0;32mI (7849) app: Found 1 images in slideshow[0m
+[0;32mI (7849) app: Starting slideshow with images[0m
+[0;32mI (7849) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (7859) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (7859) app: File size: 3176 bytes[0m
+[0;32mI (7869) app: Valid JPEG header detected[0m
+[0;33mW (7869) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (7879) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (8879) app: Scanning directory: /spiffs/img[0m
+[0;32mI (8879) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (8889) app: Total files found: 1[0m
+[0;32mI (8889) app: Found 1 images in slideshow[0m
+[0;32mI (8889) app: Starting slideshow with images[0m
+[0;32mI (8889) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (8899) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (8899) app: File size: 3176 bytes[0m
+[0;32mI (8909) app: Valid JPEG header detected[0m
+[0;33mW (8909) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (8919) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (9919) app: Scanning directory: /spiffs/img[0m
+[0;32mI (9919) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (9929) app: Total files found: 1[0m
+[0;32mI (9929) app: Found 1 images in slideshow[0m
+[0;32mI (9929) app: Starting slideshow with images[0m
+[0;32mI (9929) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (9939) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (9939) app: File size: 3176 bytes[0m
+[0;32mI (9949) app: Valid JPEG header detected[0m
+[0;33mW (9949) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (9959) app: Slideshow cycle complete, restarting in 1 second[0m
+[1;31mE (10739) task_wdt: Task watchdog got triggered. The following tasks/users did not reset the watchdog in time:[0m
+[1;31mE (10739) task_wdt:  - lvgl (CPU 0)[0m
+[1;31mE (10739) task_wdt: Tasks currently running:[0m
+[1;31mE (10739) task_wdt: CPU 0: IDLE[0m
+[1;31mE (10739) task_wdt: Print CPU 0 (current core) backtrace[0m
+Backtrace: 0x403858f6:0x3fcb1650 0x420595e4:0x3fcb1660 0x403894a4:0x3fcb1670 0x403886de:0x3fcb1680 0xfffffffe:0x3fcb1690
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xfffffffe
+
+[0;32mI (10959) app: Scanning directory: /spiffs/img[0m
+[0;32mI (10959) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (10969) app: Total files found: 1[0m
+[0;32mI (10969) app: Found 1 images in slideshow[0m
+[0;32mI (10969) app: Starting slideshow with images[0m
+[0;32mI (10969) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (10979) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (10979) app: File size: 3176 bytes[0m
+[0;32mI (10989) app: Valid JPEG header detected[0m
+[0;33mW (10989) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (10999) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (11999) app: Scanning directory: /spiffs/img[0m
+[0;32mI (11999) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (12009) app: Total files found: 1[0m
+[0;32mI (12009) app: Found 1 images in slideshow[0m
+[0;32mI (12009) app: Starting slideshow with images[0m
+[0;32mI (12009) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (12019) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (12019) app: File size: 3176 bytes[0m
+[0;32mI (12029) app: Valid JPEG header detected[0m
+[0;33mW (12029) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (12039) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;32mI (13039) app: Scanning directory: /spiffs/img[0m
+[0;32mI (13039) app: Found file: img_1756965313029.jpg[0m
+[0;32mI (13049) app: Total files found: 1[0m
+[0;32mI (13049) app: Found 1 images in slideshow[0m
+[0;32mI (13049) app: Starting slideshow with images[0m
+[0;32mI (13049) app: Displaying image: img_1756965313029.jpg[0m
+[0;32mI (13059) app: Image path: A:/spiffs/img/img_1756965313029.jpg[0m
+[0;32mI (13059) app: File size: 3176 bytes[0m
+[0;32mI (13069) app: Valid JPEG header detected[0m
+[0;33mW (13069) app: Skipping image display to prevent TJPGD crash - file appears corrupted[0m
+[0;32mI (13079) app: Slideshow cycle complete, restarting in 1 second[0m

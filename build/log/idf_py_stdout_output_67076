@@ -1,0 +1,470 @@
+Command: ninja monitor\
+[0/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Espressif\frameworks\esp-idf-v5.5\components\esptool_py && C:\Espressif\frameworks\esp-idf-v5.5\tools\tools\cmake\3.30.2\bin\cmake.exe -D IDF_PATH=C:/Espressif/frameworks/esp-idf-v5.5 -D SERIAL_TOOL=C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;-m;esp_idf_monitor -D SERIAL_TOOL_ARGS=--toolchain-prefix;riscv32-esp-elf-;;--target;esp32c3;;--revision;3;;--decode-panic;backtrace;;C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build/KeyChain.elf -D WORKING_DIRECTORY=C:/Users/Omer/Dropbox/ESP/ESP32-C3-TFT/KeyChain/build -P run_serial_tool.cmake"
+I (151) esp_image: segment 1: paddr=0006eff4 vaddr=3fc96c00 sizeESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x403858f2
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+I (24) boot: ESP-IDF v5.5 2nd stage bootloader
+I (24) boot: compile time Sep  4 2025 00:51:40
+I (25) boot: chip revision: v0.4
+I (25) boot: efuse block revision: v1.3
+I (28) boot.esp32c3: SPI Speed      : 80MHz
+I (32) boot.esp32c3: SPI Mode       : DIO
+I (35) boot.esp32c3: SPI Flash Size : 4MB
+I (39) boot: Enabling RNG early entropy source...
+I (44) boot: Partition Table:
+I (46) boot: ## Label            Usage          Type ST Offset   Length
+I (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000
+I (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000
+I (66) boot:  2 factory          factory app      00 00 00010000 00200000
+I (72) boot:  3 storage          Unknown data     01 82 00210000 00100000
+I (79) boot: End of partition table
+I (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5efcch (389068) map
+I (151) esp_image: segment 1: paddr=0006eff4 vaddr=3fc96c00 size=01024h (  4132) load
+I (153) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eb0cch (962764) map
+I (309) esp_image: segment 3: paddr=0015b0f4 vaddr=3fc97c24 size=01ee0h (  7904) load
+I (310) esp_image: segment 4: paddr=0015cfdc vaddr=40380000 size=169f4h ( 92660) load
+I (330) esp_image: segment 5: paddr=001739d8 vaddr=50000000 size=00020h (    32) load
+I (337) boot: Loaded app from partition at offset 0x10000
+I (337) boot: Disabling RNG early entropy source...
+I (347) cpu_start: Unicore app
+I (356) cpu_start: Pro cpu start user code
+I (356) cpu_start: cpu freq: 160000000 Hz
+I (356) app_init: Application information:
+I (356) app_init: Project name:     KeyChain
+I (360) app_init: App version:      1
+I (363) app_init: Compile time:     Sep  4 2025 01:25:54
+I (368) app_init: ELF file SHA256:  751ba01f6...
+I (373) app_init: ESP-IDF:          v5.5
+I (376) efuse_init: Min chip rev:     v0.3
+I (380) efuse_init: Max chip rev:     v1.99 
+I (384) efuse_init: Chip rev:         v0.4
+I (388) heap_init: Initializing. RAM available for dynamic allocation:
+I (394) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM
+I (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM
+I (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM
+I (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM
+I (418) spi_flash: detected chip: winbond
+I (420) spi_flash: flash io: dio
+W (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.
+I (436) sleep_gpio: Configure to isolate all GPIO pins in sleep state
+I (442) sleep_gpio: Enable automatic switching of GPIO sleep configuration
+I (449) main_task: Started on CPU0
+I (449) main_task: Calling app_main()
+I (719) app: Entering LVGL loop for 5 seconds
+I (759) app: SPIFFS size total=956561 used=7028
+W (779) app: mkdir /spiffs/img failed (maybe exists)
+I (779) app: LVGL FS driver registered for SPIFFS
+I (779) pp: pp rom version: 9387209
+I (779) net80211: net80211 rom version: 9387209
+I (789) wifi:wifi driver task: 3fcbec0c, prio:23, stack:6656, core=0
+I (799) wifi:wifi firmware version: f3dbad7
+I (799) wifi:wifi certification version: v7.0
+I (799) wifi:config NVS flash: enabled
+I (799) wifi:config nano formatting: disabled
+I (799) wifi:Init data frame dynamic rx buffer num: 32
+I (809) wifi:Init static rx mgmt buffer num: 5
+I (809) wifi:Init management short buffer num: 32
+I (819) wifi:Init dynamic tx buffer num: 32
+I (819) wifi:Init static tx FG buffer num: 2
+I (819) wifi:Init static rx buffer size: 1600
+I (829) wifi:Init static rx buffer num: 10
+I (829) wifi:Init dynamic rx buffer num: 32
+I (839) wifi_init: rx ba win: 6
+I (839) wifi_init: accept mbox: 6
+I (839) wifi_init: tcpip mbox: 32
+I (849) wifi_init: udp mbox: 6
+I (849) wifi_init: tcp mbox: 6
+I (849) wifi_init: tcp tx win: 5760
+I (849) wifi_init: tcp rx win: 5760
+I (859) wifi_init: tcp mss: 1440
+I (859) wifi_init: WiFi IRAM OP enabled
+I (859) wifi_init: WiFi RX IRAM OP enabled
+I (869) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21
+I (909) wifi:mode : sta (e4:b0:63:15:f8:4c)
+I (909) wifi:enable tsf
+I (909) app: Connecting to Wi-Fi SSID: Itz
+I (919) app: HTTP server started on :8080
+I (919) main_task: Returned from app_main()
+I (919) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (929) wifi:state: init -> auth (0xb0)
+I (929) wifi:state: auth -> assoc (0x0)
+I (939) wifi:state: assoc -> run (0x10)
+I (939) wifi:state: run -> init (0x3c0)
+I (949) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (949) app: Disconnected from Wi-Fi, retrying...
+W (1239) wifi:tx null, bss is null
+I (3359) app: Disconnected from Wi-Fi, retrying...
+I (3369) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (3369) wifi:state: init -> auth (0xb0)
+I (3379) wifi:state: auth -> assoc (0x0)
+I (3379) wifi:state: assoc -> run (0x10)
+I (3389) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64
+I (3399) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92
+I (3399) wifi:security: WPA2-PSK, phy: bgn, rssi: -68
+I (3399) wifi:pm start, type: 1
+
+I (3399) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (3409) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (3419) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (4929) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64
+I (5019) wifi:<ba-del>idx:0, tid:5
+I (5029) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64
+I (5729) app: 5 seconds elapsed, starting image slideshow
+I (5729) app: Scanning directory: /spiffs/img
+I (5739) app: Total files found: 0
+I (5739) app: Found 0 images in slideshow
+I (5739) app: No images found, showing black screen
+I (5969) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1
+I (5969) app: Got IP: 192.168.1.202
+I (5969) app: Webserver available at http://192.168.1.202:8080
+I (15859) app: Slideshow cycle complete, restarting in 1 second
+I (16859) app: Scanning directory: /spiffs/img
+I (16869) app: Total files found: 0
+I (16869) app: Found 0 images in slideshow
+I (16869) app: No images found, showing black screen
+I (26989) app: Slideshow cycle complete, restarting in 1 second
+I (27989) app: Scanning directory: /spiffs/img
+I (27999) app: Total files found: 0
+I (27999) app: Found 0 images in slideshow
+I (27999) app: No images found, showing black screen
+I (38119) app: Slideshow cycle complete, restarting in 1 second
+I (39119) app: Scanning directory: /spiffs/img
+I (39129) app: Total files found: 0
+I (39129) app: Found 0 images in slideshow
+I (39129) app: No images found, showing black screen
+I (49249) app: Slideshow cycle complete, restarting in 1 second
+I (50249) app: Scanning directory: /spiffs/img
+I (50259) app: Total files found: 0
+I (50259) app: Found 0 images in slideshow
+I (50259) app: No images found, showing black screen
+I (60379) app: Slideshow cycle complete, restarting in 1 second
+I (61379) app: Scanning directory: /spiffs/img
+I (61389) app: Total files found: 0
+I (61389) app: Found 0 images in slideshow
+I (61389) app: No images found, showing black screen
+I (71509) app: Slideshow cycle complete, restarting in 1 second
+I (72509) app: Scanning directory: /spiffs/img
+I (72519) app: Total files found: 0
+I (72519) app: Found 0 images in slideshow
+I (72519) app: No images found, showing black screen
+I (82639) app: Slideshow cycle complete, restarting in 1 second
+I (83639) app: Scanning directory: /spiffs/img
+I (83649) app: Total files found: 0
+I (83649) app: Found 0 images in slideshow
+I (83649) app: No images found, showing black screen
+I (93769) app: Slideshow cycle complete, restarting in 1 second
+I (94769) app: Scanning directory: /spiffs/img
+I (94779) app: Total files found: 0
+I (94779) app: Found 0 images in slideshow
+I (94779) app: No images found, showing black screen
+I (104899) app: Slideshow cycle complete, restarting in 1 second
+I (105899) app: Scanning directory: /spiffs/img
+I (105909) app: Total files found: 0
+I (105909) app: Found 0 images in slideshow
+I (105909) app: No images found, showing black screen
+I (116029) app: Slideshow cycle complete, restarting in 1 second
+I (117029) app: Scanning directory: /spiffs/img
+I (117039) app: Total files found: 0
+I (117039) app: Found 0 images in slideshow
+I (117039) app: No images found, showing black screen
+I (127159) app: Slideshow cycle complete, restarting in 1 second
+I (127529) wifi:[ADDBA]RX DELBA, reason:39, delete tid:0, initiator:1(originator)
+I (127529) wifi:<ba-del>idx:0, tid:0
+I (127529) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:9, winSize:64
+I (128159) app: Scanning directory: /spiffs/img
+I (128169) app: Total files found: 0
+I (128169) app: Found 0 images in slideshow
+I (128169) app: No images found, showing black screen
+I (314) esp_image: segment 3: paddr=0015b0f4 vaddr=3fc97c24 sizeI (4959) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64
+I (5759) app: 5 seconds elapsed, starting image slideshow
+I (5759) app: Scanning directory: /spiffs/img
+I (5759) app: Found file: img_1756966210359.jpg
+I (5769) app: Total files found: 1
+I (5769) app: Found 1 images in slideshow
+I (5769) app: Starting slideshow with images
+I (5769) app: Displaying image: img_1756966210359.jpg
+I (5779) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (5779) app: File size: 4188 bytes
+I (5789) app: Valid JPEG header detected
+I (5789) app: Created image object: 0x3fc9c824
+I (5789) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5799) app: Set image source
+I (5809) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5809) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5819) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5879) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5879) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5879) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5909) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5909) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5919) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5939) app: Image displayed, waiting 10 seconds
+I (7389) wifi:<ba-del>idx:0, tid:5
+I (7389) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64
+I (7969) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1
+I (7969) app: Got IP: 192.168.1.202
+I (7969) app: Webserver available at http://192.168.1.202:8080
+I (15949) app: Image deleted, next
+I (15949) app: Slideshow cycle complete, restarting in 1 second
+I (16949) app: Scanning directory: /spiffs/img
+I (16949) app: Found file: img_1756966210359.jpg
+I (16959) app: Total files found: 1
+I (16959) app: Found 1 images in slideshow
+I (16959) app: Starting slideshow with images
+I (16959) app: Displaying image: img_1756966210359.jpg
+I (16969) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (16969) app: File size: 4188 bytes
+I (16979) app: Valid JPEG header detected
+I (16979) app: Created image object: 0x3fc9c824
+I (16979) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (16989) app: Set image source
+I (16999) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (16999) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (16999) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17039) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17039) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17039) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17069) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17069) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17069) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17099) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17099) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17099) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (17129) app: Image displayed, waiting 10 seconds
+I (27139) app: Image deleted, next
+I (27139) app: Slideshow cycle complete, restarting in 1 second
+I (28139) app: Scanning directory: /spiffs/img
+I (28139) app: Found file: img_1756966210359.jpg
+I (28139) app: Found file: img_1756966238813.jpg
+I (28149) app: Total files found: 2
+I (28149) app: Found 2 images in slideshow
+I (28149) app: Starting slideshow with images
+I (28149) app: Displaying image: img_1756966210359.jpg
+I (28159) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (28179) app: File size: 4188 bytes
+I (28179) app: Valid JPEG header detected
+I (28179) app: Created image object: 0x3fc9c824
+I (28179) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28189) app: Set image source
+I (28189) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28199) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28199) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28229) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28239) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28239) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28269) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28269) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28269) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28299) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28299) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28299) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (28329) app: Image displayed, waiting 10 seconds
+I (314) esp_image: segment 3: paddr=0015b0f4 vaddr=3fc97c24 sizeW (809) app: mkdir /spiffs/img failed (maybe exists)
+I (809) app: LVGL FS driver registered for SPIFFS
+I (809) pp: pp rom version: 9387209
+I (809) net80211: net80211 rom version: 9387209
+I (819) wifi:wifi driver task: 3fcbec0c, prio:23, stack:6656, core=0
+I (829) wifi:wifi firmware version: f3dbad7
+I (829) wifi:wifi certification version: v7.0
+I (829) wifi:config NVS flash: enabled
+I (829) wifi:config nano formatting: disabled
+I (829) wifi:Init data frame dynamic rx buffer num: 32
+I (839) wifi:Init static rx mgmt buffer num: 5
+I (839) wifi:Init management short buffer num: 32
+I (849) wifi:Init dynamic tx buffer num: 32
+I (849) wifi:Init static tx FG buffer num: 2
+I (849) wifi:Init static rx buffer size: 1600
+I (859) wifi:Init static rx buffer num: 10
+I (859) wifi:Init dynamic rx buffer num: 32
+I (869) wifi_init: rx ba win: 6
+I (869) wifi_init: accept mbox: 6
+I (869) wifi_init: tcpip mbox: 32
+I (879) wifi_init: udp mbox: 6
+I (879) wifi_init: tcp mbox: 6
+I (879) wifi_init: tcp tx win: 5760
+I (879) wifi_init: tcp rx win: 5760
+I (889) wifi_init: tcp mss: 1440
+I (889) wifi_init: WiFi IRAM OP enabled
+I (889) wifi_init: WiFi RX IRAM OP enabled
+I (899) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21
+I (939) wifi:mode : sta (e4:b0:63:15:f8:4c)
+I (939) wifi:enable tsf
+I (949) app: Connecting to Wi-Fi SSID: Itz
+I (949) app: HTTP server started on :8080
+I (949) main_task: Returned from app_main()
+I (959) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0
+I (959) wifi:state: init -> auth (0xb0)
+I (969) wifi:state: auth -> assoc (0x0)
+I (979) wifi:state: assoc -> run (0x10)
+I (989) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64
+I (999) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92
+I (999) wifi:security: WPA2-PSK, phy: bgn, rssi: -67
+I (999) wifi:pm start, type: 1
+
+I (999) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us
+I (1009) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000
+I (1019) wifi:AP's beacon interval = 102400 us, DTIM period = 1
+I (1039) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64
+I (1589) wifi:<ba-del>idx:0, tid:5
+I (1589) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64
+I (2539) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1
+I (2539) app: Got IP: 192.168.1.202
+I (2539) app: Webserver available at http://192.168.1.202:8080
+I (5759) app: 5 seconds elapsed, starting image slideshow
+I (5759) app: Scanning directory: /spiffs/img
+I (5759) app: Found file: img_1756966210359.jpg
+I (5759) app: Found file: img_1756966238813.jpg
+I (5779) app: Total files found: 2
+I (5779) app: Found 2 images in slideshow
+I (5779) app: Starting slideshow with images
+I (5779) app: Displaying image: img_1756966210359.jpg
+I (5779) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (5789) app: File size: 4188 bytes
+I (5789) app: Valid JPEG header detected
+I (5799) app: Created image object: 0x3fc9c824
+I (5799) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5809) app: Set image source
+I (5809) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5809) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5819) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5849) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5879) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5889) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5889) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5919) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5919) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5919) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (5949) app: Image displayed, waiting 10 seconds
+I (15959) app: Image deleted, next
+I (15959) app: Displaying image: img_1756966238813.jpg
+I (15959) app: Image path: A:/spiffs/img/img_1756966238813.jpg
+I (15959) app: File size: 3170 bytes
+I (15959) app: Valid JPEG header detected
+I (15969) app: Created image object: 0x3fc9c824
+I (15969) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (15979) app: Set image source
+I (15979) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (15989) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (15989) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16019) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16019) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16019) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16049) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16049) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16049) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16079) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16079) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16089) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (16109) app: Image displayed, waiting 10 seconds
+I (26119) app: Image deleted, next
+I (26119) app: Slideshow cycle complete, restarting in 1 second
+I (27119) app: Scanning directory: /spiffs/img
+I (27119) app: Found file: img_1756966210359.jpg
+I (27119) app: Found file: img_1756966238813.jpg
+I (27129) app: Total files found: 2
+I (27129) app: Found 2 images in slideshow
+I (27129) app: Starting slideshow with images
+I (27129) app: Displaying image: img_1756966210359.jpg
+I (27139) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (27159) app: File size: 4188 bytes
+I (27159) app: Valid JPEG header detected
+I (27159) app: Created image object: 0x3fc9c824
+I (27159) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27169) app: Set image source
+I (27169) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27179) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27179) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27209) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27219) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27219) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27249) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27249) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27249) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27279) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27279) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27279) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (27309) app: Image displayed, waiting 10 seconds
+I (37319) app: Image deleted, next
+I (37319) app: Displaying image: img_1756966238813.jpg
+I (37319) app: Image path: A:/spiffs/img/img_1756966238813.jpg
+I (37319) app: File size: 3170 bytes
+I (37319) app: Valid JPEG header detected
+I (37329) app: Created image object: 0x3fc9c824
+I (37329) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37339) app: Set image source
+I (37339) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37349) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37349) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37379) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37379) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37389) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37409) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37409) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37419) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37439) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37439) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37449) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (37469) app: Image displayed, waiting 10 seconds
+I (47479) app: Image deleted, next
+I (47479) app: Slideshow cycle complete, restarting in 1 second
+I (48479) app: Scanning directory: /spiffs/img
+I (48479) app: Found file: img_1756966210359.jpg
+I (48479) app: Found file: img_1756966238813.jpg
+I (48489) app: Total files found: 2
+I (48489) app: Found 2 images in slideshow
+I (48489) app: Starting slideshow with images
+I (48489) app: Displaying image: img_1756966210359.jpg
+I (48499) app: Image path: A:/spiffs/img/img_1756966210359.jpg
+I (48519) app: File size: 4188 bytes
+I (48519) app: Valid JPEG header detected
+I (48519) app: Created image object: 0x3fc9c824
+I (48519) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48529) app: Set image source
+I (48539) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48539) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48539) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48579) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48579) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48579) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48609) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48609) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48609) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48639) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48639) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48639) app: LVGL FS open: /spiffs/img/img_1756966210359.jpg
+I (48669) app: Image displayed, waiting 10 seconds
+I (58679) app: Image deleted, next
+I (58679) app: Displaying image: img_1756966238813.jpg
+I (58679) app: Image path: A:/spiffs/img/img_1756966238813.jpg
+I (58679) app: File size: 3170 bytes
+I (58679) app: Valid JPEG header detected
+I (58689) app: Created image object: 0x3fc9c824
+I (58689) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58699) app: Set image source
+I (58699) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58709) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58709) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58739) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58739) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58739) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58769) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58769) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58779) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58799) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58799) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58809) app: LVGL FS open: /spiffs/img/img_1756966238813.jpg
+I (58829) app: Image displayed, waiting 10 seconds
+I (68839) app: Image deleted, next
+I (68839) app: Slideshow cycle complete, restarting in 1 second

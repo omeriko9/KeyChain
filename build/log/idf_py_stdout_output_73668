@@ -1,0 +1,585 @@
+Command: C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5\tools/idf_monitor.py -p COM9 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --revision 3 --decode-panic backtrace C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\KeyChain.elf C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5\tools\idf.py'
+[0;32mI (148) esp_image: segment 1: paddr=0006a4fc vaddr=3fc96c00 sizeapp_init: App versESP-ROM:esp32c3-api1-20210207[0m
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4004c0d4
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (25) boot: chip revision: v0.4[0m
+[0;32mI (25) boot: efuse block revision: v1.3[0m
+[0;32mI (28) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (32) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (44) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (66) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (79) boot: End of partition table[0m
+[0;32mI (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5a4d4h (369876) map[0m
+[0;32mI (148) esp_image: segment 1: paddr=0006a4fc vaddr=3fc96c00 size=02f04h ( 12036) load[0m
+[0;32mI (151) esp_image: segment 2: paddr=0006d408 vaddr=40380000 size=02c10h ( 11280) load[0m
+[0;32mI (154) esp_image: segment 3: paddr=00070020 vaddr=42000020 size=e3efch (933628) map[0m
+[0;32mI (308) esp_image: segment 4: paddr=00153f24 vaddr=40382c10 size=13de4h ( 81380) load[0m
+[0;32mI (324) esp_image: segment 5: paddr=00167d10 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (331) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (331) boot: Disabling RNG early entropy source...[0m
+[0;32mI (342) cpu_start: Unicore app[0m
+[0;32mI (350) cpu_start: Pro cpu start user code[0m
+[0;32mI (350) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (350) app_init: Application information:[0m
+[0;32mI (350) app_init: Project name:     KeyChain[0m
+[0;32mI (354) app_init: App version:      1[0m
+[0;32mI (358) app_init: Compile time:     Sep  4 2025 00:51:25[0m
+[0;32mI (363) app_init: ELF file SHA256:  b88150b05...[0m
+[0;32mI (367) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (371) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (375) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (379) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (382) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (389) heap_init: At 3FCAE1F0 len 00011E10 (71 KiB): RAM[0m
+[0;32mI (394) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (400) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (406) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (412) spi_flash: detected chip: winbond[0m
+[0;32mI (415) spi_flash: flash io: dio[0m
+[0;33mW (418) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (431) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (436) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (443) main_task: Started on CPU0[0m
+[0;32mI (443) main_task: Calling app_main()[0m
+[0;32mI (713) app: Entering LVGL loop for 5 seconds[0m
+[1;31mE (733) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (743) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (753) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (753) app: SPIFFS size total=956561 used=6526[0m
+[1;31mE (763) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (773) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;33mW (773) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (773) pp: pp rom version: 9387209[0m
+[0;32mI (773) net80211: net80211 rom version: 9387209[0m
+[1;31mE (783) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (783) wifi:wifi driver task: 3fcbe508, prio:23, stack:6656, core=0[0m
+[0;32mI (793) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (793) wifi:wifi certification version: v7.0[0m
+[0;32mI (793) wifi:config NVS flash: enabled[0m
+[0;32mI (793) wifi:config nano formatting: disabled[0m
+[0;32mI (803) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (803) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (813) wifi:Init management short buffer num: 32[0m
+[0;32mI (813) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (823) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (823) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (823) wifi:Init static rx buffer num: 10[0m
+[0;32mI (833) wifi:Init dynamic rx buffer num: 32[0m
+[1;31mE (833) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (843) wifi_init: rx ba win: 6[0m
+[0;32mI (843) wifi_init: accept mbox: 6[0m
+[1;31mE (853) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (843) wifi_init: tcpip mbox: 32[0m
+[0;32mI (853) wifi_init: udp mbox: 6[0m
+[1;31mE (863) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (853) wifi_init: tcp mbox: 6[0m
+[0;32mI (863) wifi_init: tcp tx win: 5760[0m
+[1;31mE (873) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (863) wifi_init: tcp rx win: 5760[0m
+[1;31mE (883) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (873) wifi_init: tcp mss: 1440[0m
+[0;32mI (883) wifi_init: WiFi IRAM OP enabled[0m
+[1;31mE (893) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (883) wifi_init: WiFi RX IRAM OP enabled[0m
+[1;31mE (903) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (903) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (943) wifi:mode : softAP (e4:b0:63:15:f8:4d)[0m
+[0;32mI (943) wifi:Total power save buffer number: 16[0m
+[0;32mI (943) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (943) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (953) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1[0m
+[1;31mE (963) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (973) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (963) app: SoftAP started, SSID=KeyChain-F84D, browse http://192.168.4.1:8080[0m
+[1;31mE (983) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (973) app: HTTP server started on :8080[0m
+[1;31mE (993) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (983) main_task: Returned from app_main()[0m
+[1;31mE (1003) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1013) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1023) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1033) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1043) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1053) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1063) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1073) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1083) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1093) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1103) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1113) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1123) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1133) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1143) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1153) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1163) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1173) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1183) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1193) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1203) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1213) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1223) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1233) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1243) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1253) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1263) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1273) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1283) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1293) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1303) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1313) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1323) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1333) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1343) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1353) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1363) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1373) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1383) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1393) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1403) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1413) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1423) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1433) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1443) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1453) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1463) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1473) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1483) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1493) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1503) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1513) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1523) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1533) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1543) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1553) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1563) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1573) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1583) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1593) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1603) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1613) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1623) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1633) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1643) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1653) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1663) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1673) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1683) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1693) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1703) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1713) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1723) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1733) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1743) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1753) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1763) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1773) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1783) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1793) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1803) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1813) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1823) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1833) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1843) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1853) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1863) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1873) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1883) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1893) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1903) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1913) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1923) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1933) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1943) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1953) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1963) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1973) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1983) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (1993) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2003) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2013) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2023) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2033) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2043) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2053) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2063) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2073) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2083) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2093) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2103) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2113) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2123) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2133) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2143) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2153) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2163) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2173) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2183) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2193) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2203) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2213) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2223) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2233) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2243) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2253) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2263) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2273) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2283) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2293) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2303) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2313) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2323) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2333) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2343) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2353) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2363) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2373) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2383) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2393) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2403) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2413) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2423) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2433) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2443) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2453) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2463) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2473) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2483) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2493) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2503) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2513) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2523) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2533) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2543) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2553) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2563) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2573) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2583) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2593) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2603) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2613) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2623) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2633) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2643) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2653) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2663) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2673) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2683) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2693) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2703) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2713) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2723) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2733) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2743) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2753) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2763) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2773) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2783) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2793) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2803) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2813) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2823) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2833) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2843) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2853) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2863) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2873) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2883) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2893) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2903) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2913) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2923) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2933) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2943) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2953) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2963) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2973) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2983) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (2993) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3003) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3013) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3023) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3033) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3043) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3053) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3063) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3073) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3083) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3093) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3103) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3113) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3123) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3133) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3143) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3153) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3163) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3173) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3183) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3193) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3203) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3213) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3223) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3233) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3243) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3253) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3263) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3273) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3283) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3293) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3303) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3313) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3323) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3333) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3343) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3353) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3363) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3373) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3383) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3393) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3403) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3413) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3423) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3433) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3443) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3453) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3463) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3473) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3483) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3493) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3503) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3513) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3523) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3533) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3543) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3553) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3563) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3573) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3583) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3593) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3603) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3613) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3623) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3633) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3643) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3653) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3663) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3673) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3683) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3693) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3703) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3713) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3723) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3733) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3743) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3753) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3763) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3773) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3783) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3793) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3803) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3813) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3823) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3833) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3843) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3853) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3863) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3873) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3883) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3893) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3903) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3913) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3923) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3933) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3943) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3953) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3963) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3973) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3983) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (3993) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4003) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4013) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4023) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4033) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4043) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4053) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4063) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4073) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4083) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4093) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4103) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4113) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4123) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4133) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4143) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4153) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4163) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4173) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4183) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4193) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4203) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4213) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4223) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4233) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4243) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4253) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4263) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4273) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4283) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4293) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4303) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4313) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4323) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4333) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4343) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4353) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4363) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4373) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4383) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4393) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4403) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4413) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4423) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4433) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4443) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4453) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4463) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4473) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4483) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4493) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4503) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4513) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4523) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4533) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4543) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4553) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4563) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4573) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4583) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4593) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4603) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4613) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4623) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4633) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4643) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4653) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4663) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4673) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4683) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4693) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4703) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4713) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4723) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4733) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4743) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4753) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4763) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4773) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4783) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4793) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4803) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4813) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4823) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4833) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4843) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4853) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4863) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4873) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4883) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4893) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4903) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4913) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4923) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4933) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4943) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4953) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4963) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4973) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4983) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (4993) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5003) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5013) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5023) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5033) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5043) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5053) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5063) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5073) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5083) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5093) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5103) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5113) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5123) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5133) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5143) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5153) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5163) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5173) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5183) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5193) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5203) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5213) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5223) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5233) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5243) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5253) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5263) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5273) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5283) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5293) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5303) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5313) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5323) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5333) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5343) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5353) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5363) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5373) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5383) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5393) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5403) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5413) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5423) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5433) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5443) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5453) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5463) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5473) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5483) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5493) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5503) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5513) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5523) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5533) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5543) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5553) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5563) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5573) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5583) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5593) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5603) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5613) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5623) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5633) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5643) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5653) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5663) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5673) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5683) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5693) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5703) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[1;31mE (5713) task_wdt: esp_task_wdt_reset(707): task not found[0m
+[0;32mI (5723) app: 5 seconds elapsed, starting image slideshow[0m

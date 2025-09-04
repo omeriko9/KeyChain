@@ -1,0 +1,747 @@
+Command: C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe C:\Espressif\frameworks\esp-idf-v5.5\tools/idf_monitor.py -p COM9 -b 115200 --toolchain-prefix riscv32-esp-elf- --target esp32c3 --revision 3 --decode-panic backtrace C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\KeyChain.elf C:\Users\Omer\Dropbox\ESP\ESP32-C3-TFT\KeyChain\build\bootloader\bootloader.elf --force-color -m 'C:\Espressif\frameworks\esp-idf-v5.5\tools\python_env\idf5.5_py3.11_env\Scripts\python.exe' 'C:\Espressif\frameworks\esp-idf-v5.5\tools\idf.py'
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 sizeESP-ROM:esp32c3-api1-20210207[0m
+Build:Feb  7 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4004c490
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (25) boot: chip revision: v0.4[0m
+[0;32mI (25) boot: efuse block revision: v1.3[0m
+[0;32mI (28) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (32) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (44) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (53) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (66) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (79) boot: End of partition table[0m
+[0;32mI (82) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ed60h (388448) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 size=01290h (  4752) load[0m
+[0;32mI (153) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eab68h (961384) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 size=01c74h (  7284) load[0m
+[0;32mI (310) esp_image: segment 4: paddr=0015c80c vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=00173208 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (336) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (337) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (355) cpu_start: Pro cpu start user code[0m
+[0;32mI (356) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (356) app_init: Application information:[0m
+[0;32mI (356) app_init: Project name:     KeyChain[0m
+[0;32mI (360) app_init: App version:      1[0m
+[0;32mI (363) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  d9261c07b...[0m
+[0;32mI (372) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (376) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (380) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (384) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (388) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (394) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (436) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (442) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (448) main_task: Started on CPU0[0m
+[0;32mI (448) main_task: Calling app_main()[0m
+[0;32mI (718) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (758) app: SPIFFS size total=956561 used=7028[0m
+[0;33mW (778) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (778) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (778) pp: pp rom version: 9387209[0m
+[0;32mI (778) net80211: net80211 rom version: 9387209[0m
+[0;32mI (788) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (798) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (798) wifi:wifi certification version: v7.0[0m
+[0;32mI (798) wifi:config NVS flash: enabled[0m
+[0;32mI (798) wifi:config nano formatting: disabled[0m
+[0;32mI (798) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (808) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (808) wifi:Init management short buffer num: 32[0m
+[0;32mI (818) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (818) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (818) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (828) wifi:Init static rx buffer num: 10[0m
+[0;32mI (828) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (838) wifi_init: rx ba win: 6[0m
+[0;32mI (838) wifi_init: accept mbox: 6[0m
+[0;32mI (838) wifi_init: tcpip mbox: 32[0m
+[0;32mI (848) wifi_init: udp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp tx win: 5760[0m
+[0;32mI (848) wifi_init: tcp rx win: 5760[0m
+[0;32mI (858) wifi_init: tcp mss: 1440[0m
+[0;32mI (858) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (858) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (868) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (918) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (918) wifi:enable tsf[0m
+[0;32mI (918) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (918) app: HTTP server started on :8080[0m
+[0;32mI (928) main_task: Returned from app_main()[0m
+[0;32mI (928) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (928) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (938) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (948) wifi:state: assoc -> init (0x3c0)[0m
+[0;32mI (958) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (958) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3368) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (5728) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5728) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5738) app: Total files found: 0[0m
+[0;32mI (5738) app: Found 0 images in slideshow[0m
+[0;32mI (5738) app: No images found, showing black screen[0m
+[0;32mI (5778) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (5778) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (5788) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (5798) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (5798) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (5808) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (5818) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (5818) wifi:security: WPA2-PSK, phy: bgn, rssi: -66[0m
+[0;32mI (5818) wifi:pm start, type: 1[0m
+
+[0;32mI (5818) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (5828) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (5848) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64[0m
+[0;32mI (6028) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (6368) wifi:<ba-del>idx:0, tid:5[0m
+[0;32mI (6378) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64[0m
+[0;32mI (7358) esp_netif_handlers: sta ip: 192.168.1.202, mask: 255.255.255.0, gw: 192.168.1.1[0m
+[0;32mI (7358) app: Got IP: 192.168.1.202[0m
+[0;32mI (7358) app: Webserver available at http://192.168.1.202:8080[0m
+[0;32mI (15858) app: Slideshow cycle complete, restarting in 1 second[0m
+[0;33mW (15888) httpd_txrx: httpd_sock_err: error in send : 104[0m
+[0;33mW (15888) httpd_uri: httpd_uri: uri handler execution failed[0m
+[0;32mI (16858) app: Scanning directory: /spiffs/img[0m
+[0;32mI (16868) app: Total files found: 0[0m
+[0;32mI (16868) app: Found 0 images in slideshow[0m
+[0;32mI (16868) app: No images found, showing black screen[0m
+[0;32mI (314) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 sizeW (809) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (809) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (809) pp: pp rom version: 9387209[0m
+[0;32mI (809) net80211: net80211 rom version: 9387209[0m
+[0;32mI (819) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (829) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (829) wifi:wifi certification version: v7.0[0m
+[0;32mI (829) wifi:config NVS flash: enabled[0m
+[0;32mI (829) wifi:config nano formatting: disabled[0m
+[0;32mI (829) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (839) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (839) wifi:Init management short buffer num: 32[0m
+[0;32mI (849) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (849) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (849) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (859) wifi:Init static rx buffer num: 10[0m
+[0;32mI (859) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (869) wifi_init: rx ba win: 6[0m
+[0;32mI (869) wifi_init: accept mbox: 6[0m
+[0;32mI (869) wifi_init: tcpip mbox: 32[0m
+[0;32mI (879) wifi_init: udp mbox: 6[0m
+[0;32mI (879) wifi_init: tcp mbox: 6[0m
+[0;32mI (879) wifi_init: tcp tx win: 5760[0m
+[0;32mI (879) wifi_init: tcp rx win: 5760[0m
+[0;32mI (889) wifi_init: tcp mss: 1440[0m
+[0;32mI (889) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (889) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (899) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (939) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (939) wifi:enable tsf[0m
+[0;32mI (949) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (949) app: HTTP server started on :8080[0m
+[0;32mI (949) main_task: Returned from app_main()[0m
+[0;32mI (949) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (959) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (969) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (979) wifi:state: assoc -> init (0x3c0)[0m
+[0;32mI (989) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (989) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3399) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3399) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (3409) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (3419) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (3419) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3429) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (3439) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (3439) wifi:security: WPA2-PSK, phy: bgn, rssi: -72[0m
+[0;32mI (3439) wifi:pm start, type: 1[0m
+
+[0;32mI (3449) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3449) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (4509) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (4959) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64[0m
+[0;32mI (5759) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5759) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5759) app: Found file: img_1756938416364.jpg[0m
+[0;32mI (5769) app: Total files found: 1[0m
+[0;32mI (5769) app: Found 1 images in slideshow[0m
+[0;32mI (5769) app: Starting slideshow with images[0m
+[0;32mI (5769) app: Displaying image: img_1756938416364.jpg[0m
+[0;32mI (5779) app: Image path: A:/spiffs/img/img_1756938416364.jpg[0m
+[0;32mI (5779) app: LVGL FS open: /spiffs/img/img_1756938416364.jpg[0m
+Guru Meditation Error: Core  0 panic'ed (Stack protection fault). 
+
+Detected in task "lvgl" at 0x4203da8e
+Stack pointer: 0x3fcb7800
+Stack bounds: 0x3fcb7a6c - 0x3fcb8a60
+
+
+Core  0 register dump:
+MEPC    : 0x4203da90  RA      : 0x4201972a  SP      : 0x3fcb7800  GP      : 0x3fc97400  
+TP      : 0x3fcb8a60  T0      : 0xfffff000  T1      : 0x0000000f  T2      : 0x00008002  
+S0/FP   : 0x3fc9b654  S1      : 0x3fcb88f4  A0      : 0x3fc9b654  A1      : 0x3fcb88f4  
+A2      : 0x3fcb8968  A3      : 0x00000005  A4      : 0x00000000  A5      : 0x4203da80  
+A6      : 0x3fcb9914  A7      : 0xffffffff  S2      : 0x3fcb8968  S3      : 0x00000000  
+S4      : 0x00000001  S5      : 0x3fcb00ec  S6      : 0x3fcb89cc  S7      : 0x3fcb89b4  
+S8      : 0x00000003  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x37315f67  T4      : 0x6d692f67  T5      : 0x6d692f01  T6      : 0x00000c40  
+MSTATUS : 0x00001881  MTVEC   : 0x40380001  MCAUSE  : 0x0000001b  MTVAL   : 0x0000842e  
+MHARTID : 0x00000000  
+Backtrace: 0x4203da90:0x3fcb7800 0x42019728:0x3fcb78b0 0xf7bef7bc:0x3fcb78f0
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xf7bef7bc
+
+
+
+
+ELF file SHA256: d9261c07b
+
+Rebooting...
+ESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4038086a
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (24) boot: chip revision: v0.4[0m
+[0;32mI (24) boot: efuse block revision: v1.3[0m
+[0;32mI (27) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (31) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (43) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (52) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (65) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ed60h (388448) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 size=01290h (  4752) load[0m
+[0;32mI (152) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eab68h (961384) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 size=01c74h (  7284) load[0m
+[0;32mI (309) esp_image: segment 4: paddr=0015c80c vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=00173208 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (336) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (336) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (355) cpu_start: Pro cpu start user code[0m
+[0;32mI (355) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (355) app_init: Application information:[0m
+[0;32mI (355) app_init: Project name:     KeyChain[0m
+[0;32mI (359) app_init: App version:      1[0m
+[0;32mI (362) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  d9261c07b...[0m
+[0;32mI (372) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (375) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (379) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (383) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (387) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (393) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (435) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (441) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (448) main_task: Started on CPU0[0m
+[0;32mI (448) main_task: Calling app_main()[0m
+[0;32mI (718) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (758) app: SPIFFS size total=956561 used=10542[0m
+[0;33mW (778) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (778) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (778) pp: pp rom version: 9387209[0m
+[0;32mI (778) net80211: net80211 rom version: 9387209[0m
+[0;32mI (788) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (798) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (798) wifi:wifi certification version: v7.0[0m
+[0;32mI (798) wifi:config NVS flash: enabled[0m
+[0;32mI (798) wifi:config nano formatting: disabled[0m
+[0;32mI (798) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (808) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (808) wifi:Init management short buffer num: 32[0m
+[0;32mI (818) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (818) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (818) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (828) wifi:Init static rx buffer num: 10[0m
+[0;32mI (828) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (838) wifi_init: rx ba win: 6[0m
+[0;32mI (838) wifi_init: accept mbox: 6[0m
+[0;32mI (838) wifi_init: tcpip mbox: 32[0m
+[0;32mI (848) wifi_init: udp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp tx win: 5760[0m
+[0;32mI (848) wifi_init: tcp rx win: 5760[0m
+[0;32mI (858) wifi_init: tcp mss: 1440[0m
+[0;32mI (858) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (858) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (868) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (908) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (908) wifi:enable tsf[0m
+[0;32mI (908) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (918) app: HTTP server started on :8080[0m
+[0;32mI (918) main_task: Returned from app_main()[0m
+[0;32mI (918) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (928) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (938) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (938) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (938) wifi:state: run -> init (0x3c0)[0m
+[0;32mI (958) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (958) app: Disconnected from Wi-Fi, retrying...[0m
+[0;33mW (1238) wifi:tx null, bss is null[0m
+[0;32mI (3368) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (5728) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5728) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5728) app: Found file: img_1756938416364.jpg[0m
+[0;32mI (5738) app: Total files found: 1[0m
+[0;32mI (5738) app: Found 1 images in slideshow[0m
+[0;32mI (5738) app: Starting slideshow with images[0m
+[0;32mI (5738) app: Displaying image: img_1756938416364.jpg[0m
+[0;32mI (5748) app: Image path: A:/spiffs/img/img_1756938416364.jpg[0m
+[0;32mI (5748) app: LVGL FS open: /spiffs/img/img_1756938416364.jpg[0m
+Guru Meditation Error: Core  0 panic'ed (Stack protection fault). 
+
+Detected in task "lvgl" at 0x4203da8e
+Stack pointer: 0x3fcb7800
+Stack bounds: 0x3fcb7a6c - 0x3fcb8a60
+
+
+Core  0 register dump:
+MEPC    : 0x4203da90  RA      : 0x4201972a  SP      : 0x3fcb7800  GP      : 0x3fc97400  
+TP      : 0x3fcb8a60  T0      : 0xfffff000  T1      : 0x0000000f  T2      : 0x00008002  
+S0/FP   : 0x3fc9b654  S1      : 0x3fcb88f4  A0      : 0x3fc9b654  A1      : 0x3fcb88f4  
+A2      : 0x3fcb8968  A3      : 0x00000005  A4      : 0x00000000  A5      : 0x4203da80  
+A6      : 0x3fcb9914  A7      : 0xffffffff  S2      : 0x3fcb8968  S3      : 0x00000000  
+S4      : 0x00000001  S5      : 0x3fcb0060  S6      : 0x3fcb89cc  S7      : 0x3fcb89b4  
+S8      : 0x00000003  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x37315f67  T4      : 0x6d692f67  T5      : 0x6d692f01  T6      : 0x00000c40  
+MSTATUS : 0x00001881  MTVEC   : 0x40380001  MCAUSE  : 0x0000001b  MTVAL   : 0x0000842e  
+MHARTID : 0x00000000  
+Backtrace: 0x4203da90:0x3fcb7800 0x42019728:0x3fcb78b0 0xf7bef7bc:0x3fcb78f0
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xf7bef7bc
+
+
+
+
+ELF file SHA256: d9261c07b
+
+Rebooting...
+ESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4038086a
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (24) boot: chip revision: v0.4[0m
+[0;32mI (24) boot: efuse block revision: v1.3[0m
+[0;32mI (27) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (31) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (43) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (52) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (65) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ed60h (388448) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 size=01290h (  4752) load[0m
+[0;32mI (152) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eab68h (961384) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 size=01c74h (  7284) load[0m
+[0;32mI (309) esp_image: segment 4: paddr=0015c80c vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=00173208 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (336) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (336) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (355) cpu_start: Pro cpu start user code[0m
+[0;32mI (355) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (355) app_init: Application information:[0m
+[0;32mI (355) app_init: Project name:     KeyChain[0m
+[0;32mI (359) app_init: App version:      1[0m
+[0;32mI (362) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  d9261c07b...[0m
+[0;32mI (372) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (376) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (379) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (383) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (387) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (393) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (435) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (441) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (448) main_task: Started on CPU0[0m
+[0;32mI (448) main_task: Calling app_main()[0m
+[0;32mI (718) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (758) app: SPIFFS size total=956561 used=10542[0m
+[0;33mW (778) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (778) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (778) pp: pp rom version: 9387209[0m
+[0;32mI (778) net80211: net80211 rom version: 9387209[0m
+[0;32mI (788) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (798) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (798) wifi:wifi certification version: v7.0[0m
+[0;32mI (798) wifi:config NVS flash: enabled[0m
+[0;32mI (798) wifi:config nano formatting: disabled[0m
+[0;32mI (798) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (808) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (808) wifi:Init management short buffer num: 32[0m
+[0;32mI (818) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (818) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (818) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (828) wifi:Init static rx buffer num: 10[0m
+[0;32mI (828) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (838) wifi_init: rx ba win: 6[0m
+[0;32mI (838) wifi_init: accept mbox: 6[0m
+[0;32mI (838) wifi_init: tcpip mbox: 32[0m
+[0;32mI (848) wifi_init: udp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp tx win: 5760[0m
+[0;32mI (848) wifi_init: tcp rx win: 5760[0m
+[0;32mI (858) wifi_init: tcp mss: 1440[0m
+[0;32mI (858) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (858) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (868) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (908) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (908) wifi:enable tsf[0m
+[0;32mI (918) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (918) app: HTTP server started on :8080[0m
+[0;32mI (918) main_task: Returned from app_main()[0m
+[0;32mI (3318) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3328) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (3328) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (3348) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (3348) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3358) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (3378) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (3378) wifi:security: WPA2-PSK, phy: bgn, rssi: -73[0m
+[0;32mI (3378) wifi:pm start, type: 1[0m
+
+[0;32mI (3378) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3388) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (3468) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (4908) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:6, ssn:0, winSize:64[0m
+[0;32mI (5728) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5728) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5728) app: Found file: img_1756938416364.jpg[0m
+[0;32mI (5738) app: Total files found: 1[0m
+[0;32mI (5738) app: Found 1 images in slideshow[0m
+[0;32mI (5738) app: Starting slideshow with images[0m
+[0;32mI (5738) app: Displaying image: img_1756938416364.jpg[0m
+[0;32mI (5748) app: Image path: A:/spiffs/img/img_1756938416364.jpg[0m
+[0;32mI (5748) app: LVGL FS open: /spiffs/img/img_1756938416364.jpg[0m
+Guru Meditation Error: Core  0 panic'ed (Stack protection fault). 
+
+Detected in task "lvgl" at 0x4203da8e
+Stack pointer: 0x3fcb7800
+Stack bounds: 0x3fcb7a6c - 0x3fcb8a60
+
+
+Core  0 register dump:
+MEPC    : 0x4203da90  RA      : 0x4201972a  SP      : 0x3fcb7800  GP      : 0x3fc97400  
+TP      : 0x3fcb8a60  T0      : 0xfffff000  T1      : 0x0000000f  T2      : 0x00008002  
+S0/FP   : 0x3fc9b654  S1      : 0x3fcb88f4  A0      : 0x3fc9b654  A1      : 0x3fcb88f4  
+A2      : 0x3fcb8968  A3      : 0x00000005  A4      : 0x00000000  A5      : 0x4203da80  
+A6      : 0x3fcb9914  A7      : 0xffffffff  S2      : 0x3fcb8968  S3      : 0x00000000  
+S4      : 0x00000001  S5      : 0x3fcb01f8  S6      : 0x3fcb89cc  S7      : 0x3fcb89b4  
+S8      : 0x00000003  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x37315f67  T4      : 0x6d692f67  T5      : 0x6d692f01  T6      : 0x00000c40  
+MSTATUS : 0x00001881  MTVEC   : 0x40380001  MCAUSE  : 0x0000001b  MTVAL   : 0x0000842e  
+MHARTID : 0x00000000  
+Backtrace: 0x4203da90:0x3fcb7800 0x42019728:0x3fcb78b0 0xf7bef7bc:0x3fcb78f0
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xf7bef7bc
+
+
+
+
+ELF file SHA256: d9261c07b
+
+Rebooting...
+ESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4038086a
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (24) boot: chip revision: v0.4[0m
+[0;32mI (24) boot: efuse block revision: v1.3[0m
+[0;32mI (27) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (31) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (43) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (52) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (65) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ed60h (388448) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 size=01290h (  4752) load[0m
+[0;32mI (152) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eab68h (961384) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 size=01c74h (  7284) load[0m
+[0;32mI (309) esp_image: segment 4: paddr=0015c80c vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=00173208 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (336) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (336) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (355) cpu_start: Pro cpu start user code[0m
+[0;32mI (355) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (355) app_init: Application information:[0m
+[0;32mI (355) app_init: Project name:     KeyChain[0m
+[0;32mI (359) app_init: App version:      1[0m
+[0;32mI (362) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  d9261c07b...[0m
+[0;32mI (372) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (375) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (379) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (383) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (387) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (393) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (435) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (441) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (448) main_task: Started on CPU0[0m
+[0;32mI (448) main_task: Calling app_main()[0m
+[0;32mI (718) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (758) app: SPIFFS size total=956561 used=10542[0m
+[0;33mW (778) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (778) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (778) pp: pp rom version: 9387209[0m
+[0;32mI (778) net80211: net80211 rom version: 9387209[0m
+[0;32mI (788) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (798) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (798) wifi:wifi certification version: v7.0[0m
+[0;32mI (798) wifi:config NVS flash: enabled[0m
+[0;32mI (798) wifi:config nano formatting: disabled[0m
+[0;32mI (798) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (808) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (808) wifi:Init management short buffer num: 32[0m
+[0;32mI (818) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (818) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (818) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (828) wifi:Init static rx buffer num: 10[0m
+[0;32mI (828) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (838) wifi_init: rx ba win: 6[0m
+[0;32mI (838) wifi_init: accept mbox: 6[0m
+[0;32mI (838) wifi_init: tcpip mbox: 32[0m
+[0;32mI (848) wifi_init: udp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp tx win: 5760[0m
+[0;32mI (848) wifi_init: tcp rx win: 5760[0m
+[0;32mI (858) wifi_init: tcp mss: 1440[0m
+[0;32mI (858) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (858) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (868) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (908) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (908) wifi:enable tsf[0m
+[0;32mI (908) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (918) app: HTTP server started on :8080[0m
+[0;32mI (918) main_task: Returned from app_main()[0m
+[0;32mI (918) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (928) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (928) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (938) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (938) wifi:state: run -> init (0x3c0)[0m
+[0;32mI (948) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (948) app: Disconnected from Wi-Fi, retrying...[0m
+[0;33mW (1238) wifi:tx null, bss is null[0m
+[0;32mI (3358) app: Disconnected from Wi-Fi, retrying...[0m
+[0;32mI (3368) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (3368) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (3378) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (3378) wifi:state: assoc -> run (0x10)[0m
+[0;32mI (3388) wifi:<ba-add>idx:0 (ifx:0, 60:32:b1:58:3c:92), tid:5, ssn:0, winSize:64[0m
+[0;32mI (3398) wifi:connected with Itz, aid = 22, channel 7, BW20, bssid = 60:32:b1:58:3c:92[0m
+[0;32mI (3398) wifi:security: WPA2-PSK, phy: bgn, rssi: -72[0m
+[0;32mI (3398) wifi:pm start, type: 1[0m
+
+[0;32mI (3398) wifi:dp: 1, bi: 102400, li: 3, scale listen interval from 307200 us to 307200 us[0m
+[0;32mI (3408) wifi:set rx beacon pti, rx_bcn_pti: 0, bcn_timeout: 25000, mt_pti: 0, mt_time: 10000[0m
+[0;32mI (3628) wifi:AP's beacon interval = 102400 us, DTIM period = 1[0m
+[0;32mI (4258) wifi:<ba-add>idx:1 (ifx:0, 60:32:b1:58:3c:92), tid:0, ssn:0, winSize:64[0m
+[0;32mI (5728) app: 5 seconds elapsed, starting image slideshow[0m
+[0;32mI (5728) app: Scanning directory: /spiffs/img[0m
+[0;32mI (5728) app: Found file: img_1756938416364.jpg[0m
+[0;32mI (5738) app: Total files found: 1[0m
+[0;32mI (5738) app: Found 1 images in slideshow[0m
+[0;32mI (5738) app: Starting slideshow with images[0m
+[0;32mI (5738) app: Displaying image: img_1756938416364.jpg[0m
+[0;32mI (5748) app: Image path: A:/spiffs/img/img_1756938416364.jpg[0m
+[0;32mI (5748) app: LVGL FS open: /spiffs/img/img_1756938416364.jpg[0m
+Guru Meditation Error: Core  0 panic'ed (Stack protection fault). 
+
+Detected in task "lvgl" at 0x4203da8e
+Stack pointer: 0x3fcb7800
+Stack bounds: 0x3fcb7a6c - 0x3fcb8a60
+
+
+Core  0 register dump:
+MEPC    : 0x4203da90  RA      : 0x4201972a  SP      : 0x3fcb7800  GP      : 0x3fc97400  
+TP      : 0x3fcb8a60  T0      : 0xfffff000  T1      : 0x0000000f  T2      : 0x00008002  
+S0/FP   : 0x3fc9b654  S1      : 0x3fcb88f4  A0      : 0x3fc9b654  A1      : 0x3fcb88f4  
+A2      : 0x3fcb8968  A3      : 0x00000005  A4      : 0x00000000  A5      : 0x4203da80  
+A6      : 0x3fcb9914  A7      : 0xffffffff  S2      : 0x3fcb8968  S3      : 0x00000000  
+S4      : 0x00000001  S5      : 0x3fcb01f8  S6      : 0x3fcb89cc  S7      : 0x3fcb89b4  
+S8      : 0x00000003  S9      : 0x00000000  S10     : 0x00000000  S11     : 0x00000000  
+T3      : 0x37315f67  T4      : 0x6d692f67  T5      : 0x6d692f01  T6      : 0x00000c40  
+MSTATUS : 0x00001881  MTVEC   : 0x40380001  MCAUSE  : 0x0000001b  MTVAL   : 0x0000842e  
+MHARTID : 0x00000000  
+Backtrace: 0x4203da90:0x3fcb7800 0x42019728:0x3fcb78b0 0xf7bef7bc:0x3fcb78f0
+Backtrace ended abruptly: cannot find DWARF information for instruction at address 0xf7bef7bc
+
+
+
+
+ELF file SHA256: d9261c07b
+
+Rebooting...
+ESP-ROM:esp32c3-api1-20210207
+Build:Feb  7 2021
+rst:0xc (RTC_SW_CPU_RST),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x40048b92
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fcd5820,len:0x15c0
+load:0x403cbf10,len:0xc34
+load:0x403ce710,len:0x2ff0
+entry 0x403cbf1a
+[0;32mI (24) boot: ESP-IDF v5.5 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Sep  4 2025 00:51:40[0m
+[0;32mI (24) boot: chip revision: v0.4[0m
+[0;32mI (24) boot: efuse block revision: v1.3[0m
+[0;32mI (27) boot.esp32c3: SPI Speed      : 80MHz[0m
+[0;32mI (31) boot.esp32c3: SPI Mode       : DIO[0m
+[0;32mI (35) boot.esp32c3: SPI Flash Size : 4MB[0m
+[0;32mI (39) boot: Enabling RNG early entropy source...[0m
+[0;32mI (43) boot: Partition Table:[0m
+[0;32mI (46) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (52) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (59) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (65) boot:  2 factory          factory app      00 00 00010000 00200000[0m
+[0;32mI (72) boot:  3 storage          Unknown data     01 82 00210000 00100000[0m
+[0;32mI (78) boot: End of partition table[0m
+[0;32mI (81) esp_image: segment 0: paddr=00010020 vaddr=3c0f0020 size=5ed60h (388448) map[0m
+[0;32mI (151) esp_image: segment 1: paddr=0006ed88 vaddr=3fc96c00 size=01290h (  4752) load[0m
+[0;32mI (152) esp_image: segment 2: paddr=00070020 vaddr=42000020 size=eab68h (961384) map[0m
+[0;32mI (308) esp_image: segment 3: paddr=0015ab90 vaddr=3fc97e90 size=01c74h (  7284) load[0m
+[0;32mI (309) esp_image: segment 4: paddr=0015c80c vaddr=40380000 size=169f4h ( 92660) load[0m
+[0;32mI (329) esp_image: segment 5: paddr=00173208 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (336) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (336) boot: Disabling RNG early entropy source...[0m
+[0;32mI (347) cpu_start: Unicore app[0m
+[0;32mI (355) cpu_start: Pro cpu start user code[0m
+[0;32mI (355) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (355) app_init: Application information:[0m
+[0;32mI (355) app_init: Project name:     KeyChain[0m
+[0;32mI (359) app_init: App version:      1[0m
+[0;32mI (362) app_init: Compile time:     Sep  4 2025 01:25:54[0m
+[0;32mI (368) app_init: ELF file SHA256:  d9261c07b...[0m
+[0;32mI (372) app_init: ESP-IDF:          v5.5[0m
+[0;32mI (375) efuse_init: Min chip rev:     v0.3[0m
+[0;32mI (379) efuse_init: Max chip rev:     v1.99 [0m
+[0;32mI (383) efuse_init: Chip rev:         v0.4[0m
+[0;32mI (387) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (393) heap_init: At 3FCAE230 len 00011DD0 (71 KiB): RAM[0m
+[0;32mI (399) heap_init: At 3FCC0000 len 0001C710 (113 KiB): Retention RAM[0m
+[0;32mI (405) heap_init: At 3FCDC710 len 00002950 (10 KiB): Retention RAM[0m
+[0;32mI (411) heap_init: At 50000020 len 00001FC8 (7 KiB): RTCRAM[0m
+[0;32mI (417) spi_flash: detected chip: winbond[0m
+[0;32mI (420) spi_flash: flash io: dio[0m
+[0;33mW (423) spi_flash: Detected size(16384k) larger than the size in the binary image header(4096k). Using the size in the binary image header.[0m
+[0;32mI (435) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (441) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (448) main_task: Started on CPU0[0m
+[0;32mI (448) main_task: Calling app_main()[0m
+[0;32mI (718) app: Entering LVGL loop for 5 seconds[0m
+[0;32mI (758) app: SPIFFS size total=956561 used=10542[0m
+[0;33mW (778) app: mkdir /spiffs/img failed (maybe exists)[0m
+[0;32mI (778) app: LVGL FS driver registered for SPIFFS[0m
+[0;32mI (778) pp: pp rom version: 9387209[0m
+[0;32mI (778) net80211: net80211 rom version: 9387209[0m
+[0;32mI (788) wifi:wifi driver task: 3fcbe610, prio:23, stack:6656, core=0[0m
+[0;32mI (798) wifi:wifi firmware version: f3dbad7[0m
+[0;32mI (798) wifi:wifi certification version: v7.0[0m
+[0;32mI (798) wifi:config NVS flash: enabled[0m
+[0;32mI (798) wifi:config nano formatting: disabled[0m
+[0;32mI (798) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (808) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (808) wifi:Init management short buffer num: 32[0m
+[0;32mI (818) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (818) wifi:Init static tx FG buffer num: 2[0m
+[0;32mI (818) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (828) wifi:Init static rx buffer num: 10[0m
+[0;32mI (828) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (838) wifi_init: rx ba win: 6[0m
+[0;32mI (838) wifi_init: accept mbox: 6[0m
+[0;32mI (838) wifi_init: tcpip mbox: 32[0m
+[0;32mI (848) wifi_init: udp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp mbox: 6[0m
+[0;32mI (848) wifi_init: tcp tx win: 5760[0m
+[0;32mI (848) wifi_init: tcp rx win: 5760[0m
+[0;32mI (858) wifi_init: tcp mss: 1440[0m
+[0;32mI (858) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (858) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (868) phy_init: phy_version 1201,bae5dd99,Mar  3 2025,15:36:21[0m
+[0;32mI (908) wifi:mode : sta (e4:b0:63:15:f8:4c)[0m
+[0;32mI (908) wifi:enable tsf[0m
+[0;32mI (908) app: Connecting to Wi-Fi SSID: Itz[0m
+[0;32mI (918) app: HTTP server started on :8080[0m
+[0;32mI (918) main_task: Returned from app_main()[0m
+[0;32mI (918) wifi:new:<7,0>, old:<1,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (928) wifi:state: init -> auth (0xb0)[0m
+[0;32mI (928) wifi:state: auth -> assoc (0x0)[0m
+[0;32mI (938) wifi:state: assoc -> init (0x3c0)[0m
+[0;32mI (948) wifi:new:<7,0>, old:<7,0>, ap:<255,255>, sta:<7,0>, prof:1, snd_ch_cfg:0x0[0m
+[0;32mI (948) app: Disconnected from Wi-Fi, retrying...[0m
