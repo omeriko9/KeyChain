@@ -1,3 +1,0 @@
-Command: ninja all
-ninja: error: remove(esp-idf\lwip\CMakeFiles\__idf_lwip.dir\lwip\src\core\ipv4\ip4_addr.c.obj.d): The process cannot access the file because it is being used by another process.
-

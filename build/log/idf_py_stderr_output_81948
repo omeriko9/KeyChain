@@ -1,9 +1,0 @@
-Command: ninja monitor\
-Note: C:/Espressif/frameworks/esp-idf-v5.5/tools/python_env/idf5.5_py3.11_env/Scripts/python.exe;-m;esp_idf_monitor will attempt to set baud rate automatically. To specify a baud rate, set the ESPBAUD environment variable.
---- Warning: GDB cannot open serial ports accessed as COMx
---- Using \\.\COM9 instead...
---- esp-idf-monitor 1.7.0 on \\.\COM9 115200
---- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H
---- 0x4038bf60: spimem_flash_ll_set_dummy at C:/Espressif/frameworks/esp-idf-v5.5/components/hal/esp32c3/include/hal/spimem_flash_ll.h:584
---- (inlined by) spi_flash_hal_configure_host_io_mode at C:/Espressif/frameworks/esp-idf-v5.5/components/hal/spi_flash_hal_common.inc:164
-
