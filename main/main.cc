@@ -1,5 +1,4 @@
 #include <esp_system.h>
-#include <esp_sleep.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -11,7 +10,6 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <freertos/semphr.h>
-#include <freertos/event_groups.h>
 
 #include <esp_log.h>
 #include <esp_timer.h>
@@ -35,7 +33,11 @@
 // Webserver
 #include "webserver.h"
 
+#if defined(DISPLAY_DRIVER_ST7735)
 #define BUTTON_PIN GPIO_NUM_10
+#elif defined(DISPLAY_DRIVER_GC9D01)
+#define BUTTON_PIN GPIO_NUM_7
+#endif
 
 #define LCD_HOST SPI2_HOST
 #ifndef LCD_SPI_CLOCK_HZ
@@ -48,12 +50,29 @@ static int g_image_display_sec = 10; // default
 
 static const char *TAG = "app";
 
+// Button interrupt handling
+static QueueHandle_t button_queue = NULL;
+static const int64_t DEBOUNCE_MS = 50; // Debounce time
+static volatile int64_t last_interrupt_time = 0;
+
 // Forward decls
 static esp_err_t mount_spiffs();
 static void simple_lvgl_task(void *arg);
 
 // Button monitoring task
 static void button_task(void *arg);
+
+// ISR handler for button
+static void IRAM_ATTR button_isr_handler(void *arg)
+{
+    int64_t now = esp_timer_get_time() / 1000;
+    if (now - last_interrupt_time > DEBOUNCE_MS)
+    {
+        last_interrupt_time = now;
+        int level = gpio_get_level(BUTTON_PIN);
+        xQueueSendFromISR(button_queue, &level, NULL);
+    }
+}
 
 static const char *FS_BASE = "/spiffs";
 static const char *IMG_DIR = "/spiffs/img";
@@ -138,23 +157,21 @@ extern "C" void app_main(void)
     // TFT: initialize everything (SPI bus, panel IO, panel, LVGL display/flush)
     tft_init_all();
 
-    // Check wake-up cause
-    esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
-    if (cause == ESP_SLEEP_WAKEUP_GPIO)
-    {
-        ESP_LOGI(TAG, "Woken up by GPIO button press");
-    }
-
-    // Configure button GPIO
+    // Configure button GPIO with interrupts
     gpio_config_t io_conf = {};
-    io_conf.intr_type = GPIO_INTR_DISABLE; // No interrupt, using polling
+    io_conf.intr_type = GPIO_INTR_ANYEDGE; // Interrupt on both edges
     io_conf.pin_bit_mask = (1ULL << BUTTON_PIN);
     io_conf.mode = GPIO_MODE_INPUT;
     io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
     io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
     gpio_config(&io_conf);
 
-    // No ISR, using task
+    // Create queue for ISR communication
+    button_queue = xQueueCreate(10, sizeof(int));
+
+    // Install ISR handler
+    gpio_install_isr_service(0);
+    gpio_isr_handler_add(BUTTON_PIN, button_isr_handler, NULL);
 
     // Load settings from NVS (image display seconds)
     {
@@ -210,18 +227,8 @@ extern "C" void app_main(void)
     // Load and set image display duration from NVS
     tft_set_image_display_seconds(g_image_display_sec);
 
-    // 11) Bring up networking
-    wifi_connect();
-
-    // Start webserver
-    WebServerConfig wcfg{};
-    wcfg.img_dir = IMG_DIR;
-    wcfg.is_softap_active = &is_softap_active_cb;
-    wcfg.save_wifi_credentials = &save_wifi_credentials_cb;
-    wcfg.get_image_display_seconds = &get_image_display_seconds_cb;
-    wcfg.set_image_display_seconds = &set_image_display_seconds_cb;
-    ESP_ERROR_CHECK(webserver_start(&wcfg));
-    ESP_LOGI(TAG, "Webserver started");
+    // Networking and webserver will be started on button press
+    ESP_LOGI(TAG, "Ready, press button to start WiFi and webserver");
 }
 
 // =====================
@@ -261,48 +268,32 @@ static esp_err_t mount_spiffs()
 // =====================
 static void button_task(void *arg)
 {
-    bool button_pressed = false;
-    int64_t press_start = 0;
-    const int64_t DEEP_SLEEP_HOLD_MS = 2000; // Hold for 2 seconds to enter deep sleep
+    static bool wifi_started = false;
+    int level;
 
     while (true)
     {
-        int level = gpio_get_level(BUTTON_PIN);
-        if (level == 0)
-        { // Button pressed (low)
-            if (!button_pressed)
-            {
-                button_pressed = true;
-                press_start = esp_timer_get_time() / 1000; // ms
-                ESP_LOGI(TAG, "Button pressed");
-            }
-            else
-            {
-                int64_t now = esp_timer_get_time() / 1000;
-                if (now - press_start >= DEEP_SLEEP_HOLD_MS)
+        // Wait for button interrupt
+        if (xQueueReceive(button_queue, &level, portMAX_DELAY))
+        {
+            if (level == 0)
+            { // Button pressed (low)
+                if (!wifi_started)
                 {
-                    ESP_LOGI(TAG, "Button held for 2 seconds, entering deep sleep");
-                    // Wait for button release
-                    while (gpio_get_level(BUTTON_PIN) == 0)
-                    {
-                        vTaskDelay(pdMS_TO_TICKS(10));
-                    }
-                    ESP_LOGI(TAG, "Button released, enabling wake-up and entering deep sleep");
-                    // Enable wake-up on GPIO low level
-                    esp_deep_sleep_enable_gpio_wakeup(BIT(BUTTON_PIN), ESP_GPIO_WAKEUP_GPIO_LOW);
-                    // Enter deep sleep
-                    esp_deep_sleep_start();
+                    wifi_started = true;
+                    ESP_LOGI(TAG, "Starting WiFi...");
+                    wifi_connect();
+                    ESP_LOGI(TAG, "Starting webserver...");
+                    WebServerConfig wcfg{};
+                    wcfg.img_dir = IMG_DIR;
+                    wcfg.is_softap_active = &is_softap_active_cb;
+                    wcfg.save_wifi_credentials = &save_wifi_credentials_cb;
+                    wcfg.get_image_display_seconds = &get_image_display_seconds_cb;
+                    wcfg.set_image_display_seconds = &set_image_display_seconds_cb;
+                    ESP_ERROR_CHECK(webserver_start(&wcfg));
+                    ESP_LOGI(TAG, "Webserver started");
                 }
             }
         }
-        else
-        {
-            if (button_pressed)
-            {
-                ESP_LOGI(TAG, "Button released");
-                button_pressed = false;
-            }
-        }
-        vTaskDelay(pdMS_TO_TICKS(100)); // Poll every 100ms
     }
 }
