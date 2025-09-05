@@ -1,2 +1,75 @@
-build
-components
+# ESP-IDF build artifacts
+build/
+esp-idf/
+bootloader-prefix/
+CMakeFiles/
+cmake.check_cache
+CMakeCache.txt
+CMakeConfigureLog.yaml
+compile_commands.json
+config.env
+kconfigs.in
+kconfigs_projbuild.in
+project_description.json
+project_elf_src_esp32c3.c
+ldgen_libraries
+ldgen_libraries.in
+*.bin
+*.elf
+*.map
+*.o
+*.a
+*.so
+*.d
+*.S
+flasher_args.json
+flash_args
+flash_args.in
+app-flash_args
+bootloader-flash_args
+partition-table-flash_args
+storage-flash_args
+storage-flash_args.in
+x509_crt_bundle.S
+embedded_index.html.S
+index.html.S
+
+# SDK configurations (often generated)
+sdkconfig
+sdkconfig.old
+sdkconfig.ci
+sdkconfig.cmake
+sdkconfig.h
+sdkconfig.json
+
+# Dependencies
+dependencies.lock
+
+# Logs and debug
+log/
+gdbinit/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Other
+pytest_hello_world.py  # If this is a test file not needed in repo

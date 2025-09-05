@@ -1,0 +1,8 @@
+choice BOARD_TYPE
+    prompt "Board Selection"
+    default BOARD_TFT144
+    config BOARD_TFT144
+        bool "TFT1.44"
+    config BOARD_TFT071
+        bool "TFT0.71"
+endchoice

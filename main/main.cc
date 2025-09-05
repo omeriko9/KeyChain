@@ -7,6 +7,8 @@
 #include <string>
 #include <unistd.h>
 #include <vector>
+#include <algorithm>
+#include <random>
 
 // Minimal LVGL (v9) + esp_lcd SPI setup for an ST7789 TFT on ESP32-C3
 #include <freertos/FreeRTOS.h>
@@ -40,25 +42,18 @@ extern "C"
 #include <esp_http_server.h>
 #include <esp_spiffs.h>
 #include <esp_mac.h>
+#include <lwip/sockets.h>
+#include <lwip/netdb.h>
 
-// Pin mapping (per user)
-#define TFT_MOSI GPIO_NUM_4
-#define TFT_SCLK GPIO_NUM_3
-#define TFT_CS GPIO_NUM_2
-#define TFT_DC GPIO_NUM_0
-#define TFT_RST GPIO_NUM_5
-#define TFT_MISO GPIO_NUM_NC
+// TFT configuration (pins, driver, SPI clocks, offsets) per-board
+#include "tft.h"
 
-// Display resolution: adjust if your panel differs
-#ifndef LCD_H_RES
-#define LCD_H_RES 128
-#endif
-#ifndef LCD_V_RES
-#define LCD_V_RES 128
-#endif
+#define BUTTON_PIN GPIO_NUM_10
 
 #define LCD_HOST SPI2_HOST
-#define LCD_SPI_CLOCK_HZ (40 * 1000 * 1000) // 40MHz, lower if unstable
+#ifndef LCD_SPI_CLOCK_HZ
+#define LCD_SPI_CLOCK_HZ (40 * 1000 * 1000) // fallback, usually set by tft.h
+#endif
 #define LVGL_TICK_PERIOD_MS 2
 
 // Configurable image display time (seconds), load from NVS at boot
@@ -66,17 +61,7 @@ static int g_image_display_sec = 10; // default
 
 static const char *TAG = "app";
 
-// Globals needed for flush sync
-static esp_lcd_panel_io_handle_t s_panel_io = nullptr;
-static SemaphoreHandle_t s_flush_sem = nullptr;
-
-// ST7735 panel specifics (GREENTAB3)
-#define ST7735_OFFSET_X 2
-#define ST7735_OFFSET_Y 3
-
 // Forward decls (LVGL v9 types)
-static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map);
-static bool on_color_trans_done(esp_lcd_panel_io_handle_t panel_io, esp_lcd_panel_io_event_data_t *edata, void *user_ctx);
 static void lv_tick_cb(void *arg);
 static void create_demo_ui();
 static void wifi_start_station();
@@ -92,9 +77,19 @@ static esp_err_t handle_settings_get(httpd_req_t *req);
 static esp_err_t handle_settings_put(httpd_req_t *req);
 static esp_err_t handle_scan(httpd_req_t *req);
 static esp_err_t handle_wifi_save(httpd_req_t *req);
+static esp_err_t handle_captive_portal(httpd_req_t *req);
+
+// DNS server for captive portal
+static void dns_server_task(void *arg);
 
 // Helper to get list of image filenames
 static std::vector<std::string> get_image_list();
+
+// Button monitoring task
+static void button_task(void *arg);
+
+// Button ISR handler
+// Removed, using task instead
 
 static const char *FS_BASE = "/spiffs";
 static const char *IMG_DIR = "/spiffs/img";
@@ -177,62 +172,43 @@ static bool wifi_store_upsert(const char *ssid, const char *pass)
     return wifi_store_save(s);
 }
 
-static void st7735_hw_reset()
+static void tft_bl_on(void)
 {
-    if (TFT_RST != GPIO_NUM_NC)
-    {
-        gpio_config_t io_conf = {
-            .pin_bit_mask = 1ULL << TFT_RST,
-            .mode = GPIO_MODE_OUTPUT,
-            .pull_up_en = GPIO_PULLUP_DISABLE,
-            .pull_down_en = GPIO_PULLDOWN_DISABLE,
-            .intr_type = GPIO_INTR_DISABLE,
-        };
-        gpio_config(&io_conf);
-        gpio_set_level(TFT_RST, 0);
-        vTaskDelay(pdMS_TO_TICKS(20));
-        gpio_set_level(TFT_RST, 1);
-        vTaskDelay(pdMS_TO_TICKS(120));
-    }
+#if defined(TFT_BL)
+    gpio_config_t io{.pin_bit_mask = 1ULL << TFT_BL, .mode = GPIO_MODE_OUTPUT, .pull_up_en = GPIO_PULLUP_DISABLE, .pull_down_en = GPIO_PULLDOWN_DISABLE, .intr_type = GPIO_INTR_DISABLE};
+    gpio_config(&io);
+    gpio_set_level(TFT_BL, TFT_BACKLIGHT_ON ? 1 : 0);
+#endif
 }
 
-static void st7735_init()
-{
-    // Minimal init sequence for ST7735 (RGB565, normal display, inversion off)
-    uint8_t cmd;
-    // Sleep out
-    cmd = 0x11; // EXIT_SLEEP_MODE
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, nullptr, 0));
-    vTaskDelay(pdMS_TO_TICKS(120));
 
-    // Color mode 16-bit
-    uint8_t colmod[] = {0x05};
-    cmd = 0x3A; // SET_PIXEL_FORMAT
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, colmod, sizeof(colmod)));
 
-    // MADCTL: set BGR bit (0x08) to match most ST77xx panels' color filter
-    // If colors appear swapped (bluish/reddish), toggle this bit.
-    uint8_t madctl[] = {0x08};
-    cmd = 0x36; // SET_ADDRESS_MODE
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, madctl, sizeof(madctl)));
-
-    // Inversion off
-    cmd = 0x20; // EXIT_INVERT_MODE
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, nullptr, 0));
-
-    // Normal display on
-    cmd = 0x13; // ENTER_NORMAL_MODE
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, nullptr, 0));
-
-    // Display on
-    cmd = 0x29; // SET_DISPLAY_ON
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, nullptr, 0));
-}
 
 extern "C" void app_main(void)
 {
     // 0) Init NVS (for Wi‑Fi)
     ESP_ERROR_CHECK(nvs_flash_init());
+
+    // TFT: initialize everything (SPI bus, panel IO, panel, LVGL display/flush)
+    tft_init_all();
+
+    // Check wake-up cause
+    esp_sleep_wakeup_cause_t cause = esp_sleep_get_wakeup_cause();
+    if (cause == ESP_SLEEP_WAKEUP_GPIO)
+    {
+        ESP_LOGI(TAG, "Woken up by GPIO button press");
+    }
+
+    // Configure button GPIO
+    gpio_config_t io_conf = {};
+    io_conf.intr_type = GPIO_INTR_DISABLE; // No interrupt, using polling
+    io_conf.pin_bit_mask = (1ULL << BUTTON_PIN);
+    io_conf.mode = GPIO_MODE_INPUT;
+    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
+    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    gpio_config(&io_conf);
+
+    // No ISR, using task
 
     // Load settings from NVS (image display seconds)
     {
@@ -251,54 +227,9 @@ extern "C" void app_main(void)
         ESP_LOGI(TAG, "image display seconds: %d", g_image_display_sec);
     }
 
-    // 1) Initialize LVGL
-    lv_init();
+    // LVGL is initialized inside tft_init_all()
 
-    // 2) SPI bus for LCD
-    spi_bus_config_t buscfg = {};
-    buscfg.mosi_io_num = TFT_MOSI;
-    buscfg.miso_io_num = -1; // not used
-    buscfg.sclk_io_num = TFT_SCLK;
-    buscfg.quadwp_io_num = -1;
-    buscfg.quadhd_io_num = -1;
-    buscfg.max_transfer_sz = LCD_H_RES * 40 /*lines*/ * sizeof(lv_color_t) + 8;
-    ESP_ERROR_CHECK(spi_bus_initialize(LCD_HOST, &buscfg, SPI_DMA_CH_AUTO));
-
-    // 3) Panel IO over SPI
-    esp_lcd_panel_io_handle_t io_handle = nullptr;
-    esp_lcd_panel_io_spi_config_t io_config = {};
-    io_config.dc_gpio_num = TFT_DC;
-    io_config.cs_gpio_num = TFT_CS;
-    io_config.pclk_hz = LCD_SPI_CLOCK_HZ;
-    io_config.lcd_cmd_bits = 8;
-    io_config.lcd_param_bits = 8;
-    io_config.spi_mode = 0;
-    io_config.trans_queue_depth = 10;
-    io_config.on_color_trans_done = on_color_trans_done;
-    io_config.user_ctx = nullptr; // we use a global semaphore
-    ESP_ERROR_CHECK(esp_lcd_new_panel_io_spi(LCD_HOST, &io_config, &io_handle));
-    s_panel_io = io_handle;
-
-    // 4) Reset/init the panel and set orientation as needed
-    st7735_hw_reset();
-    st7735_init();
-
-    // 6) LVGL display + buffers (v9 API)
-    lv_display_t *disp = lv_display_create(LCD_H_RES, LCD_V_RES);
-    lv_display_set_default(disp);
-    lv_display_set_color_format(disp, LV_COLOR_FORMAT_RGB565);
-
-    const uint32_t lines = 40;                       // tune per RAM & speed
-    const uint32_t buf_size = LCD_H_RES * lines * 2; // RGB565 = 2 bytes/px
-    void *buf1 = heap_caps_malloc(buf_size, MALLOC_CAP_DMA);
-    void *buf2 = heap_caps_malloc(buf_size, MALLOC_CAP_DMA);
-    assert(buf1 && buf2);
-    lv_display_set_buffers(disp, buf1, buf2, buf_size, LV_DISPLAY_RENDER_MODE_PARTIAL);
-
-    // 7) Set LVGL flush callback
-    lv_display_set_flush_cb(disp, lvgl_flush_cb);
-
-    // 8) LVGL tick via esp_timer
+    // 2) LVGL tick via esp_timer
     esp_timer_handle_t tick_timer = nullptr;
     const esp_timer_create_args_t tick_timer_args = {
         .callback = &lv_tick_cb,
@@ -308,13 +239,13 @@ extern "C" void app_main(void)
     ESP_ERROR_CHECK(esp_timer_create(&tick_timer_args, &tick_timer));
     ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, LVGL_TICK_PERIOD_MS * 1000)); // us
 
-    // Create a semaphore to sync SPI color transfers
-    s_flush_sem = xSemaphoreCreateBinary();
-
     // 9) Start LVGL processing task (larger stack for JPEG decode)
-    xTaskCreatePinnedToCore(lvgl_task, "lvgl", 12288, nullptr, 5, nullptr, tskNO_AFFINITY);
+    xTaskCreatePinnedToCore(lvgl_task, "lvgl", 24576, nullptr, 5, nullptr, tskNO_AFFINITY);
 
-    // 10) Mount SPIFFS (for index.html and images)
+    // 10) Start button monitoring task
+    xTaskCreatePinnedToCore(button_task, "button", 2048, nullptr, 4, nullptr, tskNO_AFFINITY);
+
+    // 11) Mount SPIFFS (for index.html and images)
     ESP_ERROR_CHECK(mount_spiffs());
     // Ensure image directory exists
     struct stat st{};
@@ -331,7 +262,7 @@ extern "C" void app_main(void)
     fs_drv.letter = 'A';
     fs_drv.open_cb = [](lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode) -> void *
     {
-        ESP_LOGI(TAG, "LVGL FS open: %s", path);
+        // ESP_LOGI(TAG, "LVGL FS open: %s", path);
         FILE *f = fopen(path, "rb");
         if (!f)
             ESP_LOGE(TAG, "Failed to open file: %s", path);
@@ -403,66 +334,6 @@ extern "C" void app_main(void)
 }
 
 // LVGL flush: push a rectangular area to the panel
-static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px_map)
-{
-    if (!s_panel_io)
-    {
-        lv_display_flush_ready(disp);
-        return;
-    }
-    const int x1 = area->x1 + ST7735_OFFSET_X;
-    const int y1 = area->y1 + ST7735_OFFSET_Y;
-    const int x2 = area->x2 + ST7735_OFFSET_X;
-    const int y2 = area->y2 + ST7735_OFFSET_Y;
-
-    // Set column address (0x2A)
-    uint8_t cmd = 0x2A;
-    uint8_t col_param[4] = {
-        (uint8_t)(x1 >> 8), (uint8_t)(x1 & 0xFF),
-        (uint8_t)(x2 >> 8), (uint8_t)(x2 & 0xFF)};
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, col_param, sizeof(col_param)));
-
-    // Set row address (0x2B)
-    cmd = 0x2B;
-    uint8_t row_param[4] = {
-        (uint8_t)(y1 >> 8), (uint8_t)(y1 & 0xFF),
-        (uint8_t)(y2 >> 8), (uint8_t)(y2 & 0xFF)};
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, row_param, sizeof(row_param)));
-
-    // Memory write (0x2C). Send pixels (RGB565) via DMA
-    cmd = 0x2C;
-    // If colors look swapped, enable byte swap here:
-    lv_draw_sw_rgb565_swap(px_map, (x2 - x1 + 1) * (y2 - y1 + 1));
-    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_color(s_panel_io, cmd, px_map,
-                                              (x2 - x1 + 1) * (y2 - y1 + 1) * 2));
-
-    // Wait for the SPI transfer to finish (signaled from ISR)
-    if (s_flush_sem)
-    {
-        if (xSemaphoreTake(s_flush_sem, pdMS_TO_TICKS(1000)) != pdTRUE)
-        {
-            ESP_LOGW(TAG, "flush wait timeout - SPI transfer may be stuck");
-        }
-        else
-        {
-            ESP_LOGD(TAG, "flush completed");
-        }
-    }
-    lv_display_flush_ready(disp);
-}
-
-// Called when color transfer completes; notify LVGL the flush is done
-static bool on_color_trans_done(esp_lcd_panel_io_handle_t /*panel_io*/,
-                                esp_lcd_panel_io_event_data_t * /*edata*/,
-                                void * /*user_ctx*/)
-{
-    BaseType_t hp_task_woken = pdFALSE;
-    if (s_flush_sem)
-    {
-        xSemaphoreGiveFromISR(s_flush_sem, &hp_task_woken);
-    }
-    return hp_task_woken == pdTRUE;
-}
 
 static void lv_tick_cb(void * /*arg*/)
 {
@@ -592,6 +463,16 @@ static void lvgl_task(void * /*arg*/)
     {
         std::vector<std::string> images = get_image_list();
         ESP_LOGI(TAG, "Found %d images in slideshow", images.size());
+
+        // Shuffle the images for random order
+        if (!images.empty())
+        {
+            std::random_device rd;
+            std::mt19937 g(rd());
+            std::shuffle(images.begin(), images.end(), g);
+            ESP_LOGI(TAG, "Images shuffled for random order");
+        }
+
         if (images.empty())
         {
             ESP_LOGI(TAG, "No images found, showing black screen");
@@ -675,10 +556,10 @@ static void lvgl_task(void * /*arg*/)
                 esp_task_wdt_reset();
 
                 lv_obj_t *img = lv_image_create(lv_screen_active());
-                ESP_LOGI(TAG, "Created image object: %p", img);
+                // ESP_LOGI(TAG, "Created image object: %p", img);
 
                 lv_image_set_src(img, img_path.c_str());
-                ESP_LOGI(TAG, "Set image source");
+                // ESP_LOGI(TAG, "Set image source");
 
                 lv_obj_center(img);
                 lv_refr_now(NULL);
@@ -695,7 +576,7 @@ static void lvgl_task(void * /*arg*/)
 
                 lv_obj_del(img);
                 lv_obj_del(bg);
-                ESP_LOGI(TAG, "Image deleted, next");
+                // ESP_LOGI(TAG, "Image deleted, next");
             }
         }
         // After all images, wait a bit before restarting
@@ -740,7 +621,8 @@ static void wifi_event_handler(void *arg, esp_event_base_t event_base,
     }
     else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
     {
-        ESP_LOGI(TAG, "Disconnected from Wi-Fi, retrying...");
+    wifi_event_sta_disconnected_t *disc = (wifi_event_sta_disconnected_t *)event_data;
+    ESP_LOGI(TAG, "Disconnected from Wi-Fi, reason=%d, retrying...", disc ? disc->reason : -1);
         esp_wifi_connect();
     }
     else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
@@ -769,6 +651,8 @@ static bool wifi_connect_or_ap()
     {
         wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
         ESP_ERROR_CHECK(esp_wifi_init(&cfg));
+    // Disable Wi-Fi power save to avoid timing sensitivity during auth/handshake
+    ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
         // Register event handlers
         ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
         ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL));
@@ -791,10 +675,20 @@ static bool wifi_connect_or_ap()
             wifi_config_t sta_cfg = {};
             strncpy((char *)sta_cfg.sta.ssid, c.ssid, sizeof(sta_cfg.sta.ssid) - 1);
             strncpy((char *)sta_cfg.sta.password, c.password, sizeof(sta_cfg.sta.password) - 1);
+            // Prefer WPA2; allow WPA3 on AP if present but don't require PMF
             sta_cfg.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
+            sta_cfg.sta.pmf_cfg.capable = true;
+            sta_cfg.sta.pmf_cfg.required = false;
+            sta_cfg.sta.scan_method = WIFI_ALL_CHANNEL_SCAN;
+            sta_cfg.sta.sort_method = WIFI_CONNECT_AP_BY_SIGNAL;
+            sta_cfg.sta.bssid_set = 0; // don't pin unless you want to lock AP
+            sta_cfg.sta.channel = 0;   // scan all
+            sta_cfg.sta.listen_interval = 3;
 
             ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
             ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &sta_cfg));
+            // Explicit protocols (2.4 GHz)
+            ESP_ERROR_CHECK(esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N));
             ESP_ERROR_CHECK(esp_wifi_start());
             ESP_LOGI(TAG, "Trying SSID: %s", (char *)sta_cfg.sta.ssid);
 
@@ -1120,6 +1014,14 @@ static esp_err_t http_start()
     uri_wifi_save.user_ctx = nullptr;
     ESP_ERROR_CHECK(httpd_register_uri_handler(server, &uri_wifi_save));
 
+    // Catch-all handler for captive portal (must be registered last)
+    httpd_uri_t uri_captive = {};
+    uri_captive.uri = "/*";
+    uri_captive.method = HTTP_GET;
+    uri_captive.handler = handle_captive_portal;
+    uri_captive.user_ctx = nullptr;
+    ESP_ERROR_CHECK(httpd_register_uri_handler(server, &uri_captive));
+
     ESP_LOGI(TAG, "HTTP server started on :%d", config.server_port);
     return ESP_OK;
 }
@@ -1281,13 +1183,132 @@ static esp_err_t handle_wifi_save(httpd_req_t *req)
 }
 
 // =====================
-// SoftAP start
+// DNS Server for Captive Portal
 // =====================
+static void dns_server_task(void *arg)
+{
+    int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    if (sockfd < 0)
+    {
+        ESP_LOGE(TAG, "Failed to create DNS socket");
+        vTaskDelete(NULL);
+        return;
+    }
+
+    struct sockaddr_in server_addr = {};
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(53);
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+
+    if (bind(sockfd, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+    {
+        ESP_LOGE(TAG, "Failed to bind DNS socket");
+        close(sockfd);
+        vTaskDelete(NULL);
+        return;
+    }
+
+    ESP_LOGI(TAG, "DNS server started on port 53");
+
+    while (s_is_softap)
+    {
+        uint8_t buffer[512];
+        struct sockaddr_in client_addr;
+        socklen_t client_len = sizeof(client_addr);
+
+        int len = recvfrom(sockfd, buffer, sizeof(buffer), 0,
+                           (struct sockaddr *)&client_addr, &client_len);
+        if (len < 0)
+        {
+            continue;
+        }
+
+        // Simple DNS response: redirect all queries to 192.168.4.1
+        if (len >= 12)
+        {
+            uint16_t transaction_id = (buffer[0] << 8) | buffer[1];
+            uint8_t response[512];
+            memset(response, 0, sizeof(response));
+
+            // Transaction ID
+            response[0] = (transaction_id >> 8) & 0xFF;
+            response[1] = transaction_id & 0xFF;
+
+            // Flags: response, authoritative
+            response[2] = 0x81;
+            response[3] = 0x80;
+
+            // Questions and answers count
+            response[4] = 0x00;
+            response[5] = 0x01; // 1 question
+            response[6] = 0x00;
+            response[7] = 0x01; // 1 answer
+
+            // Copy question section
+            memcpy(response + 12, buffer + 12, len - 12);
+
+            // Answer section
+            int answer_offset = 12 + (len - 12);
+            response[answer_offset] = 0xC0; // Name compression
+            response[answer_offset + 1] = 0x0C;
+            response[answer_offset + 2] = 0x00; // Type A
+            response[answer_offset + 3] = 0x01;
+            response[answer_offset + 4] = 0x00; // Class IN
+            response[answer_offset + 5] = 0x01;
+            response[answer_offset + 6] = 0x00; // TTL
+            response[answer_offset + 7] = 0x00;
+            response[answer_offset + 8] = 0x00;
+            response[answer_offset + 9] = 0x3C;  // TTL 60 seconds
+            response[answer_offset + 10] = 0x00; // Data length
+            response[answer_offset + 11] = 0x04;
+            // IP address 192.168.4.1
+            response[answer_offset + 12] = 192;
+            response[answer_offset + 13] = 168;
+            response[answer_offset + 14] = 4;
+            response[answer_offset + 15] = 1;
+
+            int response_len = answer_offset + 16;
+            sendto(sockfd, response, response_len, 0,
+                   (struct sockaddr *)&client_addr, client_len);
+        }
+    }
+
+    close(sockfd);
+    vTaskDelete(NULL);
+}
+
+// =====================
+// Captive Portal HTTP Handler
+// =====================
+static esp_err_t handle_captive_portal(httpd_req_t *req)
+{
+    if (s_is_softap)
+    {
+        httpd_resp_set_type(req, "text/html");
+        return httpd_resp_send(req, PORTAL_HTML, HTTPD_RESP_USE_STRLEN);
+    }
+    return httpd_resp_send_err(req, HTTPD_404_NOT_FOUND, "Not found");
+}
 static void wifi_start_softap()
 {
     ESP_LOGW(TAG, "Starting SoftAP portal...");
     // Ensure AP netif exists
-    esp_netif_create_default_wifi_ap();
+    esp_netif_t *ap_netif = esp_netif_create_default_wifi_ap();
+
+    // Configure DHCP server to provide our IP as DNS server
+    esp_netif_dhcp_status_t dhcp_status;
+    esp_netif_dhcps_get_status(ap_netif, &dhcp_status);
+    if (dhcp_status != ESP_NETIF_DHCP_STARTED)
+    {
+        esp_netif_dhcps_start(ap_netif);
+    }
+
+    // Set DNS server to our own IP
+    esp_netif_dns_info_t dns_info = {};
+    dns_info.ip.u_addr.ip4.addr = esp_ip4addr_aton("192.168.4.1");
+    dns_info.ip.type = ESP_IPADDR_TYPE_V4;
+    esp_netif_set_dns_info(ap_netif, ESP_NETIF_DNS_MAIN, &dns_info);
+
     // Ensure Wi-Fi is initialized (done earlier) and stopped
     esp_wifi_stop();
 
@@ -1302,4 +1323,58 @@ static void wifi_start_softap()
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_cfg));
     ESP_ERROR_CHECK(esp_wifi_start());
     s_is_softap = true;
+
+    // Start DNS server for captive portal
+    xTaskCreate(dns_server_task, "dns_server", 4096, nullptr, 3, nullptr);
+}
+
+// =====================
+// Button monitoring task
+// =====================
+static void button_task(void *arg)
+{
+    bool button_pressed = false;
+    int64_t press_start = 0;
+    const int64_t DEEP_SLEEP_HOLD_MS = 2000; // Hold for 2 seconds to enter deep sleep
+
+    while (true)
+    {
+        int level = gpio_get_level(BUTTON_PIN);
+        if (level == 0)
+        { // Button pressed (low)
+            if (!button_pressed)
+            {
+                button_pressed = true;
+                press_start = esp_timer_get_time() / 1000; // ms
+                ESP_LOGI(TAG, "Button pressed");
+            }
+            else
+            {
+                int64_t now = esp_timer_get_time() / 1000;
+                if (now - press_start >= DEEP_SLEEP_HOLD_MS)
+                {
+                    ESP_LOGI(TAG, "Button held for 2 seconds, entering deep sleep");
+                    // Wait for button release
+                    while (gpio_get_level(BUTTON_PIN) == 0)
+                    {
+                        vTaskDelay(pdMS_TO_TICKS(10));
+                    }
+                    ESP_LOGI(TAG, "Button released, enabling wake-up and entering deep sleep");
+                    // Enable wake-up on GPIO low level
+                    esp_deep_sleep_enable_gpio_wakeup(BIT(BUTTON_PIN), ESP_GPIO_WAKEUP_GPIO_LOW);
+                    // Enter deep sleep
+                    esp_deep_sleep_start();
+                }
+            }
+        }
+        else
+        {
+            if (button_pressed)
+            {
+                ESP_LOGI(TAG, "Button released");
+                button_pressed = false;
+            }
+        }
+        vTaskDelay(pdMS_TO_TICKS(100)); // Poll every 100ms
+    }
 }
