@@ -1,7 +1,7 @@
 
-![bigone](https://github.com/user-attachments/assets/b5a5049d-5f7d-4604-a6b0-9eb1aa825fb7)
-![IMG_8065](https://github.com/user-attachments/assets/28077eb6-7637-490f-af5f-6888c6834309)
-![IMG_8069](https://github.com/user-attachments/assets/42d94e75-f32e-4476-a4ad-b457da8ffe35)
+<img src="https://github.com/user-attachments/assets/b5a5049d-5f7d-4604-a6b0-9eb1aa825fb7" width="300" alt="bigone">
+<img src="https://github.com/user-attachments/assets/28077eb6-7637-490f-af5f-6888c6834309" width="300" alt="IMG_8065">
+<img src="https://github.com/user-attachments/assets/42d94e75-f32e-4476-a4ad-b457da8ffe35" width="300" alt="IMG_8069">
 
 
 # KeyChain — ESP32‑C3 Mini TFT Image Slideshow
