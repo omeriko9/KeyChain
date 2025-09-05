@@ -1,53 +1,37 @@
-| Supported Targets | ESP32 | ESP32-C2 | ESP32-C3 | ESP32-C5 | ESP32-C6 | ESP32-C61 | ESP32-H2 | ESP32-H21 | ESP32-H4 | ESP32-P4 | ESP32-S2 | ESP32-S3 | Linux |
-| ----------------- | ----- | -------- | -------- | -------- | -------- | --------- | -------- | --------- | -------- | -------- | -------- | -------- | ----- |
+# KeyChain — ESP32‑C3 Mini TFT Image Slideshow
 
-# Hello World Example
+This project turns a tiny ESP32‑C3 board with a small SPI TFT into a simple image slideshow. It targets pocket “trinket” displays like:
 
-Starts a FreeRTOS task to print "Hello World".
+- Spotpear ESP32‑C3 Desktop Trinket (1.44" ST7735): https://spotpear.com/wiki/ESP32-C3-desktop-trinket-Mini-TV-Portable-Pendant-LVGL-1.44inch-LCD-ST7735.html
+- Waveshare ESP32‑C3‑LCD‑0.71 (0.71" GC9D01): https://www.waveshare.com/esp32-c3-lcd-0.71.htm
 
-(See the README.md file in the upper level 'examples' directory for more information about examples.)
+Images are stored on SPIFFS and displayed full‑screen in a loop. A built‑in web page lets you upload images and set how long each image stays on screen.
 
-## How to use example
+## Board selection (menuconfig)
 
-Follow detailed instructions provided specifically for this example.
+Choose your device in menuconfig so the correct pins, driver, and resolution are used:
 
-Select the instructions depending on Espressif chip installed on your development board:
+- menuconfig → Board Selection →
+    - TFT1.44 for ST7735‑based 1.44" modules (e.g., Spotpear mini TV)
+    - TFT0.71 for GC9D01‑based 0.71" modules (e.g., Waveshare 0.71)
 
-- [ESP32 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/stable/get-started/index.html)
-- [ESP32-S2 Getting Started Guide](https://docs.espressif.com/projects/esp-idf/en/latest/esp32s2/get-started/index.html)
+These map to `CONFIG_BOARD_TFT144` and `CONFIG_BOARD_TFT071` and configure SPI pins, LCD resolution, and driver.
 
+## Web interface (upload and settings)
 
-## Example folder contents
+- After the device joins your Wi‑Fi, browse to: `http://[ESP IP]:8080/`
+- The page shows the current images, lets you upload new ones, and change “seconds per image”.
+- Settings are applied immediately and persisted in NVS.
 
-The project **hello_world** contains one source file in C language [hello_world_main.c](main/hello_world_main.c). The file is located in folder [main](main).
+Notes:
+- If no known Wi‑Fi is saved, the device opens a setup AP named `ESP32-Setup`. Connect to it and you’ll be redirected to a simple portal to save your Wi‑Fi credentials.
+- Uploaded files are stored under `/spiffs/img`. JPEG is recommended; very large images are skipped to avoid memory issues.
 
-ESP-IDF projects are built using CMake. The project build configuration is contained in `CMakeLists.txt` files that provide set of directives and instructions describing the project's source files and targets (executable, library, or both).
+## Build and flash (ESP‑IDF)
 
-Below is short explanation of remaining files in the project folder.
+Typical flow with ESP‑IDF:
+1) `idf.py set-target esp32c3`
+2) `idf.py menuconfig` → select your board under Board Selection
+3) `idf.py build flash monitor`
 
-```
-├── CMakeLists.txt
-├── pytest_hello_world.py      Python script used for automated testing
-├── main
-│   ├── CMakeLists.txt
-│   └── hello_world_main.c
-└── README.md                  This is the file you are currently reading
-```
-
-For more information on structure and contents of ESP-IDF projects, please refer to Section [Build System](https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/build-system.html) of the ESP-IDF Programming Guide.
-
-## Troubleshooting
-
-* Program upload failure
-
-    * Hardware connection is not correct: run `idf.py -p PORT monitor`, and reboot your board to see if there are any output logs.
-    * The baud rate for downloading is too high: lower your baud rate in the `menuconfig` menu, and try again.
-
-## Technical support and feedback
-
-Please use the following feedback channels:
-
-* For technical queries, go to the [esp32.com](https://esp32.com/) forum
-* For a feature request or bug report, create a [GitHub issue](https://github.com/espressif/esp-idf/issues)
-
-We will get back to you as soon as possible.
+Once the device prints its IP (or after provisioning via `ESP32-Setup`), open the web UI at `http://[ESP IP]:8080/`.
