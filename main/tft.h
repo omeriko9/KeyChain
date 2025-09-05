@@ -114,7 +114,7 @@ void tft_set_image_display_seconds(int seconds);
 // ST7735 panel specifics (GREENTAB3)
 #define TFT_SWAP_BYTES 1
 #define TFT_OFFSET_X 2
-#define TFT_OFFSET_Y 3
+#define TFT_OFFSET_Y 1
 #elif defined(DISPLAY_DRIVER_GC9D01)
 // GC9D01 typically no offsets for 160x160
 #define TFT_OFFSET_X 0

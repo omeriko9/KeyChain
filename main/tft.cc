@@ -42,6 +42,7 @@ static std::vector<std::string> get_image_list();
 static void create_demo_ui();
 static void btn_event_handler(lv_event_t *e);
 static void slider_event_handler(lv_event_t *e);
+static void tft_clear(uint16_t color);
 
 // Backlight control
 static void tft_bl_on_internal(void)
@@ -256,7 +257,7 @@ static void gc9d01_init()
 
     // Orientation / color order
     // Use BGR here
-        uint8_t madctl[] = {0x00}; // BGR
+    uint8_t madctl[] = {0x00}; // BGR
     tft_send_cmd(0x36, madctl, sizeof(madctl));
 
     // Inversion off (matches your Arduino)
@@ -295,6 +296,8 @@ static inline void tft_init_panel()
 #else
     st7735_init();
 #endif
+
+    tft_clear(0x0000); // black
 }
 
 // Flush callback: push a rectangular area to the panel
@@ -323,10 +326,10 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
     ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, row_param, sizeof(row_param)));
 
     cmd = 0x2C; // Memory write
-   
-    #if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
-        lv_draw_sw_rgb565_swap(px_map, (x2 - x1 + 1) * (y2 - y1 + 1));
-    #endif
+
+#if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
+    lv_draw_sw_rgb565_swap(px_map, (x2 - x1 + 1) * (y2 - y1 + 1));
+#endif
     ESP_ERROR_CHECK(esp_lcd_panel_io_tx_color(s_panel_io, cmd, px_map,
                                               (x2 - x1 + 1) * (y2 - y1 + 1) * 2));
 
@@ -769,5 +772,32 @@ void tft_lvgl_run_task()
         // After all images, wait a bit before restarting
         ESP_LOGI(TAG_TFT, "Slideshow cycle complete, restarting in 1 second");
         vTaskDelay(pdMS_TO_TICKS(1000)); // 1 second pause
+    }
+}
+
+static void tft_clear(uint16_t color)
+{
+    uint8_t cmd;
+    // set window = full screen with offsets applied
+    int x1 = 0 + TFT_OFFSET_X, x2 = LCD_H_RES - 1 + TFT_OFFSET_X;
+    int y1 = 0 + TFT_OFFSET_Y, y2 = LCD_V_RES - 1 + TFT_OFFSET_Y;
+
+    cmd = 0x2A;
+    uint8_t col_param[4] = {(uint8_t)(x1 >> 8), (uint8_t)x1, (uint8_t)(x2 >> 8), (uint8_t)x2};
+    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, col_param, sizeof(col_param)));
+    cmd = 0x2B;
+    uint8_t row_param[4] = {(uint8_t)(y1 >> 8), (uint8_t)y1, (uint8_t)(y2 >> 8), (uint8_t)y2};
+    ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, row_param, sizeof(row_param)));
+    cmd = 0x2C;
+
+    const int pixels = LCD_H_RES * LCD_V_RES;
+    static uint16_t *line = nullptr;
+    if (!line)
+        line = (uint16_t *)heap_caps_malloc(LCD_H_RES * sizeof(uint16_t), MALLOC_CAP_DMA);
+    for (int i = 0; i < LCD_H_RES; i++)
+        line[i] = color;
+    for (int y = 0; y < LCD_V_RES; y++)
+    {
+        ESP_ERROR_CHECK(esp_lcd_panel_io_tx_color(s_panel_io, cmd, line, LCD_H_RES * 2));
     }
 }
