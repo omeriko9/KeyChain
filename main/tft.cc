@@ -6,10 +6,19 @@
 #include <driver/spi_master.h>
 #include <driver/gpio.h>
 #include <esp_heap_caps.h>
+#include <esp_task_wdt.h>
+#include <esp_timer.h>
 
 #include <esp_lcd_panel_ops.h>
 #include <esp_lcd_panel_io.h>
 #include <esp_lcd_types.h>
+
+#include <sys/stat.h>
+#include <dirent.h>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <random>
 
 extern "C"
 {
@@ -23,6 +32,16 @@ static const char *TAG_TFT = "tft";
 // Globals only used inside TFT module
 static esp_lcd_panel_io_handle_t s_panel_io = nullptr;
 static SemaphoreHandle_t s_flush_sem = nullptr;
+
+// LVGL related globals
+static int g_image_display_sec = 10; // default image display time
+static const char *IMG_DIR = "/spiffs/img";
+
+// Helper functions
+static std::vector<std::string> get_image_list();
+static void create_demo_ui();
+static void btn_event_handler(lv_event_t *e);
+static void slider_event_handler(lv_event_t *e);
 
 // Backlight control
 static void tft_bl_on_internal(void)
@@ -236,9 +255,9 @@ static void gc9d01_init()
     }
 
     // Orientation / color order
-    // Use BGR here (0x08) to avoid software R/B twiddling in the flush.
-    d = 0x08;
-    tft_send_cmd(0x36, &d, 1);
+    // Use BGR here
+        uint8_t madctl[] = {0x00}; // BGR
+    tft_send_cmd(0x36, madctl, sizeof(madctl));
 
     // Inversion off (matches your Arduino)
     tft_send_cmd(0x20, nullptr, 0);
@@ -253,10 +272,6 @@ static void gc9d01_init()
     ESP_LOGI(TAG_TFT, "Setting color mode to: %02X", colmod[0]);
 
     tft_send_cmd(0x3A, colmod, sizeof(colmod));
-
-    //uint8_t madctl[] = {0x08}; // BGR
-    uint8_t madctl[] = {0x00}; // RGB
-    tft_send_cmd(0x36, madctl, sizeof(madctl));
 
     tft_send_cmd(0x35, nullptr, 0);
 
@@ -308,9 +323,10 @@ static void lvgl_flush_cb(lv_display_t *disp, const lv_area_t *area, uint8_t *px
     ESP_ERROR_CHECK(esp_lcd_panel_io_tx_param(s_panel_io, cmd, row_param, sizeof(row_param)));
 
     cmd = 0x2C; // Memory write
-#if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
-    lv_draw_sw_rgb565_swap(px_map, (x2 - x1 + 1) * (y2 - y1 + 1));
-#endif
+   
+    #if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
+        lv_draw_sw_rgb565_swap(px_map, (x2 - x1 + 1) * (y2 - y1 + 1));
+    #endif
     ESP_ERROR_CHECK(esp_lcd_panel_io_tx_color(s_panel_io, cmd, px_map,
                                               (x2 - x1 + 1) * (y2 - y1 + 1) * 2));
 
@@ -344,16 +360,17 @@ static void tft_test_pattern_internal()
     if (!s_panel_io)
         return;
     ESP_LOGI(TAG_TFT, "Drawing red test pattern");
-    const uint16_t color = 0x00F8; // Red with byte swap
+    const uint16_t color = 0xF800; // Red in BGR format
     const int band_px = LCD_H_RES * LCD_V_RES;
     uint16_t *buf = (uint16_t *)heap_caps_malloc(band_px * sizeof(uint16_t), MALLOC_CAP_DMA);
     if (!buf)
         return;
     for (int i = 0; i < band_px; ++i)
         buf[i] = color;
-#if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
-    lv_draw_sw_rgb565_swap((uint8_t *)buf, band_px);
-#endif
+    // No byte swapping needed for BGR MADCTL
+    // #if defined(TFT_SWAP_BYTES) && TFT_SWAP_BYTES
+    //     lv_draw_sw_rgb565_swap((uint8_t *)buf, band_px);
+    // #endif
     // Set window to full screen
     uint8_t cmd = 0x2A;
     int x1 = 0, x2 = LCD_H_RES - 1;
@@ -428,4 +445,329 @@ void tft_init_all()
     s_flush_sem = xSemaphoreCreateBinary();
 
     ESP_LOGI(TAG_TFT, "TFT initialized (mode=%d, clk=%u)", (int)TFT_SPI_MODE, (unsigned)LCD_SPI_CLOCK_HZ);
+}
+
+// =====================
+// LVGL filesystem driver for SPIFFS
+// =====================
+void tft_init_lvgl_filesystem()
+{
+    static lv_fs_drv_t fs_drv;
+    lv_fs_drv_init(&fs_drv);
+    fs_drv.letter = 'A';
+    fs_drv.open_cb = [](lv_fs_drv_t *drv, const char *path, lv_fs_mode_t mode) -> void *
+    {
+        FILE *f = fopen(path, "rb");
+        if (!f)
+            ESP_LOGE(TAG_TFT, "Failed to open file: %s", path);
+        return (void *)f;
+    };
+    fs_drv.close_cb = [](lv_fs_drv_t *drv, void *file_p) -> lv_fs_res_t
+    {
+        ESP_LOGD(TAG_TFT, "LVGL FS close");
+        fclose((FILE *)file_p);
+        return LV_FS_RES_OK;
+    };
+    fs_drv.read_cb = [](lv_fs_drv_t *drv, void *file_p, void *buf, uint32_t btr, uint32_t *br) -> lv_fs_res_t
+    {
+        size_t n = fread(buf, 1, btr, (FILE *)file_p);
+        *br = (uint32_t)n;
+        ESP_LOGD(TAG_TFT, "LVGL FS read: requested %u, read %u", (unsigned)btr, (unsigned)*br);
+        if (n < btr)
+        {
+            if (feof((FILE *)file_p))
+                return LV_FS_RES_OK; // EOF is not an error
+            if (ferror((FILE *)file_p))
+            {
+                ESP_LOGE(TAG_TFT, "LVGL FS read error");
+                clearerr((FILE *)file_p);
+                return LV_FS_RES_FS_ERR;
+            }
+        }
+        return LV_FS_RES_OK;
+    };
+    fs_drv.seek_cb = [](lv_fs_drv_t *drv, void *file_p, uint32_t pos, lv_fs_whence_t whence) -> lv_fs_res_t
+    {
+        int origin = (whence == LV_FS_SEEK_SET) ? SEEK_SET : (whence == LV_FS_SEEK_CUR) ? SEEK_CUR
+                                                                                        : SEEK_END;
+        if (fseek((FILE *)file_p, pos, origin) == 0)
+            return LV_FS_RES_OK;
+        ESP_LOGE(TAG_TFT, "LVGL FS seek failed");
+        return LV_FS_RES_UNKNOWN;
+    };
+    fs_drv.tell_cb = [](lv_fs_drv_t *drv, void *file_p, uint32_t *pos_p) -> lv_fs_res_t
+    {
+        long pos = ftell((FILE *)file_p);
+        if (pos >= 0)
+        {
+            *pos_p = pos;
+            return LV_FS_RES_OK;
+        }
+        ESP_LOGE(TAG_TFT, "LVGL FS tell failed");
+        return LV_FS_RES_UNKNOWN;
+    };
+    lv_fs_drv_register(&fs_drv);
+    ESP_LOGI(TAG_TFT, "LVGL FS driver registered for SPIFFS");
+}
+
+// =====================
+// LVGL tick callback
+// =====================
+void tft_lvgl_tick_inc(uint32_t tick_period_ms)
+{
+    lv_tick_inc(tick_period_ms);
+}
+
+// =====================
+// Image display duration setter
+// =====================
+void tft_set_image_display_seconds(int seconds)
+{
+    if (seconds >= 1 && seconds <= 3600)
+    {
+        g_image_display_sec = seconds;
+        ESP_LOGI(TAG_TFT, "Image display duration set to %d seconds", g_image_display_sec);
+    }
+}
+
+// =====================
+// Helper functions
+// =====================
+static std::vector<std::string> get_image_list()
+{
+    std::vector<std::string> files;
+    ESP_LOGI(TAG_TFT, "Scanning directory: %s", IMG_DIR);
+    DIR *d = opendir(IMG_DIR);
+    if (!d)
+    {
+        ESP_LOGE(TAG_TFT, "Failed to open directory: %s", IMG_DIR);
+        return files;
+    }
+    struct dirent *de;
+    while ((de = readdir(d)) != nullptr)
+    {
+        if (de->d_name[0] == '.')
+            continue;
+        ESP_LOGI(TAG_TFT, "Found file: %s", de->d_name);
+        files.push_back(std::string(de->d_name));
+    }
+    closedir(d);
+    ESP_LOGI(TAG_TFT, "Total files found: %d", files.size());
+    return files;
+}
+
+// =====================
+// Demo UI Functions and Event Callbacks
+// =====================
+
+// Event callback for the button press
+static void btn_event_handler(lv_event_t *e)
+{
+    if (lv_event_get_code(e) == LV_EVENT_CLICKED)
+    {
+        lv_obj_t *btn = (lv_obj_t *)lv_event_get_target(e); // Cast applied to fix lint error
+        // Change the button color to green on click
+        lv_obj_set_style_bg_color(btn, lv_color_hex(0x00FF00), LV_PART_MAIN);
+    }
+}
+
+// Event callback for slider value change
+static void slider_event_handler(lv_event_t *e)
+{
+    lv_obj_t *slider = (lv_obj_t *)lv_event_get_target(e); // Cast applied to fix lint error
+    int32_t value = lv_slider_get_value(slider);
+    lv_obj_t *label = (lv_obj_t *)lv_event_get_user_data(e);
+    char buf[8];
+    sprintf(buf, "%ld", value);
+    lv_label_set_text(label, buf);
+}
+
+// Function to create a demo UI with a title, a button, and a slider
+static void create_demo_ui()
+{
+    lv_obj_t *scr = lv_scr_act();
+
+    // Create title label
+    lv_obj_t *title = lv_label_create(scr);
+    lv_label_set_text(title, "LVGL UI Demo");
+    lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 10);
+
+    // Create a button with event callback
+    lv_obj_t *btn = lv_btn_create(scr);
+    lv_obj_set_size(btn, 120, 50);
+    lv_obj_align(btn, LV_ALIGN_CENTER, -80, 0);
+    lv_obj_t *btn_label = lv_label_create(btn);
+    lv_label_set_text(btn_label, "Press Me");
+    lv_obj_center(btn_label);
+    lv_obj_add_event_cb(btn, btn_event_handler, LV_EVENT_ALL, NULL);
+
+    // Create a slider
+    lv_obj_t *slider = lv_slider_create(scr);
+    lv_obj_set_width(slider, 200);
+    lv_obj_align(slider, LV_ALIGN_CENTER, 80, 0);
+    lv_slider_set_range(slider, 0, 100);
+
+    // Create label to display slider value
+    lv_obj_t *slider_label = lv_label_create(scr);
+    lv_label_set_text(slider_label, "0");
+    lv_obj_align_to(slider_label, slider, LV_ALIGN_OUT_BOTTOM_MID, 0, 10);
+
+    // Attach slider event with slider_label as user data
+    lv_obj_add_event_cb(slider, slider_event_handler, LV_EVENT_VALUE_CHANGED, slider_label);
+}
+
+// =====================
+// Main LVGL task implementation
+// =====================
+void tft_lvgl_run_task()
+{
+    // Add this task to the Task Watchdog Timer to allow resets
+    esp_task_wdt_add(NULL);
+
+    // Create a minimal LVGL widget to show something
+    lv_obj_t *label = lv_label_create(lv_screen_active());
+    char buf[32];
+    sprintf(buf, "Hello :)");
+    lv_label_set_text(label, buf);
+    lv_obj_center(label);
+
+    // Handle LVGL tasks in a simple loop for 5 seconds, then start slideshow
+    ESP_LOGI(TAG_TFT, "Entering LVGL loop for 5 seconds");
+    int64_t start_time = esp_timer_get_time();
+    while (true)
+    {
+        lv_timer_handler();
+        esp_task_wdt_reset();          // Reset watchdog to prevent timeout
+        vTaskDelay(pdMS_TO_TICKS(10)); // Increased delay to 10ms for better responsiveness
+
+        // Check if 5 seconds have passed
+        if (esp_timer_get_time() - start_time >= 5 * 1000000LL)
+        { // 5 seconds in microseconds
+            ESP_LOGI(TAG_TFT, "5 seconds elapsed");
+            // Delete the label
+            lv_obj_del(label);
+            break;
+        }
+    }
+
+    // Start slideshow of images
+    while (true)
+    {
+        std::vector<std::string> images = get_image_list();
+        ESP_LOGI(TAG_TFT, "Found %d images in slideshow", images.size());
+
+        // Shuffle the images for random order
+        if (!images.empty())
+        {
+            std::random_device rd;
+            std::mt19937 g(rd());
+            std::shuffle(images.begin(), images.end(), g);
+            ESP_LOGI(TAG_TFT, "Images shuffled for random order");
+        }
+
+        if (images.empty())
+        {
+            ESP_LOGI(TAG_TFT, "No images found, showing black screen");
+            // No images, show black screen
+            lv_obj_t *black_rect = lv_obj_create(lv_screen_active());
+            lv_obj_set_size(black_rect, LCD_H_RES, LCD_V_RES);
+            lv_obj_set_pos(black_rect, 0, 0);
+            lv_obj_set_style_bg_color(black_rect, lv_color_black(), LV_PART_MAIN);
+            lv_obj_set_style_border_width(black_rect, 0, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(black_rect, LV_OPA_COVER, LV_PART_MAIN);
+            lv_refr_now(NULL);
+
+            // Display black screen for configured seconds, resetting WDT periodically
+            int64_t img_start = esp_timer_get_time();
+            while (esp_timer_get_time() - img_start < (int64_t)g_image_display_sec * 1000000LL)
+            {
+                lv_timer_handler();
+                esp_task_wdt_reset();
+                vTaskDelay(pdMS_TO_TICKS(100)); // Short delay to allow WDT reset
+            }
+
+            lv_obj_del(black_rect);
+        }
+        else
+        {
+            ESP_LOGI(TAG_TFT, "Starting slideshow with images");
+            for (const auto &img_name : images)
+            {
+                ESP_LOGI(TAG_TFT, "Displaying image: %s", img_name.c_str());
+                // Clear screen with black before displaying image
+                lv_obj_t *bg = lv_obj_create(lv_screen_active());
+                lv_obj_set_size(bg, LCD_H_RES, LCD_V_RES);
+                lv_obj_set_pos(bg, 0, 0);
+                lv_obj_set_style_bg_color(bg, lv_color_black(), LV_PART_MAIN);
+                lv_obj_set_style_border_width(bg, 0, LV_PART_MAIN);
+                lv_obj_set_style_bg_opa(bg, LV_OPA_COVER, LV_PART_MAIN);
+
+                std::string img_path = std::string("A:") + IMG_DIR + "/" + img_name;
+                ESP_LOGI(TAG_TFT, "Image path: %s", img_path.c_str());
+
+                // Check file size first
+                struct stat st;
+                if (stat((IMG_DIR + std::string("/") + img_name).c_str(), &st) == 0)
+                {
+                    ESP_LOGI(TAG_TFT, "File size: %ld bytes", st.st_size);
+                    if (st.st_size > 100000)
+                    { // 100KB limit
+                        ESP_LOGW(TAG_TFT, "File too large, skipping");
+                        continue;
+                    }
+                }
+                else
+                {
+                    ESP_LOGW(TAG_TFT, "Could not stat file");
+                }
+
+                // Quick JPEG header validation
+                FILE *test_f = fopen((IMG_DIR + std::string("/") + img_name).c_str(), "rb");
+                if (test_f)
+                {
+                    uint8_t header[4];
+                    size_t read_bytes = fread(header, 1, 4, test_f);
+                    fclose(test_f);
+                    if (read_bytes == 4 && header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF)
+                    {
+                        ESP_LOGI(TAG_TFT, "Valid JPEG header detected");
+                    }
+                    else
+                    {
+                        ESP_LOGW(TAG_TFT, "Invalid JPEG header, skipping file");
+                        continue;
+                    }
+                }
+                else
+                {
+                    ESP_LOGW(TAG_TFT, "Could not open file for validation");
+                    continue;
+                }
+
+                // Reset WDT just before heavy decode
+                esp_task_wdt_reset();
+
+                lv_obj_t *img = lv_image_create(lv_screen_active());
+                lv_image_set_src(img, img_path.c_str());
+                lv_obj_center(img);
+                lv_refr_now(NULL);
+                ESP_LOGI(TAG_TFT, "Image displayed, waiting %d seconds", g_image_display_sec);
+
+                // Display for IMAGE_DISPLAY_TIME_SEC seconds
+                int64_t img_start = esp_timer_get_time();
+                while (esp_timer_get_time() - img_start < (int64_t)g_image_display_sec * 1000000LL)
+                {
+                    lv_timer_handler();
+                    esp_task_wdt_reset();
+                    vTaskDelay(pdMS_TO_TICKS(10));
+                }
+
+                lv_obj_del(img);
+                lv_obj_del(bg);
+            }
+        }
+        // After all images, wait a bit before restarting
+        ESP_LOGI(TAG_TFT, "Slideshow cycle complete, restarting in 1 second");
+        vTaskDelay(pdMS_TO_TICKS(1000)); // 1 second pause
+    }
 }

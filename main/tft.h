@@ -55,7 +55,9 @@
 // No inversion support on this panel
 // RGB565 byte ordering and inversion
 #define TFT_HAS_INVERSION 0
+#ifndef TFT_SWAP_BYTES
 #define TFT_SWAP_BYTES 0
+#endif
 
 // SPI mode for this panel (try 0 first; some GC9D01 boards require mode 3)
 #ifndef TFT_SPI_MODE
@@ -78,6 +80,18 @@ extern "C" {
 
 // Initialize SPI bus, panel IO, panel, and LVGL display/flush
 void tft_init_all();
+
+// Initialize LVGL filesystem driver for SPIFFS
+void tft_init_lvgl_filesystem();
+
+// LVGL tick callback (called from timer)
+void tft_lvgl_tick_inc(uint32_t tick_period_ms);
+
+// Run LVGL task loop - call this from main LVGL task
+void tft_lvgl_run_task();
+
+// Set image display duration in seconds
+void tft_set_image_display_seconds(int seconds);
 
 #ifdef __cplusplus
 }
@@ -105,5 +119,5 @@ void tft_init_all();
 // GC9D01 typically no offsets for 160x160
 #define TFT_OFFSET_X 0
 #define TFT_OFFSET_Y 0
-#define TFT_SWAP_BYTES 1
+#define TFT_SWAP_BYTES 1  // Disable byte swapping for BGR MADCTL
 #endif
