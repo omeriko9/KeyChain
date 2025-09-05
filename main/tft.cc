@@ -696,7 +696,7 @@ void tft_lvgl_run_task()
             ESP_LOGI(TAG_TFT, "Starting slideshow with images");
             for (const auto &img_name : images)
             {
-                ESP_LOGI(TAG_TFT, "Displaying image: %s", img_name.c_str());
+                //ESP_LOGI(TAG_TFT, "Displaying image: %s", img_name.c_str());
                 // Clear screen with black before displaying image
                 lv_obj_t *bg = lv_obj_create(lv_screen_active());
                 lv_obj_set_size(bg, LCD_H_RES, LCD_V_RES);
@@ -706,13 +706,13 @@ void tft_lvgl_run_task()
                 lv_obj_set_style_bg_opa(bg, LV_OPA_COVER, LV_PART_MAIN);
 
                 std::string img_path = std::string("A:") + IMG_DIR + "/" + img_name;
-                ESP_LOGI(TAG_TFT, "Image path: %s", img_path.c_str());
+                //ESP_LOGI(TAG_TFT, "Image path: %s", img_path.c_str());
 
                 // Check file size first
                 struct stat st;
                 if (stat((IMG_DIR + std::string("/") + img_name).c_str(), &st) == 0)
                 {
-                    ESP_LOGI(TAG_TFT, "File size: %ld bytes", st.st_size);
+                    //ESP_LOGI(TAG_TFT, "File size: %ld bytes", st.st_size);
                     if (st.st_size > 100000)
                     { // 100KB limit
                         ESP_LOGW(TAG_TFT, "File too large, skipping");
@@ -733,7 +733,7 @@ void tft_lvgl_run_task()
                     fclose(test_f);
                     if (read_bytes == 4 && header[0] == 0xFF && header[1] == 0xD8 && header[2] == 0xFF)
                     {
-                        ESP_LOGI(TAG_TFT, "Valid JPEG header detected");
+                        //ESP_LOGI(TAG_TFT, "Valid JPEG header detected");
                     }
                     else
                     {
@@ -754,7 +754,7 @@ void tft_lvgl_run_task()
                 lv_image_set_src(img, img_path.c_str());
                 lv_obj_center(img);
                 lv_refr_now(NULL);
-                ESP_LOGI(TAG_TFT, "Image displayed, waiting %d seconds", g_image_display_sec);
+                //ESP_LOGI(TAG_TFT, "Image displayed, waiting %d seconds", g_image_display_sec);
 
                 // Display for IMAGE_DISPLAY_TIME_SEC seconds
                 int64_t img_start = esp_timer_get_time();
