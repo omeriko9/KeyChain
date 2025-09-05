@@ -285,6 +285,29 @@ static esp_err_t handle_img_delete(httpd_req_t *req)
     return httpd_resp_sendstr(req, "OK");
 }
 
+static esp_err_t handle_delete_all(httpd_req_t *req)
+{
+    DIR *d = opendir(g_cfg.img_dir);
+    if (!d)
+        return httpd_resp_send_err(req, HTTPD_500_INTERNAL_SERVER_ERROR, "dir open failed");
+    
+    struct dirent *de;
+    int deleted_count = 0;
+    while ((de = readdir(d)) != nullptr)
+    {
+        if (de->d_name[0] == '.')
+            continue;
+        std::string full = path_join(g_cfg.img_dir, de->d_name);
+        if (unlink(full.c_str()) == 0)
+            deleted_count++;
+    }
+    closedir(d);
+    
+    char response[64];
+    snprintf(response, sizeof(response), "Deleted %d images", deleted_count);
+    return httpd_resp_sendstr(req, response);
+}
+
 static esp_err_t handle_upload_fn(httpd_req_t *req)
 {
     const char *uri = req->uri;
@@ -442,7 +465,7 @@ esp_err_t webserver_start(const WebServerConfig *cfg)
 
     httpd_config_t config = HTTPD_DEFAULT_CONFIG();
     config.server_port = 8080;
-    config.max_uri_handlers = 16;
+    config.max_uri_handlers = 17;
     config.uri_match_fn = httpd_uri_match_wildcard;
     httpd_handle_t server = nullptr;
     ESP_ERROR_CHECK(httpd_start(&server, &config));
@@ -461,6 +484,8 @@ esp_err_t webserver_start(const WebServerConfig *cfg)
     httpd_register_uri_handler(server, &uri_img_del);
     httpd_uri_t uri_api_del = {.uri = "/api/delete/*", .method = HTTP_DELETE, .handler = handle_img_delete, .user_ctx = nullptr};
     httpd_register_uri_handler(server, &uri_api_del);
+    httpd_uri_t uri_delete_all = {.uri = "/api/delete-all", .method = HTTP_DELETE, .handler = handle_delete_all, .user_ctx = nullptr};
+    httpd_register_uri_handler(server, &uri_delete_all);
     httpd_uri_t uri_upload = {.uri = "/api/upload/*", .method = HTTP_PUT, .handler = handle_upload_fn, .user_ctx = nullptr};
     httpd_register_uri_handler(server, &uri_upload);
     httpd_uri_t uri_settings_get = {.uri = "/api/settings", .method = HTTP_GET, .handler = handle_settings_get, .user_ctx = nullptr};

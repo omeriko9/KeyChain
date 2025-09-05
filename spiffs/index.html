@@ -117,6 +117,7 @@
         </div>
         <div class="center">
           <button class="btn secondary" id="refreshBtn" title="Reload list">⟳ Refresh</button>
+          <button class="btn danger" id="deleteAllBtn" title="Delete all images">🗑️ Delete All</button>
         </div>
       </div>
       <div style="padding: 16px;">
@@ -220,6 +221,7 @@
     const countLabel = $('#countLabel');
     const emptyState = $('#emptyState');
     const refreshBtn = $('#refreshBtn');
+    const deleteAllBtn = $('#deleteAllBtn');
 
     function normalizeList(json) {
       if (!json) return [];
@@ -282,6 +284,24 @@
     }
 
     refreshBtn.addEventListener('click', fetchImages);
+
+    deleteAllBtn.addEventListener('click', async () => {
+      if (!confirm('Delete ALL images from device? This cannot be undone!')) return;
+      deleteAllBtn.disabled = true;
+      deleteAllBtn.textContent = 'Deleting…';
+      try {
+        const r = await fetch('/api/delete-all', { method: 'DELETE' });
+        if (!r.ok) throw new Error('Delete all failed');
+        toast('All images deleted');
+        fetchImages();
+      } catch (err) {
+        toast('Delete all error');
+        console.error(err);
+      } finally {
+        deleteAllBtn.disabled = false;
+        deleteAllBtn.textContent = '🗑️ Delete All';
+      }
+    });
 
     // --------- Cropper ---------
     const fileInput = $('#fileInput');

@@ -32,6 +32,9 @@
 // TFT configuration (pins, driver, SPI clocks, offsets) per-board
 #include "tft.h"
 
+// Webserver
+#include "webserver.h"
+
 #define BUTTON_PIN GPIO_NUM_10
 
 #define LCD_HOST SPI2_HOST
@@ -46,11 +49,6 @@ static int g_image_display_sec = 10; // default
 static const char *TAG = "app";
 
 // Forward decls
-static void wifi_start_station();
-static bool wifi_connect_or_ap();
-
-// Web server forward decls
-static void wifi_start_softap();
 static esp_err_t mount_spiffs();
 static void simple_lvgl_task(void *arg);
 
@@ -60,87 +58,47 @@ static void button_task(void *arg);
 static const char *FS_BASE = "/spiffs";
 static const char *IMG_DIR = "/spiffs/img";
 
-// Wi-Fi provisioning state
-static EventGroupHandle_t s_wifi_event_group = nullptr;
-#define WIFI_CONNECTED_BIT BIT0
-static bool s_is_softap = false; // true when running captive portal
+// Simple WiFi connect function
+static void wifi_connect() {
+    ESP_ERROR_CHECK(esp_netif_init());
+    ESP_ERROR_CHECK(esp_event_loop_create_default());
+    esp_netif_create_default_wifi_sta();
 
-// Simple NVS-backed store for multiple Wi-Fi credentials
-#define WIFI_MAX_SAVED 8
-struct WifiCred
-{
-    char ssid[32];
-    char password[64];
-};
-struct WifiStore
-{
-    uint32_t magic;
-    uint32_t count;
-    WifiCred list[WIFI_MAX_SAVED];
-};
-static const uint32_t WIFI_STORE_MAGIC = 0x57494649; // 'WIFI'
+    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
+    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
 
-static void wifi_store_load(WifiStore &out)
-{
-    memset(&out, 0, sizeof(out));
-    nvs_handle_t nvh;
-    if (nvs_open("cfg", NVS_READONLY, &nvh) == ESP_OK)
-    {
-        size_t sz = sizeof(out);
-        if (nvs_get_blob(nvh, "wifi", &out, &sz) != ESP_OK || out.magic != WIFI_STORE_MAGIC)
-        {
-            memset(&out, 0, sizeof(out));
-        }
-        nvs_close(nvh);
-    }
+    // Disable Wi-Fi power save to improve connection stability
+    ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
+
+    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
+
+    wifi_config_t wifi_config = {};
+    strcpy((char*)wifi_config.sta.ssid, "[YOUR SSID]");  // Replace with your SSID
+    strcpy((char*)wifi_config.sta.password, "[YOUR PASSWORD]");  // Replace with your password
+
+    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
+    ESP_ERROR_CHECK(esp_wifi_start());
+
+    // Set maximum TX power after WiFi is started
+    ESP_ERROR_CHECK(esp_wifi_set_max_tx_power(80)); // 80 = 20dBm max
+
+    // Register event handler for connection
+    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, [](void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
+        wifi_event_sta_disconnected_t* disc = (wifi_event_sta_disconnected_t*)event_data;
+        ESP_LOGI(TAG, "WiFi disconnected, reason: %d, reconnecting...", disc->reason);
+        vTaskDelay(pdMS_TO_TICKS(5000)); // Wait 5 seconds before reconnecting
+        esp_wifi_connect();
+    }, NULL));
+
+    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, [](void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
+        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
+        ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
+    }, NULL));
+
+    ESP_ERROR_CHECK(esp_wifi_connect());
 }
 
-static bool wifi_store_save(const WifiStore &s)
-{
-    nvs_handle_t nvh;
-    if (nvs_open("cfg", NVS_READWRITE, &nvh) != ESP_OK)
-        return false;
-    esp_err_t r = nvs_set_blob(nvh, "wifi", &s, sizeof(s));
-    if (r == ESP_OK)
-        r = nvs_commit(nvh);
-    nvs_close(nvh);
-    return r == ESP_OK;
-}
-
-static bool wifi_store_upsert(const char *ssid, const char *pass)
-{
-    if (!ssid || !*ssid)
-        return false;
-    WifiStore s;
-    wifi_store_load(s);
-    // find existing
-    int idx = -1;
-    for (uint32_t i = 0; i < s.count; ++i)
-    {
-        if (strncmp(s.list[i].ssid, ssid, sizeof(s.list[i].ssid)) == 0)
-        {
-            idx = (int)i;
-            break;
-        }
-    }
-    if (idx < 0)
-    {
-        if (s.count >= WIFI_MAX_SAVED)
-            idx = (int)(s.count - 1); // overwrite last
-        else
-            idx = (int)(s.count++);
-    }
-    memset(&s.list[idx], 0, sizeof(WifiCred));
-    strncpy(s.list[idx].ssid, ssid, sizeof(s.list[idx].ssid) - 1);
-    if (pass)
-        strncpy(s.list[idx].password, pass, sizeof(s.list[idx].password) - 1);
-    s.magic = WIFI_STORE_MAGIC;
-    return wifi_store_save(s);
-}
-
-// =============== Webserver wiring ===============
-#include "webserver.h"
-
+// Webserver callbacks
 static int get_image_display_seconds_cb() { return g_image_display_sec; }
 static void set_image_display_seconds_cb(int seconds)
 {
@@ -162,14 +120,18 @@ static void set_image_display_seconds_cb(int seconds)
     tft_set_image_display_seconds(g_image_display_sec);
 }
 
-static bool is_softap_active_cb() { return s_is_softap; }
+static bool is_softap_active_cb() { return false; }  // Not using SoftAP
 static bool save_wifi_credentials_cb(const char *ssid, const char *password)
 {
-    return wifi_store_upsert(ssid, password);
+    // Dummy: since we're using hardcoded WiFi, just log
+    ESP_LOGI(TAG, "Ignoring save WiFi credentials: %s", ssid);
+    return true;
 }
 
 extern "C" void app_main(void)
 {
+
+    esp_log_level_set("tft", ESP_LOG_ERROR);
     // 0) Init NVS (for Wi‑Fi)
     ESP_ERROR_CHECK(nvs_flash_init());
 
@@ -248,13 +210,10 @@ extern "C" void app_main(void)
     // Load and set image display duration from NVS
     tft_set_image_display_seconds(g_image_display_sec);
 
-    // 11) Bring up networking and HTTP server
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    s_wifi_event_group = xEventGroupCreate();
-    // Try to connect to saved SSIDs, otherwise start SoftAP portal
-    bool sta_ok = wifi_connect_or_ap();
-    // Start HTTP server (works in STA, AP, or APSTA)
+    // 11) Bring up networking
+    wifi_connect();
+
+    // Start webserver
     WebServerConfig wcfg{};
     wcfg.img_dir = IMG_DIR;
     wcfg.is_softap_active = &is_softap_active_cb;
@@ -262,14 +221,7 @@ extern "C" void app_main(void)
     wcfg.get_image_display_seconds = &get_image_display_seconds_cb;
     wcfg.set_image_display_seconds = &set_image_display_seconds_cb;
     ESP_ERROR_CHECK(webserver_start(&wcfg));
-    if (sta_ok)
-    {
-        ESP_LOGI(TAG, "Networking: connected to STA");
-    }
-    else
-    {
-        ESP_LOGI(TAG, "Networking: SoftAP portal active");
-    }
+    ESP_LOGI(TAG, "Webserver started");
 }
 
 // =====================
@@ -302,203 +254,6 @@ static esp_err_t mount_spiffs()
         ESP_LOGI(TAG, "SPIFFS size total=%u used=%u", (unsigned)total, (unsigned)used);
     }
     return ESP_OK;
-}
-
-// =====================
-// Wi‑Fi Station (connect to existing network)
-// =====================
-static void wifi_event_handler(void *arg, esp_event_base_t event_base,
-                               int32_t event_id, void *event_data)
-{
-    if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_START)
-    {
-        esp_wifi_connect();
-    }
-    else if (event_base == WIFI_EVENT && event_id == WIFI_EVENT_STA_DISCONNECTED)
-    {
-        wifi_event_sta_disconnected_t *disc = (wifi_event_sta_disconnected_t *)event_data;
-        ESP_LOGI(TAG, "Disconnected from Wi-Fi, reason=%d, retrying...", disc ? disc->reason : -1);
-        esp_wifi_connect();
-    }
-    else if (event_base == IP_EVENT && event_id == IP_EVENT_STA_GOT_IP)
-    {
-        ip_event_got_ip_t *event = (ip_event_got_ip_t *)event_data;
-        ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
-        ESP_LOGI(TAG, "Webserver available at http://" IPSTR ":8080", IP2STR(&event->ip_info.ip));
-        if (s_wifi_event_group)
-            xEventGroupSetBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
-    }
-}
-
-static void wifi_start_station() { /* kept for compatibility */ }
-
-// Attempt to connect to saved SSIDs; return true if connected, else start SoftAP and return false
-static bool wifi_connect_or_ap()
-{
-    // Create STA netif and init Wi-Fi (once)
-    esp_netif_create_default_wifi_sta();
-    static bool s_wifi_inited = false;
-    if (!s_wifi_inited)
-    {
-        wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-        ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-        // Disable Wi-Fi power save to avoid timing sensitivity during auth/handshake
-        ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
-        // Register event handlers
-        ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, ESP_EVENT_ANY_ID, &wifi_event_handler, NULL));
-        ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, &wifi_event_handler, NULL));
-        s_wifi_inited = true;
-    }
-
-    WifiStore store;
-    wifi_store_load(store);
-    if (store.count == 0)
-    {
-        ESP_LOGW(TAG, "No saved Wi-Fi credentials");
-    }
-    else
-    {
-        for (uint32_t i = 0; i < store.count; ++i)
-        {
-            const WifiCred &c = store.list[i];
-            if (!c.ssid[0])
-                continue;
-            wifi_config_t sta_cfg = {};
-            strncpy((char *)sta_cfg.sta.ssid, c.ssid, sizeof(sta_cfg.sta.ssid) - 1);
-            strncpy((char *)sta_cfg.sta.password, c.password, sizeof(sta_cfg.sta.password) - 1);
-            // Prefer WPA2; allow WPA3 on AP if present but don't require PMF
-            sta_cfg.sta.threshold.authmode = WIFI_AUTH_WPA2_PSK;
-            sta_cfg.sta.pmf_cfg.capable = true;
-            sta_cfg.sta.pmf_cfg.required = false;
-            sta_cfg.sta.scan_method = WIFI_ALL_CHANNEL_SCAN;
-            sta_cfg.sta.sort_method = WIFI_CONNECT_AP_BY_SIGNAL;
-            sta_cfg.sta.bssid_set = 0; // don't pin unless you want to lock AP
-            sta_cfg.sta.channel = 0;   // scan all
-            sta_cfg.sta.listen_interval = 3;
-
-            ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-            ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &sta_cfg));
-            // Explicit protocols (2.4 GHz)
-            ESP_ERROR_CHECK(esp_wifi_set_protocol(WIFI_IF_STA, WIFI_PROTOCOL_11B | WIFI_PROTOCOL_11G | WIFI_PROTOCOL_11N));
-            ESP_ERROR_CHECK(esp_wifi_start());
-            ESP_LOGI(TAG, "Trying SSID: %s", (char *)sta_cfg.sta.ssid);
-
-            if (s_wifi_event_group)
-                xEventGroupClearBits(s_wifi_event_group, WIFI_CONNECTED_BIT);
-            // Wait up to 20s for connection
-            EventBits_t bits = xEventGroupWaitBits(s_wifi_event_group, WIFI_CONNECTED_BIT, pdFALSE, pdFALSE, pdMS_TO_TICKS(20000));
-            if (bits & WIFI_CONNECTED_BIT)
-            {
-                s_is_softap = false;
-                return true; // connected
-            }
-            ESP_LOGW(TAG, "SSID '%s' timed out, trying next...", c.ssid);
-            esp_wifi_stop();
-            vTaskDelay(pdMS_TO_TICKS(200));
-        }
-    }
-
-    // None succeeded -> SoftAP portal
-    wifi_start_softap();
-    return false;
-}
-
-// =====================
-// Helpers
-// =====================
-static bool safe_name(const char *name)
-{
-    if (!name || !*name)
-        return false;
-    // reject path traversal or separators
-    for (const char *p = name; *p; ++p)
-    {
-        if (*p == '/' || *p == '\\')
-            return false;
-    }
-    if (strstr(name, ".."))
-        return false;
-    if (strlen(name) > 64)
-        return false;
-    return true;
-}
-
-static int hexval(char c)
-{
-    if (c >= '0' && c <= '9')
-        return c - '0';
-    if (c >= 'A' && c <= 'F')
-        return 10 + c - 'A';
-    if (c >= 'a' && c <= 'f')
-        return 10 + c - 'a';
-    return -1;
-}
-static void url_decode(char *s)
-{
-    char *o = s;
-    char *p = s;
-    while (*p)
-    {
-        if (*p == '%' && hexval(p[1]) >= 0 && hexval(p[2]) >= 0)
-        {
-            *o++ = (char)((hexval(p[1]) << 4) | hexval(p[2]));
-            p += 3;
-        }
-        else if (*p == '+')
-        {
-            *o++ = ' ';
-            p++;
-        }
-        else
-        {
-            *o++ = *p++;
-        }
-    }
-    *o = 0;
-}
-
-static std::string path_join(const char *dir, const char *name)
-{
-    std::string s(dir);
-    s += "/";
-    s += name;
-    return s;
-}
-
-static void wifi_start_softap()
-{
-    ESP_LOGW(TAG, "Starting SoftAP portal...");
-    // Ensure AP netif exists
-    esp_netif_t *ap_netif = esp_netif_create_default_wifi_ap();
-
-    // Configure DHCP server to provide our IP as DNS server
-    esp_netif_dhcp_status_t dhcp_status;
-    esp_netif_dhcps_get_status(ap_netif, &dhcp_status);
-    if (dhcp_status != ESP_NETIF_DHCP_STARTED)
-    {
-        esp_netif_dhcps_start(ap_netif);
-    }
-
-    // Set DNS server to our own IP
-    esp_netif_dns_info_t dns_info = {};
-    dns_info.ip.u_addr.ip4.addr = esp_ip4addr_aton("192.168.4.1");
-    dns_info.ip.type = ESP_IPADDR_TYPE_V4;
-    esp_netif_set_dns_info(ap_netif, ESP_NETIF_DNS_MAIN, &dns_info);
-
-    // Ensure Wi-Fi is initialized (done earlier) and stopped
-    esp_wifi_stop();
-
-    wifi_config_t ap_cfg = {};
-    strcpy((char *)ap_cfg.ap.ssid, "ESP32-Setup");
-    ap_cfg.ap.ssid_len = strlen("ESP32-Setup");
-    ap_cfg.ap.channel = 1;
-    ap_cfg.ap.authmode = WIFI_AUTH_OPEN; // Open portal; change if needed
-    ap_cfg.ap.max_connection = 4;
-
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_APSTA));
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_AP, &ap_cfg));
-    ESP_ERROR_CHECK(esp_wifi_start());
-    s_is_softap = true;
 }
 
 // =====================
