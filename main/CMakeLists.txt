@@ -9,5 +9,8 @@ idf_component_register(
     SRCS "main.cc" "tft.cc" "webserver.cc"
     PRIV_REQUIRES spi_flash lvgl esp_lcd esp_timer log driver esp_http_server esp_wifi nvs_flash esp_netif spiffs
     EMBED_TXTFILES embedded_index.html
+     REQUIRES arduino-esp32 esp_diagnostics wifimanager
 )
+
+
 # INCLUDE_DIRS "include"

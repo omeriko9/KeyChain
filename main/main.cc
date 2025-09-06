@@ -1,3 +1,6 @@
+#include "Arduino.h"
+#include <WiFi.h>
+#include <wifimanager/WiFiManager.h>
 #include <esp_system.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +27,7 @@
 #include <esp_wifi.h>
 #include <esp_spiffs.h>
 #include <esp_mac.h>
+#include <lwip/arch.h>
 #include <lwip/sockets.h>
 #include <lwip/netdb.h>
 
@@ -33,10 +37,20 @@
 // Webserver
 #include "webserver.h"
 
+// #undef INADDR_NONE
+
+#include <esp_diagnostics.h>
+
+extern "C" void __wrap_esp_log_writev(esp_log_level_t level, const char *tag, const char *format, va_list args)
+{
+    esp_diag_log_write(level, tag, format, args);
+    esp_log_writev(level, tag, format, args);
+}
+
 #if defined(DISPLAY_DRIVER_ST7735)
 #define BUTTON_PIN GPIO_NUM_10
 #elif defined(DISPLAY_DRIVER_GC9D01)
-#define BUTTON_PIN GPIO_NUM_7
+#define BUTTON_PIN GPIO_NUM_9
 #endif
 
 #define LCD_HOST SPI2_HOST
@@ -58,64 +72,27 @@ static volatile int64_t last_interrupt_time = 0;
 // Forward decls
 static esp_err_t mount_spiffs();
 static void simple_lvgl_task(void *arg);
+static void start_wifi(bool auto_start);
+
 
 // Button monitoring task
 static void button_task(void *arg);
 
+// GPIO logging task - for finding out your button's GPIO
+static void gpio_logging_task(void *arg);
+
 // ISR handler for button
 static void IRAM_ATTR button_isr_handler(void *arg)
 {
-    int64_t now = esp_timer_get_time() / 1000;
-    if (now - last_interrupt_time > DEBOUNCE_MS)
-    {
-        last_interrupt_time = now;
-        int level = gpio_get_level(BUTTON_PIN);
-        xQueueSendFromISR(button_queue, &level, NULL);
-    }
+    ESP_LOGI(TAG, "ISR triggered");
+    // Removed debounce for testing
+    int level = gpio_get_level(BUTTON_PIN);
+    ESP_LOGI(TAG, "ISR: sending level %d to queue", level);
+    xQueueSendFromISR(button_queue, &level, NULL);
 }
 
 static const char *FS_BASE = "/spiffs";
 static const char *IMG_DIR = "/spiffs/img";
-
-// Simple WiFi connect function
-static void wifi_connect() {
-    ESP_ERROR_CHECK(esp_netif_init());
-    ESP_ERROR_CHECK(esp_event_loop_create_default());
-    esp_netif_create_default_wifi_sta();
-
-    wifi_init_config_t cfg = WIFI_INIT_CONFIG_DEFAULT();
-    ESP_ERROR_CHECK(esp_wifi_init(&cfg));
-
-    // Disable Wi-Fi power save to improve connection stability
-    ESP_ERROR_CHECK(esp_wifi_set_ps(WIFI_PS_NONE));
-
-    ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
-
-    wifi_config_t wifi_config = {};
-    strcpy((char*)wifi_config.sta.ssid, "[YOUR SSID]");  // Replace with your SSID
-    strcpy((char*)wifi_config.sta.password, "[YOUR PASSWORD]");  // Replace with your password
-
-    ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
-    ESP_ERROR_CHECK(esp_wifi_start());
-
-    // Set maximum TX power after WiFi is started
-    ESP_ERROR_CHECK(esp_wifi_set_max_tx_power(80)); // 80 = 20dBm max
-
-    // Register event handler for connection
-    ESP_ERROR_CHECK(esp_event_handler_register(WIFI_EVENT, WIFI_EVENT_STA_DISCONNECTED, [](void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
-        wifi_event_sta_disconnected_t* disc = (wifi_event_sta_disconnected_t*)event_data;
-        ESP_LOGI(TAG, "WiFi disconnected, reason: %d, reconnecting...", disc->reason);
-        vTaskDelay(pdMS_TO_TICKS(5000)); // Wait 5 seconds before reconnecting
-        esp_wifi_connect();
-    }, NULL));
-
-    ESP_ERROR_CHECK(esp_event_handler_register(IP_EVENT, IP_EVENT_STA_GOT_IP, [](void* arg, esp_event_base_t event_base, int32_t event_id, void* event_data) {
-        ip_event_got_ip_t* event = (ip_event_got_ip_t*) event_data;
-        ESP_LOGI(TAG, "Got IP: " IPSTR, IP2STR(&event->ip_info.ip));
-    }, NULL));
-
-    ESP_ERROR_CHECK(esp_wifi_connect());
-}
 
 // Webserver callbacks
 static int get_image_display_seconds_cb() { return g_image_display_sec; }
@@ -139,7 +116,7 @@ static void set_image_display_seconds_cb(int seconds)
     tft_set_image_display_seconds(g_image_display_sec);
 }
 
-static bool is_softap_active_cb() { return false; }  // Not using SoftAP
+static bool is_softap_active_cb() { return false; } // Not using SoftAP
 static bool save_wifi_credentials_cb(const char *ssid, const char *password)
 {
     // Dummy: since we're using hardcoded WiFi, just log
@@ -150,6 +127,8 @@ static bool save_wifi_credentials_cb(const char *ssid, const char *password)
 extern "C" void app_main(void)
 {
 
+    initArduino();
+
     esp_log_level_set("tft", ESP_LOG_ERROR);
     // 0) Init NVS (for Wi‑Fi)
     ESP_ERROR_CHECK(nvs_flash_init());
@@ -157,21 +136,27 @@ extern "C" void app_main(void)
     // TFT: initialize everything (SPI bus, panel IO, panel, LVGL display/flush)
     tft_init_all();
 
-    // Configure button GPIO with interrupts
+    // For TFT071 (GC9D01), automatically start WiFi and webserver
+    #if defined(DISPLAY_DRIVER_GC9D01)
+    start_wifi(true);
+    #endif
+
+    // Reset and configure button GPIO with interrupts (after TFT init to override any conflicts)
+    gpio_reset_pin(BUTTON_PIN);
     gpio_config_t io_conf = {};
     io_conf.intr_type = GPIO_INTR_ANYEDGE; // Interrupt on both edges
     io_conf.pin_bit_mask = (1ULL << BUTTON_PIN);
     io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
-    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE;
+    io_conf.pull_up_en = GPIO_PULLUP_DISABLE;
+    io_conf.pull_down_en = GPIO_PULLDOWN_ENABLE; // Enable pull-down for button
     gpio_config(&io_conf);
 
     // Create queue for ISR communication
     button_queue = xQueueCreate(10, sizeof(int));
 
     // Install ISR handler
-    gpio_install_isr_service(0);
-    gpio_isr_handler_add(BUTTON_PIN, button_isr_handler, NULL);
+    ESP_ERROR_CHECK(gpio_install_isr_service(0));
+    ESP_ERROR_CHECK(gpio_isr_handler_add(BUTTON_PIN, button_isr_handler, NULL));
 
     // Load settings from NVS (image display seconds)
     {
@@ -209,6 +194,9 @@ extern "C" void app_main(void)
 
     // 10) Start button monitoring task
     xTaskCreatePinnedToCore(button_task, "button", 2048, nullptr, 4, nullptr, tskNO_AFFINITY);
+
+    // 11) Start GPIO logging task (optional)
+    // xTaskCreatePinnedToCore(gpio_logging_task, "gpio_log", 2048, nullptr, 3, nullptr, tskNO_AFFINITY);
 
     // 11) Mount SPIFFS (for index.html and images)
     ESP_ERROR_CHECK(mount_spiffs());
@@ -263,12 +251,64 @@ static esp_err_t mount_spiffs()
     return ESP_OK;
 }
 
+static void start_wifi(bool auto_start)
+{
+    xTaskCreate([](void *pvParameters)
+                {
+    bool auto_start = (int)pvParameters != 0;
+    WiFi.mode(WIFI_STA);          // WiFiManager will switch to AP+STA when needed
+    WiFiManager wm;
+
+    // Optional: portal timeout so it doesn’t block forever
+    wm.setConfigPortalTimeout(300); // seconds
+    // Set connection timeout to prevent infinite auth loops
+    wm.setConnectTimeout(15); // 15 seconds timeout for connection attempts
+    
+    // Reset WiFi settings if button is pressed during startup (for recovery)
+    // This is a simple way to clear invalid credentials
+    if (gpio_get_level(BUTTON_PIN) == 0) { // Button pressed (active low)
+        ESP_LOGI(TAG, "Button pressed during startup - resetting WiFi settings");
+        wm.resetSettings();
+        vTaskDelay(pdMS_TO_TICKS(1000)); // Give time for reset
+    }
+
+    if (wm.autoConnect("KeyChain-Setup")) {
+      printf("[WiFi] Connected. IP: %s\n", WiFi.localIP().toString().c_str());
+    } else {
+      printf("[WiFi] Config portal failed or timed out\n");
+      // Force start config portal if autoConnect failed
+      wm.startConfigPortal("KeyChain-Setup");
+    }
+
+    ESP_LOGI(TAG, "Starting webserver...");
+    WebServerConfig wcfg{};
+    wcfg.img_dir = IMG_DIR;              
+    wcfg.get_image_display_seconds = &get_image_display_seconds_cb;
+    wcfg.set_image_display_seconds = &set_image_display_seconds_cb;
+    ESP_ERROR_CHECK(webserver_start(&wcfg));
+    ESP_LOGI(TAG, "Webserver started");
+
+    if (auto_start) {
+        // Keep the task running for 5 minutes to maintain WiFi and webserver
+        for (int i = 0; i < 300; ++i) {  // 300 seconds = 5 minutes
+            vTaskDelay(pdMS_TO_TICKS(1000));
+        }
+        ESP_LOGI(TAG, "WiFi task ending after 5 minutes");
+        vTaskDelete(nullptr);
+    } else {
+        // Keep the task running indefinitely
+        while (true) {
+            vTaskDelay(pdMS_TO_TICKS(1000));
+        }
+    } }, "wifi_mgr", 8192, (void*)(auto_start ? 1 : 0), 5, nullptr);
+}
+
 // =====================
 // Button monitoring task
 // =====================
 static void button_task(void *arg)
 {
-    static bool wifi_started = false;
+    ESP_LOGI(TAG, "Button task started");
     int level;
 
     while (true)
@@ -276,24 +316,41 @@ static void button_task(void *arg)
         // Wait for button interrupt
         if (xQueueReceive(button_queue, &level, portMAX_DELAY))
         {
-            if (level == 0)
-            { // Button pressed (low)
-                if (!wifi_started)
-                {
-                    wifi_started = true;
-                    ESP_LOGI(TAG, "Starting WiFi...");
-                    wifi_connect();
-                    ESP_LOGI(TAG, "Starting webserver...");
-                    WebServerConfig wcfg{};
-                    wcfg.img_dir = IMG_DIR;
-                    wcfg.is_softap_active = &is_softap_active_cb;
-                    wcfg.save_wifi_credentials = &save_wifi_credentials_cb;
-                    wcfg.get_image_display_seconds = &get_image_display_seconds_cb;
-                    wcfg.set_image_display_seconds = &set_image_display_seconds_cb;
-                    ESP_ERROR_CHECK(webserver_start(&wcfg));
-                    ESP_LOGI(TAG, "Webserver started");
-                }
+            ESP_LOGI(TAG, "Button Clicked! Level: %d", level);
+
+            if (level == 1)
+            { // Button pressed (high with pull-down)
+                ESP_LOGI(TAG, "Starting WiFi...");
+                start_wifi(false);
+            }
+            else
+            {
+                ESP_LOGI(TAG, "Button released (low)");
             }
         }
+    }
+}
+
+// =====================
+// GPIO logging task
+// =====================
+static void gpio_logging_task(void *arg)
+{
+    while (true)
+    {
+        // Log all GPIOs that are high
+        std::string high_pins = "";
+        for (int pin = 0; pin <= 21; ++pin)
+        {
+            if (gpio_get_level((gpio_num_t)pin) == 1)
+            {
+                if (!high_pins.empty())
+                    high_pins += ", ";
+                high_pins += std::to_string(pin);
+            }
+        }
+        ESP_LOGI(TAG, "High GPIOs: %s", high_pins.c_str());
+        // Log every 5 seconds
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
