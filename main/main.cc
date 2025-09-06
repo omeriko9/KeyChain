@@ -43,15 +43,15 @@
 
 extern "C" void __wrap_esp_log_writev(esp_log_level_t level, const char *tag, const char *format, va_list args)
 {
-    esp_diag_log_write(level, tag, format, args);
+    // esp_diag_log_write(level, tag, format, args);
     esp_log_writev(level, tag, format, args);
 }
 
-#if defined(DISPLAY_DRIVER_ST7735)
-#define BUTTON_PIN GPIO_NUM_10
-#elif defined(DISPLAY_DRIVER_GC9D01)
+//#if defined(DISPLAY_DRIVER_ST7735)
+//#define BUTTON_PIN GPIO_NUM_8
+//#elif defined(DISPLAY_DRIVER_GC9D01)
 #define BUTTON_PIN GPIO_NUM_9
-#endif
+//#endif
 
 #define LCD_HOST SPI2_HOST
 #ifndef LCD_SPI_CLOCK_HZ
@@ -84,10 +84,10 @@ static void gpio_logging_task(void *arg);
 // ISR handler for button
 static void IRAM_ATTR button_isr_handler(void *arg)
 {
-    ESP_LOGI(TAG, "ISR triggered");
+    // ESP_LOGI(TAG, "ISR triggered");
     // Removed debounce for testing
     int level = gpio_get_level(BUTTON_PIN);
-    ESP_LOGI(TAG, "ISR: sending level %d to queue", level);
+    // ESP_LOGI(TAG, "ISR: sending level %d to queue", level);
     xQueueSendFromISR(button_queue, &level, NULL);
 }
 
@@ -116,7 +116,9 @@ static void set_image_display_seconds_cb(int seconds)
     tft_set_image_display_seconds(g_image_display_sec);
 }
 
-static bool is_softap_active_cb() { return false; } // Not using SoftAP
+static bool is_softap_active_cb() { 
+    return (WiFi.getMode() & WIFI_AP) != 0; 
+}
 static bool save_wifi_credentials_cb(const char *ssid, const char *password)
 {
     // Dummy: since we're using hardcoded WiFi, just log
@@ -147,8 +149,8 @@ extern "C" void app_main(void)
     io_conf.intr_type = GPIO_INTR_ANYEDGE; // Interrupt on both edges
     io_conf.pin_bit_mask = (1ULL << BUTTON_PIN);
     io_conf.mode = GPIO_MODE_INPUT;
-    io_conf.pull_up_en = GPIO_PULLUP_DISABLE;
-    io_conf.pull_down_en = GPIO_PULLDOWN_ENABLE; // Enable pull-down for button
+    io_conf.pull_up_en = GPIO_PULLUP_ENABLE;
+    io_conf.pull_down_en = GPIO_PULLDOWN_DISABLE; // Enable pull-down for button
     gpio_config(&io_conf);
 
     // Create queue for ISR communication
@@ -316,16 +318,16 @@ static void button_task(void *arg)
         // Wait for button interrupt
         if (xQueueReceive(button_queue, &level, portMAX_DELAY))
         {
-            ESP_LOGI(TAG, "Button Clicked! Level: %d", level);
+            // ESP_LOGI(TAG, "Button Clicked! Level: %d", level);
 
-            if (level == 1)
+            if (level == 0)
             { // Button pressed (high with pull-down)
                 ESP_LOGI(TAG, "Starting WiFi...");
                 start_wifi(false);
             }
             else
             {
-                ESP_LOGI(TAG, "Button released (low)");
+                // ESP_LOGI(TAG, "Button released (low)");
             }
         }
     }

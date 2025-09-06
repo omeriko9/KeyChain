@@ -13,6 +13,8 @@
 #include <esp_lcd_panel_io.h>
 #include <esp_lcd_types.h>
 
+#include <WiFi.h>
+
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string>
@@ -629,27 +631,48 @@ void tft_lvgl_run_task()
 
     // Create a minimal LVGL widget to show something
     lv_obj_t *label = lv_label_create(lv_screen_active());
-    char buf[32];
-    sprintf(buf, "Hello :)");
-    lv_label_set_text(label, buf);
     lv_obj_center(label);
 
-    // Handle LVGL tasks in a simple loop for 5 seconds, then start slideshow
-    ESP_LOGI(TAG_TFT, "Entering LVGL loop for 5 seconds");
+    // Handle LVGL tasks in a loop
+    ESP_LOGI(TAG_TFT, "Entering LVGL loop");
     int64_t start_time = esp_timer_get_time();
+    bool showed_hello = false;
+    
     while (true)
     {
+        // Check if SoftAP (captive portal) is active
+        bool softap_active = (WiFi.getMode() & WIFI_AP) != 0;
+        bool wifi_connected = WiFi.status() == WL_CONNECTED;
+        
+        if (softap_active && !wifi_connected) {
+            // Show captive portal message
+            lv_label_set_text(label, "Connect to\nKeyChain-Setup\nWiFi");
+            showed_hello = false; // Reset hello timer
+            start_time = esp_timer_get_time(); // Reset timer
+        } else if (!showed_hello) {
+            // Show hello message for 5 seconds
+            lv_label_set_text(label, "Hello :)");
+            showed_hello = true;
+            start_time = esp_timer_get_time();
+        }
+
         lv_timer_handler();
         esp_task_wdt_reset();          // Reset watchdog to prevent timeout
         vTaskDelay(pdMS_TO_TICKS(10)); // Increased delay to 10ms for better responsiveness
 
-        // Check if 5 seconds have passed
-        if (esp_timer_get_time() - start_time >= 5 * 1000000LL)
+        // Check if 5 seconds have passed and we're not in SoftAP mode
+        if (showed_hello && !softap_active && esp_timer_get_time() - start_time >= 5 * 1000000LL)
         { // 5 seconds in microseconds
-            ESP_LOGI(TAG_TFT, "5 seconds elapsed");
+            ESP_LOGI(TAG_TFT, "5 seconds elapsed, starting slideshow");
             // Delete the label
             lv_obj_del(label);
             break;
+        }
+        
+        // If WiFi connected while showing captive portal message, switch to hello
+        if (softap_active && wifi_connected && !showed_hello) {
+            showed_hello = true;
+            start_time = esp_timer_get_time();
         }
     }
 

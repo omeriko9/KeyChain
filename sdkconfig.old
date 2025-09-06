@@ -2074,8 +2074,8 @@ CONFIG_WIFI_PROV_STA_ALL_CHANNEL_SCAN=y
 # CONFIG_WIFI_PROV_STA_FAST_SCAN is not set
 # end of Wi-Fi Provisioning Manager
 
-CONFIG_BOARD_TFT144=y
-# CONFIG_BOARD_TFT071 is not set
+# CONFIG_BOARD_TFT144 is not set
+CONFIG_BOARD_TFT071=y
 
 #
 # LVGL configuration
