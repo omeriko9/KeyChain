@@ -1,0 +1,3 @@
+[submodule "components/wifimanager"]
+	path = components/wifimanager
+	url = https://github.com/tzapu/WiFiManager.git
