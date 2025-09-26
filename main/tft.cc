@@ -30,6 +30,8 @@ extern "C"
 #include "tft.h"
 
 static const char *TAG_TFT = "tft";
+// Warm image rendering toggle (can later be exposed via Kconfig or runtime config)
+static bool g_warm_images = true; // set false to disable warm tone adjustment
 
 // Globals only used inside TFT module
 static esp_lcd_panel_io_handle_t s_panel_io = nullptr;
@@ -629,14 +631,112 @@ void tft_lvgl_run_task()
     // Add this task to the Task Watchdog Timer to allow resets
     esp_task_wdt_add(NULL);
 
-    // Create a minimal LVGL widget to show something
-    lv_obj_t *label = lv_label_create(lv_screen_active());
-    lv_obj_center(label);
+    // We'll optionally create either a captive-portal label or the color test pattern container
+    lv_obj_t *label = nullptr; // used for portal and IP messages
+    lv_obj_t *color_pattern = nullptr;
+
+    // State tracking for interruptions
+    bool portal_shown = false;
+    int64_t portal_start_time = 0;
+    bool ip_shown = false;
+    int64_t ip_start_time = 0;
+
+    auto create_color_test_pattern = []() -> lv_obj_t * {
+        lv_obj_t *parent = lv_obj_create(lv_screen_active());
+        lv_obj_set_size(parent, LCD_H_RES, LCD_V_RES);
+        lv_obj_set_pos(parent, 0, 0);
+        lv_obj_set_style_bg_color(parent, lv_color_black(), LV_PART_MAIN);
+        lv_obj_set_style_bg_opa(parent, LV_OPA_COVER, LV_PART_MAIN);
+        lv_obj_set_style_border_width(parent, 0, LV_PART_MAIN);
+
+        // Title
+        lv_obj_t *title = lv_label_create(parent);
+        lv_label_set_text(title, "COLOR TEST");
+        lv_obj_set_style_text_color(title, lv_color_white(), LV_PART_MAIN);
+        lv_obj_align(title, LV_ALIGN_TOP_MID, 0, 4);
+
+        // We'll draw a grid of hue variants + grayscale bar + primaries
+        const int grid_cols = 12; // 12 hues across (30-degree steps)
+        const int grid_rows = 4;  // different brightness levels
+        const int margin_top = 20;
+        const int cell_w = LCD_H_RES / grid_cols;
+        const int cell_h = (LCD_V_RES - margin_top - 28) / (grid_rows + 1); // +1 row for grayscale
+
+        auto hsv_to_rgb565 = [](float h, float s, float v) -> lv_color_t {
+            float c = v * s;
+            float hh = fmodf(h / 60.0f, 6.0f);
+            float x = c * (1 - fabsf(fmodf(hh, 2.0f) - 1));
+            float r = 0, g = 0, b = 0;
+            if (0 <= hh && hh < 1) { r = c; g = x; }
+            else if (1 <= hh && hh < 2) { r = x; g = c; }
+            else if (2 <= hh && hh < 3) { g = c; b = x; }
+            else if (3 <= hh && hh < 4) { g = x; b = c; }
+            else if (4 <= hh && hh < 5) { r = x; b = c; }
+            else { r = c; b = x; }
+            float m = v - c;
+            r += m; g += m; b += m;
+            uint8_t R = (uint8_t)(r * 255.0f);
+            uint8_t G = (uint8_t)(g * 255.0f);
+            uint8_t B = (uint8_t)(b * 255.0f);
+            return lv_color_make(R, G, B);
+        };
+
+        // Hue grid
+        for (int row = 0; row < grid_rows; ++row) {
+            float v = 1.0f - row * 0.18f; // descending brightness
+            float s = 1.0f - row * 0.05f; // slightly desaturated lower rows
+            for (int col = 0; col < grid_cols; ++col) {
+                float h = (360.0f / grid_cols) * col;
+                lv_color_t c = hsv_to_rgb565(h, s, v);
+                lv_obj_t *box = lv_obj_create(parent);
+                lv_obj_remove_style_all(box);
+                lv_obj_set_size(box, cell_w, cell_h);
+                lv_obj_set_style_bg_color(box, c, LV_PART_MAIN);
+                lv_obj_set_style_bg_opa(box, LV_OPA_COVER, LV_PART_MAIN);
+                lv_obj_set_pos(box, col * cell_w, margin_top + row * cell_h);
+            }
+        }
+
+        // Grayscale row
+        for (int col = 0; col < grid_cols; ++col) {
+            float g = (float)col / (grid_cols - 1);
+            uint8_t v8 = (uint8_t)(g * 255.0f);
+            lv_color_t c = lv_color_make(v8, v8, v8);
+            lv_obj_t *box = lv_obj_create(parent);
+            lv_obj_remove_style_all(box);
+            lv_obj_set_size(box, cell_w, cell_h);
+            lv_obj_set_style_bg_color(box, c, LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(box, LV_OPA_COVER, LV_PART_MAIN);
+            lv_obj_set_pos(box, col * cell_w, margin_top + grid_rows * cell_h);
+        }
+
+        // Primary / secondary bar (bottom)
+        const lv_color_t primaries[] = {
+            lv_palette_main(LV_PALETTE_RED),
+            lv_palette_main(LV_PALETTE_ORANGE),
+            lv_palette_main(LV_PALETTE_YELLOW),
+            lv_palette_main(LV_PALETTE_GREEN),
+            lv_palette_main(LV_PALETTE_BLUE),
+            lv_palette_main(LV_PALETTE_PURPLE)
+        };
+        int pcount = sizeof(primaries)/sizeof(primaries[0]);
+        int p_w = LCD_H_RES / pcount;
+        for (int i = 0; i < pcount; ++i) {
+            lv_obj_t *box = lv_obj_create(parent);
+            lv_obj_remove_style_all(box);
+            lv_obj_set_size(box, p_w, cell_h - 2);
+            lv_obj_set_style_bg_color(box, primaries[i], LV_PART_MAIN);
+            lv_obj_set_style_bg_opa(box, LV_OPA_COVER, LV_PART_MAIN);
+            lv_obj_set_pos(box, i * p_w, margin_top + (grid_rows + 1) * cell_h + 2);
+        }
+
+        return parent;
+    };
 
     // Handle LVGL tasks in a loop
-    ESP_LOGI(TAG_TFT, "Entering LVGL loop");
+    ESP_LOGI(TAG_TFT, "Entering LVGL loop (color test phase)");
     int64_t start_time = esp_timer_get_time();
-    bool showed_hello = false;
+    bool showing_pattern = false; // whether color test currently displayed
     
     while (true)
     {
@@ -645,15 +745,19 @@ void tft_lvgl_run_task()
         bool wifi_connected = WiFi.status() == WL_CONNECTED;
         
         if (softap_active && !wifi_connected) {
-            // Show captive portal message
+            // If captive portal active, show message (replace pattern if needed)
+            if (color_pattern) { lv_obj_del(color_pattern); color_pattern = nullptr; showing_pattern = false; }
+            if (!label) { label = lv_label_create(lv_screen_active()); lv_obj_center(label); }
             lv_label_set_text(label, "Connect to\nKeyChain-Setup\nWiFi");
-            showed_hello = false; // Reset hello timer
-            start_time = esp_timer_get_time(); // Reset timer
-        } else if (!showed_hello) {
-            // Show hello message for 5 seconds
-            lv_label_set_text(label, "Hello :)");
-            showed_hello = true;
             start_time = esp_timer_get_time();
+        } else {
+            // Not captive portal: show color test pattern for first 5 seconds
+            if (!showing_pattern) {
+                if (label) { lv_obj_del(label); label = nullptr; }
+                color_pattern = create_color_test_pattern();
+                showing_pattern = true;
+                start_time = esp_timer_get_time();
+            }
         }
 
         lv_timer_handler();
@@ -661,24 +765,67 @@ void tft_lvgl_run_task()
         vTaskDelay(pdMS_TO_TICKS(10)); // Increased delay to 10ms for better responsiveness
 
         // Check if 5 seconds have passed and we're not in SoftAP mode
-        if (showed_hello && !softap_active && esp_timer_get_time() - start_time >= 5 * 1000000LL)
-        { // 5 seconds in microseconds
-            ESP_LOGI(TAG_TFT, "5 seconds elapsed, starting slideshow");
-            // Delete the label
-            lv_obj_del(label);
+        if (showing_pattern && !softap_active && esp_timer_get_time() - start_time >= 1 * 1000000LL) {
+            ESP_LOGI(TAG_TFT, "Color test complete, starting slideshow");
+            if (color_pattern) { lv_obj_del(color_pattern); color_pattern = nullptr; }
             break;
-        }
-        
-        // If WiFi connected while showing captive portal message, switch to hello
-        if (softap_active && wifi_connected && !showed_hello) {
-            showed_hello = true;
-            start_time = esp_timer_get_time();
         }
     }
 
     // Start slideshow of images
     while (true)
     {
+        // Check for captive portal interruption
+        bool softap_active = (WiFi.getMode() & WIFI_AP) != 0;
+        bool wifi_connected = WiFi.status() == WL_CONNECTED;
+
+        if (softap_active && !wifi_connected) {
+            if (!portal_shown) {
+                // Show portal message
+                if (label) lv_obj_del(label);
+                label = lv_label_create(lv_screen_active());
+                lv_obj_center(label);
+                lv_label_set_text(label, "Connect to\nKeyChain-Setup\nWiFi");
+                portal_shown = true;
+                portal_start_time = esp_timer_get_time();
+            }
+            if (esp_timer_get_time() - portal_start_time >= 10 * 1000000LL) {
+                // Hide after 10 seconds
+                if (label) { lv_obj_del(label); label = nullptr; }
+                portal_shown = false;
+            } else {
+                // Keep showing portal message
+                lv_timer_handler();
+                esp_task_wdt_reset();
+                vTaskDelay(pdMS_TO_TICKS(10));
+                continue;
+            }
+        }
+
+        // Check for WiFi connection interruption
+        if (wifi_connected && !ip_shown) {
+            // Show IP message
+            if (label) lv_obj_del(label);
+            label = lv_label_create(lv_screen_active());
+            lv_obj_center(label);
+            lv_label_set_long_mode(label, LV_LABEL_LONG_WRAP);
+            lv_obj_set_width(label, LCD_H_RES - 20);
+            char buf[128];
+            sprintf(buf, "Upload Images at:\n\nhttp://%s:8080", WiFi.localIP().toString().c_str());
+            lv_label_set_text(label, buf);
+            ip_shown = true;
+            ip_start_time = esp_timer_get_time();
+            // Wait 5 seconds
+            while (esp_timer_get_time() - ip_start_time < 5 * 1000000LL) {
+                lv_timer_handler();
+                esp_task_wdt_reset();
+                vTaskDelay(pdMS_TO_TICKS(10));
+            }
+            // Hide
+            if (label) { lv_obj_del(label); label = nullptr; }
+            // Do not reset ip_shown to false - show only once per boot
+        }
+
         std::vector<std::string> images = get_image_list();
         ESP_LOGI(TAG_TFT, "Found %d images in slideshow", images.size());
 
@@ -776,6 +923,16 @@ void tft_lvgl_run_task()
                 lv_obj_t *img = lv_image_create(lv_screen_active());
                 lv_image_set_src(img, img_path.c_str());
                 lv_obj_center(img);
+                // Apply warm tone via recolor (subtle orange overlay) if enabled
+                if (g_warm_images) {
+                    // Choose a gentle warm color; adjust mix strength via recolor_opa
+                    lv_color_t warm = lv_color_make(255, 180, 90); // soft warm light
+                    lv_obj_set_style_image_recolor(img, warm, LV_PART_MAIN);
+                    lv_obj_set_style_image_recolor_opa(img, LV_OPA_30, LV_PART_MAIN); // ~30% influence
+                    // Optional slight brightness lift
+                    // (If LVGL is built with image opa support; otherwise this is ignored.)
+                    // Future enhancement: custom decode transform for per-pixel gamma shift.
+                }
                 lv_refr_now(NULL);
                 //ESP_LOGI(TAG_TFT, "Image displayed, waiting %d seconds", g_image_display_sec);
 

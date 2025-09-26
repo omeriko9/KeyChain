@@ -18,7 +18,7 @@
 #include <esp_timer.h>
 #include <driver/gpio.h>
 
-#include <esp_task_wdt.h>
+#include <esp_pm.h>
 
 // Networking & FS
 #include <nvs_flash.h>
@@ -47,11 +47,11 @@ extern "C" void __wrap_esp_log_writev(esp_log_level_t level, const char *tag, co
     esp_log_writev(level, tag, format, args);
 }
 
-//#if defined(DISPLAY_DRIVER_ST7735)
-//#define BUTTON_PIN GPIO_NUM_8
-//#elif defined(DISPLAY_DRIVER_GC9D01)
+// #if defined(DISPLAY_DRIVER_ST7735)
+// #define BUTTON_PIN GPIO_NUM_8
+// #elif defined(DISPLAY_DRIVER_GC9D01)
 #define BUTTON_PIN GPIO_NUM_9
-//#endif
+// #endif
 
 #define LCD_HOST SPI2_HOST
 #ifndef LCD_SPI_CLOCK_HZ
@@ -73,7 +73,6 @@ static volatile int64_t last_interrupt_time = 0;
 static esp_err_t mount_spiffs();
 static void simple_lvgl_task(void *arg);
 static void start_wifi(bool auto_start);
-
 
 // Button monitoring task
 static void button_task(void *arg);
@@ -116,8 +115,9 @@ static void set_image_display_seconds_cb(int seconds)
     tft_set_image_display_seconds(g_image_display_sec);
 }
 
-static bool is_softap_active_cb() { 
-    return (WiFi.getMode() & WIFI_AP) != 0; 
+static bool is_softap_active_cb()
+{
+    return (WiFi.getMode() & WIFI_AP) != 0;
 }
 static bool save_wifi_credentials_cb(const char *ssid, const char *password)
 {
@@ -138,10 +138,21 @@ extern "C" void app_main(void)
     // TFT: initialize everything (SPI bus, panel IO, panel, LVGL display/flush)
     tft_init_all();
 
-    // For TFT071 (GC9D01), automatically start WiFi and webserver
-    #if defined(DISPLAY_DRIVER_GC9D01)
-    start_wifi(true);
-    #endif
+// For TFT071, lower CPU frequency to minimum (10MHz) to save power
+#ifdef DISPLAY_DRIVER_GC9D01
+#ifdef CONFIG_PM_ENABLE
+    esp_pm_config_t pm_config = {
+        .max_freq_mhz = 80,
+        .min_freq_mhz = 80,
+        .light_sleep_enable = false};
+    ESP_ERROR_CHECK(esp_pm_configure(&pm_config));
+    ESP_LOGI(TAG, "CPU frequency set to 80MHz for TFT071");
+#else
+    ESP_LOGW(TAG, "Power management not enabled, cannot lower CPU frequency for TFT071");
+#endif
+#endif
+
+// WiFi and webserver will be started later unconditionally
 
     // Reset and configure button GPIO with interrupts (after TFT init to override any conflicts)
     gpio_reset_pin(BUTTON_PIN);
@@ -192,13 +203,22 @@ extern "C" void app_main(void)
     ESP_ERROR_CHECK(esp_timer_start_periodic(tick_timer, LVGL_TICK_PERIOD_MS * 1000)); // us
 
     // 9) Start LVGL processing task (larger stack for JPEG decode)
-    xTaskCreatePinnedToCore(simple_lvgl_task, "lvgl", 24576, nullptr, 5, nullptr, tskNO_AFFINITY);
+    //xTaskCreatePinnedToCore(simple_lvgl_task, "lvgl", 24576, nullptr, 5, nullptr, tskNO_AFFINITY);
+    BaseType_t task_result = xTaskCreatePinnedToCore(simple_lvgl_task, "lvgl", 24576, nullptr, 5, nullptr, tskNO_AFFINITY);
+    if (task_result != pdPASS)
+    {
+        ESP_LOGE(TAG, "Failed to create LVGL task: %d", task_result);
+    }
+    else
+    {
+        ESP_LOGI(TAG, "LVGL task started");
+    }
 
     // 10) Start button monitoring task
     xTaskCreatePinnedToCore(button_task, "button", 2048, nullptr, 4, nullptr, tskNO_AFFINITY);
 
     // 11) Start GPIO logging task (optional)
-    // xTaskCreatePinnedToCore(gpio_logging_task, "gpio_log", 2048, nullptr, 3, nullptr, tskNO_AFFINITY);
+    //xTaskCreatePinnedToCore(gpio_logging_task, "gpio_log", 2048, nullptr, 3, nullptr, tskNO_AFFINITY);
 
     // 11) Mount SPIFFS (for index.html and images)
     ESP_ERROR_CHECK(mount_spiffs());
@@ -219,6 +239,8 @@ extern "C" void app_main(void)
 
     // Networking and webserver will be started on button press
     ESP_LOGI(TAG, "Ready, press button to start WiFi and webserver");
+
+    start_wifi(true);
 }
 
 // =====================
@@ -258,7 +280,6 @@ static void start_wifi(bool auto_start)
     xTaskCreate([](void *pvParameters)
                 {
     bool auto_start = (int)pvParameters != 0;
-    WiFi.mode(WIFI_STA);          // WiFiManager will switch to AP+STA when needed
     WiFiManager wm;
 
     // Optional: portal timeout so it doesn’t block forever
@@ -274,13 +295,23 @@ static void start_wifi(bool auto_start)
         vTaskDelay(pdMS_TO_TICKS(1000)); // Give time for reset
     }
 
-    if (wm.autoConnect("KeyChain-Setup")) {
-      printf("[WiFi] Connected. IP: %s\n", WiFi.localIP().toString().c_str());
-    } else {
-      printf("[WiFi] Config portal failed or timed out\n");
-      // Force start config portal if autoConnect failed
-      wm.startConfigPortal("KeyChain-Setup");
-    }
+        bool connected = false;
+        if (!wm.getWiFiIsSaved()) {
+            ESP_LOGI(TAG, "No saved WiFi credentials, starting config portal");
+            connected = wm.startConfigPortal("KeyChain-Setup");
+        } else {
+            connected = wm.autoConnect("KeyChain-Setup");
+            if (!connected) {
+                ESP_LOGW(TAG, "AutoConnect failed, starting config portal");
+                connected = wm.startConfigPortal("KeyChain-Setup");
+            }
+        }
+
+        if (connected) {
+            printf("[WiFi] Connected. IP: %s\n", WiFi.localIP().toString().c_str());
+        } else {
+            printf("[WiFi] Config portal failed or timed out\n");
+        }
 
     ESP_LOGI(TAG, "Starting webserver...");
     WebServerConfig wcfg{};
@@ -302,7 +333,7 @@ static void start_wifi(bool auto_start)
         while (true) {
             vTaskDelay(pdMS_TO_TICKS(1000));
         }
-    } }, "wifi_mgr", 8192, (void*)(auto_start ? 1 : 0), 5, nullptr);
+    } }, "wifi_mgr", 8192, (void *)(auto_start ? 1 : 0), 5, nullptr);
 }
 
 // =====================
