@@ -637,6 +637,7 @@ void tft_lvgl_run_task()
 
     // State tracking for interruptions
     bool portal_shown = false;
+    bool portal_message_done = false;
     int64_t portal_start_time = 0;
     bool ip_shown = false;
     int64_t ip_start_time = 0;
@@ -779,7 +780,15 @@ void tft_lvgl_run_task()
         bool softap_active = (WiFi.getMode() & WIFI_AP) != 0;
         bool wifi_connected = WiFi.status() == WL_CONNECTED;
 
-        if (softap_active && !wifi_connected) {
+        if ((!softap_active || wifi_connected) && portal_shown) {
+            if (label) { lv_obj_del(label); label = nullptr; }
+            portal_shown = false;
+        }
+        if (!softap_active) {
+            portal_message_done = false;
+        }
+
+        if (softap_active && !wifi_connected && !portal_message_done) {
             if (!portal_shown) {
                 // Show portal message
                 if (label) lv_obj_del(label);
@@ -790,9 +799,10 @@ void tft_lvgl_run_task()
                 portal_start_time = esp_timer_get_time();
             }
             if (esp_timer_get_time() - portal_start_time >= 10 * 1000000LL) {
-                // Hide after 10 seconds
+                // Hide after 10 seconds and resume slideshow
                 if (label) { lv_obj_del(label); label = nullptr; }
                 portal_shown = false;
+                portal_message_done = true;
             } else {
                 // Keep showing portal message
                 lv_timer_handler();
